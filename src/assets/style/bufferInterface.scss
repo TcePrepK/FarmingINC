@@ -1,0 +1,167 @@
+@import "variables.scss";
+
+#interface-hit-box {
+    position: absolute;
+
+    width: calc(100vw - 10rem);
+    min-height: 5rem;
+
+    left: 3rem;
+    padding: 0 2rem 2rem 2rem;
+
+    z-index: 1;
+
+    &:hover > #template-interface {
+        transform: translateY(0);
+    }
+
+    #template-interface {
+        min-height: calc(100% - 4rem);
+        padding: 0 1rem 1rem 1rem;
+
+        margin: 0 auto;
+
+        border-radius: 0 0 $interface-radius $interface-radius;
+        background: $buffer-foreground;
+        box-shadow: 0 0 7px 0 $shadow-color;
+
+        transition: transform 0.2s;
+        transform: translateY(calc(1rem - 100%));
+
+        &.edit {
+            transform: translateY(0);
+        }
+
+        &::after {
+            content: " ";
+            position: absolute;
+
+            top: 0;
+            left: 1rem;
+
+            width: calc(100% - 2rem);
+            height: calc(100% - 1rem);
+
+            background: transparent;
+            border-radius: 0 0 $inner-interface-radius $inner-interface-radius;
+
+            box-shadow: 0 0 15px 0 #222 inset;
+
+            pointer-events: none;
+        }
+
+        #container {
+            position: relative;
+            width: calc(100% - 1.5rem);
+            min-height: calc(100% - 2.5rem);
+
+            background: $buffer-foreground;
+            border-radius: 0 0 $interface-radius $interface-radius;
+
+            padding: 0.75rem;
+            margin: 0 auto;
+
+            font-family: Arial, Helvetica, sans-serif;
+
+            display: flex;
+            gap: 5px;
+
+            overflow-x: auto;
+            overflow-y: hidden;
+
+            &.firefox-scrollbar {
+                scrollbar-color: $scrollbar-foreground mix($scrollbar-background, black, 85%);
+            }
+
+            &::-webkit-scrollbar {
+                height: 1.25rem;
+                background: $scrollbar-background;
+                border-radius: $interface-radius;
+
+                box-shadow: 0 0 10px #222 inset;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background: $scrollbar-foreground;
+                border-radius: $interface-radius;
+
+                box-shadow: 0 0 5px #222 inset;
+
+                &:hover {
+                    background: $scrollbar-hover;
+                    cursor: pointer;
+                }
+            }
+
+            .buffer {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                position: relative;
+                padding: 0.5rem 1.5rem;
+
+                font-size: 1.2rem;
+                white-space: nowrap;
+                color: $buffer-text-not-selected;
+
+                border-radius: 10px;
+                background: $buffer-background;
+                box-shadow: 0 0 10px $buffer-foreground inset;
+                border: none;
+
+                cursor: pointer;
+                user-select: none;
+
+                &:empty::before {
+                    content: "Enter Name";
+                    color: $buffer-text-placeholder;
+                }
+
+                &:hover {
+                    background: $buffer-hover;
+                }
+
+                &:focus {
+                    background: $buffer-focus;
+                    outline: none;
+                }
+
+                &.active {
+                    color: $buffer-text-selected;
+                    text-decoration: underline;
+                }
+
+                &::after {
+                    content: " ";
+                    position: absolute;
+                    bottom: 0;
+                    right: -5px;
+
+                    width: 5px;
+                    height: 100%;
+
+                    background: $buffer-foreground;
+                }
+            }
+
+            #buffer-more {
+                position: relative;
+
+                width: 1.5rem;
+
+                margin: auto 0;
+                padding: 0.5rem;
+
+                user-select: none;
+
+                &:hover {
+                    cursor: pointer;
+
+                    filter: invert(34%) sepia(57%) saturate(1323%) hue-rotate(200deg) brightness(89%) contrast(87%);
+                }
+            }
+        }
+    }
+}
+

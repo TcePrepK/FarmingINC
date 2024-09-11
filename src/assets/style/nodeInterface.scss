@@ -1,0 +1,132 @@
+@import "variables.scss";
+
+@keyframes ui-expand {
+    0% {
+        transform: translateX(calc(1rem - 100%));
+    }
+    70% {
+        transform: translateX(-1rem);
+    }
+    75% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes ui-collapse {
+    0% {
+        transform: translateX(0);
+    }
+    70%, 80% {
+        transform: translateX(calc(2rem - 100%));
+    }
+    100% {
+        transform: translateX(calc(1rem - 100%));
+    }
+}
+
+#node-interface {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    row-gap: 1rem;
+
+    background: $drawer-foreground;
+
+    position: relative;
+    width: min-content;
+    height: calc(100% - 13rem);
+    z-index: 1;
+
+    padding: 1rem;
+    margin: auto 0;
+
+    animation: ui-collapse 0.5s ease-out;
+
+    border-radius: 0 $interface-radius $interface-radius 0;
+    box-shadow: 3px 0 10px 0 $shadow-color;
+
+    #selection {
+        .wobble {
+            scale: var(--node-scale-multiplier);
+        }
+
+        .node:not(.wobble) {
+            scale: var(--node-scale-multiplier);
+            animation: node-wobble 0.5s cubic-bezier(0.5, 0, 0.5, 1) !important;
+        }
+    }
+
+    & {
+        transform: translateX(calc(1rem - 100%));
+    }
+
+    &.expanded {
+        animation: ui-expand 0.5s;
+        transform: translateX(0);
+    }
+
+    #selection {
+        display: flex;
+        flex-direction: column;
+        //gap: 1.25rem;
+
+        width: 100%;
+        height: calc(100% - 6rem);
+
+        background: $drawer-background;
+        border-radius: $interface-radius;
+        box-shadow: 0 0 15px #000 inset;
+
+        overflow-y: auto;
+        overflow-x: hidden;
+
+        user-select: none;
+        -webkit-user-drag: none;
+
+        &.firefox-scrollbar {
+            scrollbar-color: $scrollbar-foreground mix($scrollbar-background, black, 85%);
+        }
+
+        &::-webkit-scrollbar {
+            width: 1.25rem;
+            background: $scrollbar-background;
+            border-radius: 0 $interface-radius $interface-radius 0;
+
+            box-shadow: 0 0 10px #222 inset;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: $scrollbar-foreground;
+            border-radius: $interface-radius;
+
+            box-shadow: 0 0 5px #222 inset;
+
+            &:hover {
+                background: $scrollbar-hover;
+                cursor: pointer;
+            }
+        }
+
+        //
+        //&.wobble > * > * {
+        //    animation: node-expand 0.5s;
+        //}
+    }
+
+    #visuals {
+        #drawer-handle {
+            position: absolute;
+            top: 50%;
+            transform: translate(calc(0.5rem - 2px), -50%);
+
+            fill: $drawer-foreground;
+            width: 3rem;
+
+            padding: 0.5rem;
+            cursor: pointer;
+            user-select: none;
+
+            filter: drop-shadow(5px 2px 4px rgba(0, 0, 0, .7));
+        }
+    }
+}

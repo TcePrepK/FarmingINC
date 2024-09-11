@@ -1,0 +1,37 @@
+@import "bufferInterface.scss";
+@import "nodeInterface";
+@import "nodePlayground.scss";
+@import "selectionOptions.scss";
+
+@import "stages/main/style.scss";
+
+html, body {
+    background: $background;
+    user-select: none;
+}
+
+#main-screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    background: $foreground;
+}
+
+#structure {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.preload {
+    animation-duration: 0s !important;
+    transition: background-color 0s, opacity 0s, color 0s, width 0s, height 0s, padding 0s, margin 0s !important;
+}

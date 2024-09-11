@@ -1,0 +1,72 @@
+@import "../../variables.scss";
+
+#main-stage {
+    position: relative;
+    width: 25rem;
+    height: 30rem;
+
+    margin: 7.5rem;
+
+    border: 1px solid red;
+
+    // scale: 1; TODO: Move this to the zoom option!!!
+
+    .header {
+        width: 100%;
+        height: 9rem;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        //background: linear-gradient(to bottom, #111, #0000);
+        background: linear-gradient(to bottom, #0005 75%, #0000 100%);
+    }
+
+    #main-generators {
+        display: flex;
+        gap: 0.75rem;
+        flex-direction: row;
+        flex-wrap: wrap;
+
+        width: calc(100% - 3rem);
+
+        margin: 1rem auto;
+
+        justify-content: center;
+
+        .main-generator {
+            .button {
+                width: 3rem;
+                aspect-ratio: 1;
+
+                border: none;
+                border-radius: 0.5rem;
+                background: $drawer-background;
+                box-shadow: 0 0 10px #333;
+
+                transition: scale 0.1s ease-in-out;
+
+                &:hover {
+                    box-shadow: 0 0 10px #222;
+                    scale: 1.025;
+                }
+
+                &:active {
+                    box-shadow: 0 0 5px #222 inset;
+                    scale: 1;
+                }
+
+                .name {
+                    margin: 0.25rem 0;
+
+                    display: none;
+                }
+
+                .desc {
+                    display: none;
+                }
+            }
+        }
+    }
+}

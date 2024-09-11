@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="612.24585mm"
+   height="815.44611mm"
+   viewBox="0 0 612.24585 815.44611"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <g
+     id="layer1"
+     transform="translate(200.81871,211.93125)">
+    <path
+       id="path21-6-9"
+       style="fill:#3737c8;fill-opacity:1;stroke:none;stroke-width:0.264583;stroke-opacity:1;paint-order:fill markers stroke"
+       d="m -114.8291,246.59163 -84.6667,84.66666 135.4667,135.46666 270.9333,0.19079 V 331.25829 H -64.0291 Z" />
+    <path
+       style="fill:#212178;fill-opacity:1;stroke:none;stroke-width:0.264583;stroke-opacity:1;paint-order:fill markers stroke"
+       d="m -199.4958,331.25829 135.4667,135.46666 -0.068,135.27593 -135.3987,-135.27593 z"
+       id="path19-7-9" />
+    <path
+       style="fill:#2c2ca0;fill-opacity:1;stroke:none;stroke-width:0.264583;stroke-opacity:1;paint-order:fill markers stroke"
+       d="m -64.0291,466.72495 h 270.9333 l 33.8667,-33.86666 V 365.12496 L 206.9042,331.25829 H -64.0291 l 0.068,-134.76381 338.5987,-0.70285 135.4666,135.46666 V 466.72495 L 274.6376,602.19161 -64.097,602.00088 Z"
+       id="path20-9-6" />
+    <path
+       style="fill:#212178;fill-opacity:1;stroke:none;stroke-width:0.264583;stroke-opacity:1;paint-order:fill markers stroke"
+       d="m 206.9042,331.25829 v 135.46666 l 33.8667,-33.86666 v -67.73333 z"
+       id="path22-8-4" />
+    <path
+       style="fill:#ff2a2a;fill-opacity:1;stroke:none;stroke-width:0.264583;stroke-opacity:1;paint-order:fill markers stroke"
+       d="M 410.1042,331.25829 V 195.79163 L 274.6376,60.324975 V 195.79163 Z"
+       id="path23-9-7" />
+    <path
+       id="path21-8-6-8"
+       style="fill:#aa0000;fill-opacity:1;stroke:none;stroke-width:0.264583;stroke-opacity:1;paint-order:fill markers stroke"
+       d="M 342.3709,128.05831 410.1042,60.324975 274.6376,-75.14168 H 3.7042 V 60.324976 l 270.9334,-10e-7 z" />
+    <path
+       style="fill:#ff2a2a;fill-opacity:1;stroke:none;stroke-width:0.264583;stroke-opacity:1;paint-order:fill markers stroke"
+       d="M 410.1042,60.324975 274.6376,-75.14168 v -135.46666 l 135.4666,135.46666 z"
+       id="path19-0-6-0" />
+    <path
+       style="fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.264583;stroke-opacity:1;paint-order:fill markers stroke"
+       d="M 274.6376,-75.14168 H 3.7042 l -33.8666,33.86666 V 26.45831 L 3.7042,60.324975 H 274.6376 V 195.79163 H -64.0291 L -199.4958,60.324975 V -75.14168 l 135.4667,-135.46666 h 338.6667 z"
+       id="path20-1-4-1" />
+    <path
+       style="fill:#d40000;fill-opacity:1;stroke:none;stroke-width:0.264583;stroke-opacity:1;paint-order:fill markers stroke"
+       d="M 3.7042,-75.14168 V 60.324975 L -30.1624,26.45831 v -67.73333 z"
+       id="path22-1-8-8" />
+    <path
+       style="fill:#212178;fill-opacity:1;stroke:none;stroke-width:0.264583;stroke-opacity:1;paint-order:fill markers stroke"
+       d="M -199.4958,60.324975 V 195.79163 L -64.0291,331.25829 V 195.79163 Z"
+       id="path23-3-9-6" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:2.64583;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+       d="m -131.7624,263.52496 -67.7334,67.73333 v 135.46666 l 135.3987,135.27593 338.7347,0.19073 135.4666,-135.46666 V 195.79163 L 274.6376,60.324975 H 3.7042 L -30.1624,26.45831"
+       id="path24-0-3-7" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:2.64583;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+       d="M -199.4958,60.324975 -64.0291,195.79163 h 338.6667 l 135.4666,135.46666"
+       id="path25-1-7" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:2.64583;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+       d="M 342.3709,128.05831 410.1042,60.324975 V -75.14168 L 274.6376,-210.60834 H -64.0291 L -199.4958,-75.14168 V 26.458315 195.79163 l 135.4667,135.46666 h 270.9333 l 33.8667,33.86667"
+       id="path24-8-6" />
+  </g>
+</svg>
