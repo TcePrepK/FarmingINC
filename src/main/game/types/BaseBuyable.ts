@@ -1,6 +1,6 @@
-import {createDiv} from "../../core/HtmlUtils";
-import {Root} from "../Root";
-import {ScreenElement} from "./ScreenElement";
+import { createDiv } from "../../core/HtmlUtils";
+import { Root } from "../Root";
+import { ScreenElement } from "./ScreenElement";
 
 export class BaseBuyable extends ScreenElement {
     public name: string;
@@ -18,6 +18,6 @@ export class BaseBuyable extends ScreenElement {
     }
 
     public createElement(parent: HTMLElement): void {
-        this.body = createDiv({id: this.name, classes: ["buyable"], parent: parent});
+        this.body = createDiv({ id: this.name, classes: ["buyable"], parent: parent });
     }
 }

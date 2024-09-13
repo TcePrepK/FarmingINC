@@ -32,15 +32,6 @@ export class MainStage extends BaseStage {
         this.setupGenerator("Generator 3", "Generates Gen2");
         this.setupGenerator("Generator 3", "Generates Gen2");
         this.setupGenerator("Generator 3", "Generates Gen2");
-        this.setupGenerator("Generator 3", "Generates Gen2");
-        this.setupGenerator("Generator 3", "Generates Gen2");
-        this.setupGenerator("Generator 3", "Generates Gen2");
-        this.setupGenerator("Generator 3", "Generates Gen2");
-        this.setupGenerator("Generator 3", "Generates Gen2");
-        this.setupGenerator("Generator 3", "Generates Gen2");
-        this.setupGenerator("Generator 3", "Generates Gen2");
-        this.setupGenerator("Generator 3", "Generates Gen2");
-        this.setupGenerator("Generator 3", "Generates Gen2");
     }
 
     private setupGenerator(name: string, desc: string): void {
@@ -51,12 +42,16 @@ export class MainStage extends BaseStage {
 
     public createElement(parent: HTMLDivElement): void {
         super.createElement(parent);
+        this.structure.header.title.innerText = "Main Stage";
 
-        const header = createDiv({ id: "main-header", classes: [ "header" ], parent: this.body });
+        const innerBody = this.structure.innerBody;
+        const currencyBody = createDiv({ classes: ["currency-body"], parent: innerBody });
 
-        const generatorArea = createDiv({ id: "main-generators", classes: [ "generator-area" ], parent: this.body });
+        const buyableBody = createDiv({ classes: ["buyable-body"], parent: innerBody });
         for (const generator of this.generators) {
-            generator.createElement(generatorArea);
+            generator.createElement(buyableBody);
         }
+
+        this.setupDragging();
     }
 }

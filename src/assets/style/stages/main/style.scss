@@ -1,70 +1,140 @@
 @import "../../variables.scss";
 
-#main-stage {
+.stage {
     position: relative;
     width: 25rem;
-    height: 30rem;
 
-    margin: 7.5rem;
+    padding: 0.75rem;
 
-    border: 1px solid red;
+    background: $scrollbar-background;
+    //background: mix($scrollbar-background, white, 95%);
+    border-radius: 1rem;
 
-    // scale: 1; TODO: Move this to the zoom option!!!
+    box-shadow: 0 0 10px #333;
 
     .header {
-        width: 100%;
-        height: 9rem;
-
         display: flex;
         justify-content: center;
         align-items: center;
 
+        width: 100%;
+        height: 1.75rem;
+        margin: -0.25rem 0 0.5rem 0;
+
         //background: linear-gradient(to bottom, #111, #0000);
-        background: linear-gradient(to bottom, #0005 75%, #0000 100%);
-    }
+        background: $scrollbar-background;
+        border-radius: 1rem 1rem 0 0;
 
-    #main-generators {
-        display: flex;
-        gap: 0.75rem;
-        flex-direction: row;
-        flex-wrap: wrap;
+        cursor: grab;
 
-        width: calc(100% - 3rem);
+        &:after {
+            content: "";
+            position: absolute;
 
-        margin: 1rem auto;
+            top: -0.5rem;
+            left: -0.5rem;
 
-        justify-content: center;
+            width: calc(100% + 1rem);
+            height: 3.75rem;
+        }
 
-        .main-generator {
+        .title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            font-family: Arial, Helvetica, sans-serif;
+
+            color: #aaf;
+        }
+
+        .button-holder {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 0.5rem;
+
+            position: absolute;
+            right: 0.75rem;
+            z-index: 1;
+
             .button {
-                width: 3rem;
+                width: 1rem;
                 aspect-ratio: 1;
 
-                border: none;
-                border-radius: 0.5rem;
-                background: $drawer-background;
-                box-shadow: 0 0 10px #333;
+                border-radius: 100%;
 
-                transition: scale 0.1s ease-in-out;
+                background: var(--color);
+                cursor: pointer;
 
                 &:hover {
-                    box-shadow: 0 0 10px #222;
-                    scale: 1.025;
+                    background: color-mix(in oklab, var(--color) 90%, #000);
                 }
 
                 &:active {
-                    box-shadow: 0 0 5px #222 inset;
-                    scale: 1;
+                    background: color-mix(in oklab, var(--color) 80%, #000);
                 }
+            }
+        }
+    }
 
-                .name {
-                    margin: 0.25rem 0;
+    .inner-body {
+        display: flex;
+        flex-direction: column;
 
-                    display: none;
-                }
+        width: 100%;
+        background: mix($scrollbar-background, white, 95%);
+        border-radius: 0.5rem;
 
-                .desc {
-                    display: none;
+        .currency-body {
+            width: 100%;
+            height: 10rem;
+
+            background: linear-gradient(to bottom, #1115, #0000);
+            border-radius: 0.5rem;
+        }
+
+        .buyable-body {
+            display: flex;
+            gap: 0.5rem;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+
+            //height: calc(100% - 2rem);
+            padding: 1rem;
+
+            margin: 0 auto;
+
+            .buyable {
+                .button {
+                    width: 2.5rem;
+                    aspect-ratio: 1;
+
+                    border: none;
+                    border-radius: 0.5rem;
+                    background: $drawer-background;
+                    box-shadow: 0 0 10px #333;
+
+                    transition: scale 0.1s ease-in-out;
+
+                    &:hover {
+                        box-shadow: 0 0 10px #222;
+                        scale: 1.05;
+                    }
+
+                    &:active {
+                        box-shadow: 0 0 2px #333 inset;
+                        scale: 1;
+                    }
+
+                    .name {
+                        margin: 0.25rem 0;
+
+                        display: none;
+                    }
+
+                    .desc {
+                        display: none;
+                    }
                 }
             }
         }

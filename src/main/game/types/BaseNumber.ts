@@ -16,6 +16,6 @@ export abstract class BaseNumber extends ScreenElement {
     }
 
     public createElement(parent: HTMLElement): void {
-        this.body = createSpan({ innerText: `${this.amount}`, classes: [ "currency" ], parent: parent });
+        this.body = createSpan({ innerText: `${this.amount}`, classes: ["currency"], parent: parent });
     }
 }
