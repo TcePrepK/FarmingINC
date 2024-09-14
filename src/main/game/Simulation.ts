@@ -15,6 +15,14 @@ export class Simulation extends InitializableObject {
         this.structure.setupStages();
     }
 
+    public update(dt: number): void {
+        this.structure.update(dt);
+    }
+
+    public updateFrame(): void {
+        this.structure.updateFrame();
+    }
+
     /**
      * Updates the stages to make them fit the new worldX/Y coordinates.
      */

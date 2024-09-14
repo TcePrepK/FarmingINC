@@ -1,11 +1,11 @@
 import "../assets/style/style.scss";
-import {FpsCounter} from "./core/FpsCounter";
-import {GlobalVariables} from "./core/GlobalVariables";
-import {fixEveryPreload} from "./core/HtmlUtils";
+import { FpsCounter } from "./core/FpsCounter";
+import { GlobalVariables } from "./core/GlobalVariables";
+import { fixEveryPreload } from "./core/HtmlUtils";
 
-import {Root} from "./game/Root";
-import {BrowserSupport} from "./ui/BrowserSupport";
-import {ErrorScreen} from "./ui/ErrorScreen";
+import { Root } from "./game/Root";
+import { BrowserSupport } from "./ui/BrowserSupport";
+import { ErrorScreen } from "./ui/ErrorScreen";
 
 export class Main {
     public readonly root = new Root();
@@ -29,7 +29,7 @@ export class Main {
         const dt = this.fpsCounter.update();
         GlobalVariables.time += dt / 1000;
 
-        this.root.update();
+        this.root.update(dt / 1000);
         this.root.updateFrame();
 
         requestAnimationFrame(() => this.startRunning());

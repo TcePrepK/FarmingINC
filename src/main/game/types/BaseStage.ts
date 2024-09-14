@@ -1,6 +1,7 @@
 import { AttachedMouse, ButtonType } from "../../core/AttachedMouse";
 import { createDiv } from "../../core/HtmlUtils";
 import { Root } from "../Root";
+import { MainCurrency } from "../stages/main/MainCurrency";
 import { BaseCurrency } from "./BaseCurrency";
 import { ScreenElement } from "./ScreenElement";
 
@@ -20,16 +21,16 @@ export abstract class BaseStage extends ScreenElement {
     protected readonly id: string;
     protected structure!: StageStructure;
 
-    protected readonly currency?: BaseCurrency;
+    protected readonly currency: BaseCurrency;
 
     protected stageX = 0;
     protected stageY = 0;
 
-    protected constructor(root: Root, id: string, currency?: BaseCurrency) {
+    protected constructor(root: Root, id: string) {
         super(root);
 
         this.id = id;
-        this.currency = currency;
+        this.currency = new MainCurrency(root);
     }
 
     public abstract initialize(): void;

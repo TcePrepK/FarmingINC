@@ -31,10 +31,12 @@ export class Root {
         this.simulation.initialize();
     }
 
-    public update(): void {
+    public update(dt: number): void {
+        this.simulation.update(dt);
     }
 
     public updateFrame(): void {
         this.background.updateFrame();
+        this.simulation.updateFrame();
     }
 }

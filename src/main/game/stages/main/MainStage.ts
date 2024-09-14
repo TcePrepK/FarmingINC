@@ -11,27 +11,30 @@ export class MainStage extends BaseStage {
     }
 
     public initialize(): void {
-        this.setupGenerator("Generator 1", "Generates Num");
-        this.setupGenerator("Generator 2", "Generates Gen1");
-        this.setupGenerator("Generator 3", "Generates Gen2");
-        this.setupGenerator("Generator 3", "Generates Gen2");
-        this.setupGenerator("Generator 3", "Generates Gen2");
-        this.setupGenerator("Generator 3", "Generates Gen2");
-        this.setupGenerator("Generator 3", "Generates Gen2");
-        this.setupGenerator("Generator 3", "Generates Gen2");
-        this.setupGenerator("Generator 3", "Generates Gen2");
-        this.setupGenerator("Generator 3", "Generates Gen2");
-        this.setupGenerator("Generator 3", "Generates Gen2");
-        this.setupGenerator("Generator 3", "Generates Gen2");
-        this.setupGenerator("Generator 3", "Generates Gen2");
-        this.setupGenerator("Generator 3", "Generates Gen2");
-        this.setupGenerator("Generator 3", "Generates Gen2");
-        this.setupGenerator("Generator 3", "Generates Gen2");
-        this.setupGenerator("Generator 3", "Generates Gen2");
-        this.setupGenerator("Generator 3", "Generates Gen2");
-        this.setupGenerator("Generator 3", "Generates Gen2");
-        this.setupGenerator("Generator 3", "Generates Gen2");
-        this.setupGenerator("Generator 3", "Generates Gen2");
+        this.setupGenerator("Farmland", "Generates Seeds");
+        this.setupGenerator("Slaves", "Generates Farmland");
+        this.setupGenerator("Human Trafficking", "Generates Slaves");
+    }
+
+    public update(dt: number): void {
+        for (let i = 0; i < this.generators.length; i++) {
+            const generator = this.generators[i];
+            const genResult = generator.effectiveAmount.multScalar(dt);
+
+            if (i === 0) {
+                this.currency.amount = this.currency.amount.add(genResult);
+            } else {
+                this.generators[i - 1].effectiveAmount = this.generators[i - 1].effectiveAmount.add(genResult);
+            }
+        }
+    }
+
+    public updateFrame(): void {
+        this.currency.updateFrame();
+
+        for (const generator of this.generators) {
+            generator.updateFrame();
+        }
     }
 
     private setupGenerator(name: string, desc: string): void {
@@ -46,10 +49,12 @@ export class MainStage extends BaseStage {
 
         const innerBody = this.structure.innerBody;
         const currencyBody = createDiv({ classes: ["currency-body"], parent: innerBody });
+        this.currency.createElement(currencyBody);
 
         const buyableBody = createDiv({ classes: ["buyable-body"], parent: innerBody });
+        const generatorBody = createDiv({ classes: ["generator-body"], parent: buyableBody });
         for (const generator of this.generators) {
-            generator.createElement(buyableBody);
+            generator.createElement(generatorBody);
         }
 
         this.setupDragging();

@@ -11,6 +11,18 @@ export class Structure extends InitializableObject {
         this.body = getElementById("structure");
     }
 
+    public update(dt: number): void {
+        for (const stage of this.stages) {
+            stage.update(dt);
+        }
+    }
+
+    public updateFrame(): void {
+        for (const stage of this.stages) {
+            stage.updateFrame();
+        }
+    }
+
     public setupStages(): void {
         this.setupStage(new MainStage(this.root));
     }

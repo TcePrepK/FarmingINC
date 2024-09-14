@@ -1,4 +1,4 @@
-import {Root} from "./Root";
+import { Root } from "./Root";
 
 export abstract class InitializableObject {
     protected root: Root;
@@ -7,8 +7,9 @@ export abstract class InitializableObject {
         this.root = root;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    public update(): void {
+    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-function
+    public update(dt: number): void {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function

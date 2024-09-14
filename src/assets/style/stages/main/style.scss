@@ -11,6 +11,7 @@
     border-radius: 1rem;
 
     box-shadow: 0 0 10px #333;
+    color: #aaf;
 
     .header {
         display: flex;
@@ -42,8 +43,6 @@
             font-size: 1.5rem;
             font-weight: bold;
             font-family: Arial, Helvetica, sans-serif;
-
-            color: #aaf;
         }
 
         .button-holder {
@@ -85,11 +84,19 @@
         border-radius: 0.5rem;
 
         .currency-body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
             width: 100%;
-            height: 10rem;
+            height: 5rem;
 
             background: linear-gradient(to bottom, #1115, #0000);
             border-radius: 0.5rem;
+
+            font-size: 1.5rem;
+            font-weight: bold;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         .buyable-body {
@@ -102,38 +109,40 @@
             //height: calc(100% - 2rem);
             padding: 1rem;
 
-            margin: 0 auto;
+            .generator-body {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
 
-            .buyable {
-                .button {
-                    width: 2.5rem;
-                    aspect-ratio: 1;
+                width: 100%;
 
-                    border: none;
-                    border-radius: 0.5rem;
-                    background: $drawer-background;
-                    box-shadow: 0 0 10px #333;
+                .generator {
+                    width: 100%;
 
-                    transition: scale 0.1s ease-in-out;
+                    .button {
+                        width: 100%;
 
-                    &:hover {
-                        box-shadow: 0 0 10px #222;
-                        scale: 1.05;
-                    }
+                        padding: 0.5rem 0;
 
-                    &:active {
-                        box-shadow: 0 0 2px #333 inset;
-                        scale: 1;
-                    }
+                        border: none;
+                        border-radius: 0.5rem;
+                        background: $drawer-background;
+                        box-shadow: 0 0 10px #333;
 
-                    .name {
-                        margin: 0.25rem 0;
+                        transition: all 0.1s ease-in-out;
 
-                        display: none;
-                    }
+                        &:hover {
+                            scale: 1.02;
+                        }
 
-                    .desc {
-                        display: none;
+                        &:active {
+                            box-shadow: 0 0 2px #333 inset;
+                            scale: 1;
+                        }
+
+                        .name {
+                            margin: 0.25rem 0;
+                        }
                     }
                 }
             }

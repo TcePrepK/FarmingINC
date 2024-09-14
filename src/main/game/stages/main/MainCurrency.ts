@@ -3,6 +3,6 @@ import { BaseCurrency } from "../../types/BaseCurrency";
 
 export class MainCurrency extends BaseCurrency {
     public constructor(root: Root) {
-        super(root, "Main Currency", 100);
+        super(root, "Seeds", 0);
     }
 }
