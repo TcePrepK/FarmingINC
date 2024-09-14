@@ -15,7 +15,7 @@
         left: 0;
     }
 
-    #background {
+    #logo-wrapper {
         position: absolute;
 
         display: flex;
@@ -25,9 +25,9 @@
         pointer-events: none;
         user-select: none;
 
-        margin: calc(50vh - 12.5vh) calc(50vw - 20.75vh);
+        transform: translate(-50%, -50%);
 
-        #background-logo {
+        #logo {
             width: 25vh;
             height: 25vh;
 

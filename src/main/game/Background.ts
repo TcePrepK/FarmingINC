@@ -12,11 +12,18 @@ export class Background extends InitializableObject {
         const canvas: HTMLCanvasElement = getElementById("playground-canvas");
         this.ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
+        const logo = getElementById("logo-wrapper");
+        logo.style.left = `${this.root.windowWidth / 2}px`;
+        logo.style.top = `${this.root.windowHeight / 2}px`;
+
         canvas.width = this.root.windowWidth;
         canvas.height = this.root.windowHeight;
         this.root.windowMouse.onResize = (w, h) => {
             canvas.width = w;
             canvas.height = h;
+
+            logo.style.left = `${this.root.windowWidth / 2}px`;
+            logo.style.top = `${this.root.windowHeight / 2}px`;
         };
 
         { // Canvas movement
@@ -41,6 +48,11 @@ export class Background extends InitializableObject {
                 this.worldX += dx;
                 this.worldY += dy;
                 this.root.simulation.updateWorldTransform();
+
+                const logoX = this.worldX + this.root.windowWidth / 2;
+                const logoY = this.worldY + this.root.windowHeight / 2;
+                logo.style.left = `${logoX}px`;
+                logo.style.top = `${logoY}px`;
             };
         }
     }
@@ -48,10 +60,12 @@ export class Background extends InitializableObject {
     public updateFrame(): void {
         this.ctx.clearRect(0, 0, this.root.windowWidth, this.root.windowHeight);
 
-        this.ctx.translate(this.worldX, this.worldY);
+        const dx = this.worldX + this.root.windowWidth / 2;
+        const dy = this.worldY + this.root.windowHeight / 2;
+        this.ctx.translate(dx, dy);
         this.lines(128, 2, "#454570");
         this.lines(32, 1, "#353560");
-        this.ctx.translate(-this.worldX, -this.worldY);
+        this.ctx.translate(-dx, -dy);
     }
 
     private lines(size: number, width: number, color: string): void {
