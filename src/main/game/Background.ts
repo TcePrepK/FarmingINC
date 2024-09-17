@@ -1,5 +1,5 @@
-import { AttachedMouse, ButtonType } from "../core/AttachedMouse";
 import { getElementById } from "../core/HtmlUtils";
+import { ButtonType, MouseAttachment } from "../core/MouseAttachment";
 import { InitializableObject } from "./InitializableObject";
 
 export class Background extends InitializableObject {
@@ -28,7 +28,7 @@ export class Background extends InitializableObject {
 
         { // Canvas movement
             const playground = getElementById("playground");
-            const attachment = AttachedMouse.getAttachment(playground);
+            const attachment = MouseAttachment.attach(playground);
 
             let grabbing = false;
             attachment.onDown = (button: ButtonType) => {
@@ -47,7 +47,7 @@ export class Background extends InitializableObject {
                 if (!grabbing) return;
                 this.worldX += dx;
                 this.worldY += dy;
-                this.root.simulation.updateWorldTransform();
+                this.root.structure.updateWorldTransform();
 
                 const logoX = this.worldX + this.root.windowWidth / 2;
                 const logoY = this.worldY + this.root.windowHeight / 2;

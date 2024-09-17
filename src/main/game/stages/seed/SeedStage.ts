@@ -1,13 +1,13 @@
 import { createDiv } from "../../../core/HtmlUtils";
 import { Root } from "../../Root";
-import { BaseStage } from "../../types/BaseStage";
-import { MainGenerator } from "./MainGenerator";
+import { BaseWindow } from "../../types/BaseWindow";
+import { SeedGenerator } from "./SeedGenerator";
 
-export class MainStage extends BaseStage {
-    private generators: Array<MainGenerator> = [];
+export class SeedStage extends BaseWindow {
+    private generators: Array<SeedGenerator> = [];
 
     public constructor(root: Root) {
-        super(root, "main-stage");
+        super(root, "seed-stage");
     }
 
     public initialize(): void {
@@ -38,8 +38,8 @@ export class MainStage extends BaseStage {
     }
 
     private setupGenerator(name: string, desc: string): void {
-        const generator = new MainGenerator(this.root, name, desc);
-        generator.initialize(this.root);
+        const generator = new SeedGenerator(this.root, name, desc, -1, this.currency);
+        generator.initialize();
         this.generators.push(generator);
     }
 
@@ -48,15 +48,11 @@ export class MainStage extends BaseStage {
         this.structure.header.title.innerText = "Main Stage";
 
         const innerBody = this.structure.innerBody;
-        const currencyBody = createDiv({ classes: ["currency-body"], parent: innerBody });
-        this.currency.createElement(currencyBody);
 
         const buyableBody = createDiv({ classes: ["buyable-body"], parent: innerBody });
         const generatorBody = createDiv({ classes: ["generator-body"], parent: buyableBody });
         for (const generator of this.generators) {
             generator.createElement(generatorBody);
         }
-
-        this.setupDragging();
     }
 }

@@ -1,22 +1,22 @@
-import { AttachedMouse } from "../core/AttachedMouse";
+import { MouseAttachment } from "../core/MouseAttachment";
 import { Background } from "./Background";
-import { Simulation } from "./Simulation";
+import { Structure } from "./Structure";
 
 export class Root {
-    public windowMouse!: AttachedMouse<HTMLBodyElement>;
+    public windowMouse!: MouseAttachment<HTMLBodyElement>;
     public windowWidth = 0;
     public windowHeight = 0;
 
-    public readonly background;
-    public readonly simulation;
+    public readonly background: Background;
+    public readonly structure: Structure;
 
     public constructor() {
         this.background = new Background(this);
-        this.simulation = new Simulation(this);
+        this.structure = new Structure(this);
     }
 
     public initialize(): void {
-        this.windowMouse = AttachedMouse.getAttachment(document.body as HTMLBodyElement);
+        this.windowMouse = MouseAttachment.attach(document.body as HTMLBodyElement);
 
         this.windowWidth = window.innerWidth;
         this.windowHeight = window.innerHeight;
@@ -28,15 +28,15 @@ export class Root {
         });
 
         this.background.initialize();
-        this.simulation.initialize();
+        this.structure.initialize();
     }
 
     public update(dt: number): void {
-        this.simulation.update(dt);
+        this.structure.update(dt);
     }
 
     public updateFrame(): void {
         this.background.updateFrame();
-        this.simulation.updateFrame();
+        this.structure.updateFrame();
     }
 }

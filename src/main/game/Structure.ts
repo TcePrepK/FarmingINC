@@ -1,14 +1,24 @@
 import { getElementById } from "../core/HtmlUtils";
 import { InitializableObject } from "./InitializableObject";
-import { MainStage } from "./stages/main/MainStage";
-import { BaseStage } from "./types/BaseStage";
+import { SeedStage } from "./stages/seed/SeedStage";
+import { UpgradeWindow } from "./stages/upgrades/UpgradeWindow";
+import { BaseWindow } from "./types/BaseWindow";
 
 export class Structure extends InitializableObject {
     private body!: HTMLDivElement;
-    private readonly stages: Array<BaseStage> = [];
+    private stagesBody!: HTMLDivElement;
+
+    private readonly stages: Array<BaseWindow> = [];
+
+    public upgrades = new UpgradeWindow(this.root);
+    public seed = new SeedStage(this.root);
 
     public initialize(): void {
         this.body = getElementById("structure");
+        this.stagesBody = getElementById("stages");
+
+        this.setupStage(this.upgrades);
+        // this.setupStage(this.seed);
     }
 
     public update(dt: number): void {
@@ -23,13 +33,10 @@ export class Structure extends InitializableObject {
         }
     }
 
-    public setupStages(): void {
-        this.setupStage(new MainStage(this.root));
-    }
-
-    private setupStage(stage: BaseStage): void {
+    private setupStage(stage: BaseWindow): void {
         stage.initialize();
-        stage.createElement(this.body);
+        stage.createElement(this.stagesBody);
+        stage.setupDragging();
         this.stages.push(stage);
     }
 

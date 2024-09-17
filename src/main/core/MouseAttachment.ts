@@ -1,11 +1,13 @@
+import { checkFor } from "./HtmlUtils";
+
 export enum ButtonType {
     LEFT,
     MIDDLE,
     RIGHT
 }
 
-export class AttachedMouse<T extends HTMLElement> {
-    private static instances: Map<HTMLElement, AttachedMouse<never>> = new Map();
+export class MouseAttachment<T extends HTMLElement> {
+    private static instances: Map<HTMLElement, MouseAttachment<never>> = new Map();
 
     public x = 0;
     public y = 0;
@@ -15,15 +17,16 @@ export class AttachedMouse<T extends HTMLElement> {
     private constructor(element: T) {
         this.element = element;
 
+        checkFor(element, "MouseAttachment can only be attached to HTMLElements.");
         this.element.addEventListener("mousemove", e => {
             this.x = e.clientX;
             this.y = e.clientY;
         });
     }
 
-    static getAttachment<T extends HTMLElement>(element: T): AttachedMouse<T> {
-        if (AttachedMouse.instances.has(element)) return AttachedMouse.instances.get(element)!;
-        return new AttachedMouse(element);
+    static attach<T extends HTMLElement>(element: T): MouseAttachment<T> {
+        if (MouseAttachment.instances.has(element)) return MouseAttachment.instances.get(element)!;
+        return new MouseAttachment(element);
     }
 
     //-------------------------- Listener Methods --------------------------//

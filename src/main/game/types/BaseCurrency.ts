@@ -1,9 +1,8 @@
-import { createSpan } from "../../core/HtmlUtils";
 import { CustomNumber } from "../CustomNumber";
+import { InitializableObject } from "../InitializableObject";
 import { Root } from "../Root";
-import { ScreenElement } from "./ScreenElement";
 
-export abstract class BaseCurrency extends ScreenElement {
+export abstract class BaseCurrency extends InitializableObject {
     public readonly name: string;
 
     public amount: CustomNumber;
@@ -13,13 +12,5 @@ export abstract class BaseCurrency extends ScreenElement {
 
         this.name = name;
         this.amount = CustomNumber.fromNumber(amount);
-    }
-
-    public updateFrame(): void {
-        this.body.innerText = `${this.amount} ${this.name}`;
-    }
-
-    public createElement(parent: HTMLElement): void {
-        this.body = createSpan({ innerText: `${this.amount} ${this.name}`, classes: ["currency"], parent: parent });
     }
 }

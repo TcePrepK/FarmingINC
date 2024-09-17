@@ -7,6 +7,11 @@ export abstract class InitializableObject {
         this.root = root;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    public initialize(): void {
+
+    }
+
     // @ts-ignore
     // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-function
     public update(dt: number): void {

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+        width="13.22851mm"
+        height="67.73243mm"
+        viewBox="0 0 13.22851 67.73243"
+        version="1.1"
+        id="svg1"
+        xmlns="http://www.w3.org/2000/svg"
+>
+    <defs
+            id="defs1"/>
+    <g
+            id="layer1"
+            transform="translate(-168.27501,-155.83958)">
+        <path
+                style="color:#000000;fill:#224488;fill-opacity:1;stroke-linejoin:round;-inkscape-stroke:none;paint-order:markers fill stroke"
+                d="m 168.27501,155.83958 v 5.29102 h 3.08398 c 2.71222,0 4.85352,2.14325 4.85352,4.85547 v 47.4414 c 0,2.71222 -2.1413,4.85352 -4.85352,4.85352 h -3.08398 v 5.29102 h 3.08398 c 5.57205,0 10.14453,-4.57249 10.14453,-10.14454 v -47.4414 c 0,-5.57205 -4.57248,-10.14649 -10.14453,-10.14649 z"
+                id="rect8"/>
+        <g
+                id="g8"
+                transform="translate(824.96123,223.57246)"
+                style="fill:#222">
+            <circle
+                    style="fill-opacity:1;stroke:none;stroke-width:5.29167;stroke-linecap:butt;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
+                    id="path8"
+                    cx="-646.10327"
+                    cy="-33.866665"
+                    r="1.3229166"/>
+            <circle
+                    style="fill-opacity:1;stroke:none;stroke-width:5.29167;stroke-linecap:butt;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
+                    id="path8-1"
+                    cx="-646.10327"
+                    cy="-30.283739"
+                    r="1.3229166"/>
+            <circle
+                    style="fill-opacity:1;stroke:none;stroke-width:5.29167;stroke-linecap:butt;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
+                    id="path8-7"
+                    cx="-646.10327"
+                    cy="-37.449589"
+                    r="1.3229166"/>
+        </g>
+    </g>
+</svg>

@@ -1,6 +1,6 @@
-import {Logger} from "./main/core/Logger";
-import {Main} from "./main/Main";
-import {ErrorScreen} from "./main/ui/ErrorScreen";
+import { Logger } from "./main/core/Logger";
+import { Main } from "./main/Main";
+import { ErrorScreen } from "./main/ui/ErrorScreen";
 
 const logger = new Logger("Index Initialization", "✅");
 

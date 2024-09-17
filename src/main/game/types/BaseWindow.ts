@@ -1,27 +1,27 @@
-import { AttachedMouse, ButtonType } from "../../core/AttachedMouse";
 import { createDiv } from "../../core/HtmlUtils";
+import { ButtonType, MouseAttachment } from "../../core/MouseAttachment";
 import { Root } from "../Root";
-import { MainCurrency } from "../stages/main/MainCurrency";
+import { MoneyCurrency } from "../stages/upgrades/MoneyCurrency";
 import { BaseCurrency } from "./BaseCurrency";
 import { ScreenElement } from "./ScreenElement";
 
-export type StageHeader = {
+export type WindowHeader = {
     body: HTMLDivElement;
     title: HTMLDivElement;
     buttons: Array<HTMLDivElement>;
 }
 
-export type StageStructure = {
+export type WindowStructure = {
     body: HTMLDivElement;
-    header: StageHeader;
+    header: WindowHeader;
     innerBody: HTMLDivElement;
 }
 
-export abstract class BaseStage extends ScreenElement {
+export abstract class BaseWindow extends ScreenElement {
     protected readonly id: string;
-    protected structure!: StageStructure;
+    protected structure!: WindowStructure;
 
-    protected readonly currency: BaseCurrency;
+    public readonly currency: BaseCurrency;
 
     protected stageX = 0;
     protected stageY = 0;
@@ -30,10 +30,8 @@ export abstract class BaseStage extends ScreenElement {
         super(root);
 
         this.id = id;
-        this.currency = new MainCurrency(root);
+        this.currency = new MoneyCurrency(root);
     }
-
-    public abstract initialize(): void;
 
     /**
      * Creates the whole structure of the stage. Always call even in override!!!
@@ -53,7 +51,7 @@ export abstract class BaseStage extends ScreenElement {
      * @param parent
      * @protected
      */
-    protected createHeader(parent: HTMLDivElement): StageHeader {
+    protected createHeader(parent: HTMLDivElement): WindowHeader {
         const body = createDiv({ classes: ["header"], parent: parent });
         const title = createDiv({ classes: ["title"], parent: body });
         const buttons = this.createHeaderButtons(body);
@@ -71,7 +69,7 @@ export abstract class BaseStage extends ScreenElement {
         const buttons = [];
         for (let i = 0; i < 3; i++) {
             const button = createDiv({ classes: ["button"], parent: buttonHolder });
-            button.style.setProperty("--color", colors[i]);
+            button.style.setProperty("--button-color", colors[i]);
             buttons.push(button);
         }
         return buttons;
@@ -81,8 +79,8 @@ export abstract class BaseStage extends ScreenElement {
      * Sets up the necessary listeners for the stage to get dragged from the header.
      * @protected
      */
-    protected setupDragging(): void {
-        const attachment = AttachedMouse.getAttachment(this.structure.header.body);
+    public setupDragging(): void {
+        const attachment = MouseAttachment.attach(this.structure.header.body);
 
         let dragging = false;
         attachment.onDownRaw = event => {
