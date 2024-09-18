@@ -1,8 +1,8 @@
 import { getElementById } from "../core/HtmlUtils";
-import { InitializableObject } from "./InitializableObject";
-import { SeedStage } from "./stages/seed/SeedStage";
-import { UpgradeWindow } from "./stages/upgrades/UpgradeWindow";
 import { BaseWindow } from "./types/BaseWindow";
+import { InitializableObject } from "./types/InitializableObject";
+import { SeedStage } from "./windows/seed/SeedStage";
+import { UpgradeWindow } from "./windows/upgrades/UpgradeWindow";
 
 export class Structure extends InitializableObject {
     private body!: HTMLDivElement;

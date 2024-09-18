@@ -1,6 +1,6 @@
 import { getElementById } from "../core/HtmlUtils";
 import { ButtonType, MouseAttachment } from "../core/MouseAttachment";
-import { InitializableObject } from "./InitializableObject";
+import { InitializableObject } from "./types/InitializableObject";
 
 export class Background extends InitializableObject {
     private ctx!: CanvasRenderingContext2D;

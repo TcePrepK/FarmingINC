@@ -1,5 +1,3 @@
-export type BasicOperation = (n: CustomNumber) => CustomNumber;
-
 export class CustomNumber {
     private mantissa!: number;
     private exponent!: number;

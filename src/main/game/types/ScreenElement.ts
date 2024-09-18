@@ -1,4 +1,4 @@
-import { InitializableObject } from "../InitializableObject";
+import { InitializableObject } from "./InitializableObject";
 
 export abstract class ScreenElement extends InitializableObject {
     public body!: HTMLElement;
@@ -10,7 +10,7 @@ export abstract class ScreenElement extends InitializableObject {
         if (children === null) throw new Error(`No children with query ${query} found`);
         return children as T;
     }
-    
+
     public getFirstChildClass<T extends HTMLElement>(cls: string): T {
         const children = this.body.querySelector(`.${cls}`);
         if (children === null) throw new Error(`No children with class ${cls} found`);

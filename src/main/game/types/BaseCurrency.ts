@@ -1,6 +1,6 @@
 import { CustomNumber } from "../CustomNumber";
-import { InitializableObject } from "../InitializableObject";
 import { Root } from "../Root";
+import { InitializableObject } from "./InitializableObject";
 
 export abstract class BaseCurrency extends InitializableObject {
     public readonly name: string;

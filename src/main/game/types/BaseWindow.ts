@@ -1,7 +1,7 @@
 import { createDiv } from "../../core/HtmlUtils";
 import { ButtonType, MouseAttachment } from "../../core/MouseAttachment";
 import { Root } from "../Root";
-import { MoneyCurrency } from "../stages/upgrades/MoneyCurrency";
+import { MoneyCurrency } from "../windows/upgrades/MoneyCurrency";
 import { BaseCurrency } from "./BaseCurrency";
 import { ScreenElement } from "./ScreenElement";
 
