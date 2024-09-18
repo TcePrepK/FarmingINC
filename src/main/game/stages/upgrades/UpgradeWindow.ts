@@ -20,7 +20,11 @@ export class UpgradeWindow extends BaseWindow {
      */
     public initialize(): void {
         for (let i = 0; i < 10; i++) {
-            const upgrade = new MoneyUpgrade(this.root, "Diamond Hoe", "Makes each prop drop 50% more. And some useless text here to make it longer also knowing nobody will be reading these except the translators which we do not have and will never see this text because I will be removing this text within a few hours of adding proper upgrade management lmao this is still funny and I am still yapping to try make this text even longer GOD I am tired and I need help... Please send help!");
+            let upgrade = new MoneyUpgrade(this.root, "Diamond Hoe", "Makes each prop drop 50% more. And some useless text here to make it longer also knowing nobody will be reading these except the translators which we do not have and will never see this text because I will be removing this text within a few hours of adding proper upgrade management lmao this is still funny and I am still yapping to try make this text even longer GOD I am tired and I need help... Please send help!");
+            if (i === 0) {
+                upgrade = new MoneyUpgrade(this.root, "", "Makes each prop drop 50% more");
+            }
+
             this.upgrades.push(upgrade);
         }
     }
@@ -51,9 +55,18 @@ export class UpgradeWindow extends BaseWindow {
                 <span class="name">${upgrade.name}</span>
                 <span class="price">[${upgrade.price} ${upgrade.currency.name}]</span>
             </div>
+            <div class="divider"></div>
             <div class="desc">${upgrade.desc}</div>
         `;
-        // const header = this.structure.header;
+
+        if (upgrade.name.length === 0) {
+            this.descDrawer.innerHTML = `
+                <div class="header">
+                    <div class="desc">${upgrade.desc}</div>
+                </div>
+                <span class="price">${upgrade.price} ${upgrade.currency.name}</span>
+            `;
+        }
     }
 
     /**
