@@ -2,6 +2,7 @@ import { getElementById } from "../core/HtmlUtils";
 import { Inventory } from "./Inventory";
 import { BaseWindow } from "./types/BaseWindow";
 import { InitializableObject } from "./types/InitializableObject";
+import { FarmingWindow } from "./windows/farm/FarmingWindow";
 import { UpgradeWindow } from "./windows/upgrades/UpgradeWindow";
 
 export class Structure extends InitializableObject {
@@ -13,6 +14,7 @@ export class Structure extends InitializableObject {
     public inventory = new Inventory(this.root);
 
     public upgrades = new UpgradeWindow(this.root);
+    public farm = new FarmingWindow(this.root);
 
     public initialize(): void {
         this.body = getElementById("structure");
@@ -21,7 +23,7 @@ export class Structure extends InitializableObject {
         this.inventory.initialize();
 
         this.setupStage(this.upgrades);
-        // this.setupStage(this.seed);
+        this.setupStage(this.farm);
     }
 
     public update(dt: number): void {

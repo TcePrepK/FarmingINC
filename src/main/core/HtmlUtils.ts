@@ -58,11 +58,6 @@ export function swapElements(parent: HTMLElement, oldElement: HTMLElement, newEl
     parent.removeChild(oldElement);
 }
 
-export function toggleClass(element: HTMLElement, className: string): void {
-    if (!element.classList.contains(className)) element.classList.add(className);
-    else element.classList.remove(className);
-}
-
 export function getElementById<T extends HTMLElement>(id: string): T {
     const element = document.getElementById(id);
     checkFor(element, `Element with id "${id}" not found.`);
@@ -70,11 +65,11 @@ export function getElementById<T extends HTMLElement>(id: string): T {
 }
 
 export function getElementsByClass<T extends HTMLElement>(className: string): T[] {
-    return [ ...document.getElementsByClassName(className) ] as T[];
+    return [...document.getElementsByClassName(className)] as T[];
 }
 
 export function getElementsByQuery<T extends HTMLElement>(query: string): T[] {
-    return [ ...document.querySelectorAll(query) ] as T[];
+    return [...document.querySelectorAll(query)] as T[];
 }
 
 export function getElementByQuery<T extends HTMLElement>(query: string): T {
@@ -83,7 +78,7 @@ export function getElementByQuery<T extends HTMLElement>(query: string): T {
 
 export function fixEveryPreload(): void {
     setTimeout(() => {
-        const preloads = [ ...document.getElementsByClassName("preload") ];
+        const preloads = [...document.getElementsByClassName("preload")];
         for (const element of preloads) {
             element.classList.remove("preload");
         }

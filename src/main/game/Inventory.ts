@@ -5,6 +5,7 @@ import { Root } from "./Root";
 import { InitializableObject } from "./types/InitializableObject";
 
 export class Inventory extends InitializableObject {
+    private readonly body: HTMLDivElement;
     private readonly innerBody: HTMLDivElement;
     private informationDrawer!: HTMLDivElement;
 
@@ -12,9 +13,13 @@ export class Inventory extends InitializableObject {
 
     private renderingCrop: Crop | null = null;
 
+    private expanded = false;
+    private toggleable = true;
+
     public constructor(root: Root) {
         super(root);
 
+        this.body = getElementById("inventory");
         this.innerBody = getElementById("inv-container");
     }
 
@@ -46,6 +51,30 @@ export class Inventory extends InitializableObject {
 
             this.inventory.push(crops);
         }
+
+        { // Handle
+            const handle = getElementById("drawer-handle");
+            handle.addEventListener("click", () => this.toggleSelection());
+        }
+    }
+
+    public toggleSelection(): void {
+        if (!this.toggleable) return;
+        this.toggleable = false;
+
+        this.expanded = !this.expanded;
+        if (this.expanded) {
+            this.getAudio("opening").play();
+        } else {
+            this.getAudio("closing").play();
+        }
+
+        setTimeout(() => this.toggleable = true, 400);
+        this.body.classList.toggle("open");
+    }
+
+    private getAudio(state: string): HTMLAudioElement {
+        return getElementById(`drawer-${state}`);
     }
 
     private toggleCropRender(crop: Crop): void {

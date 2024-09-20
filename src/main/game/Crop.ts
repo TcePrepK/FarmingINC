@@ -16,11 +16,20 @@ export class Crop extends ScreenElement {
         this.desc = desc;
     }
 
-    public createElement(parent: HTMLElement): void {
-        this.body = createDiv({
-            classes: ["crop"], parent: parent
-        });
+    public updateFrame(): void {
+        this.body.classList.toggle("unlocked", this.unlocked);
+        this.body.classList.toggle("seen-before", this.seenBefore);
+    }
 
-        if (this.name !== "") this.body.innerHTML = `<img class="icon" src="assets/images/crops/${this.name}.png" alt="${this.name}">`;
+    /**
+     * Returns the image path of the crop.
+     */
+    public getImage(): string {
+        return `assets/images/crops/${this.name}.png`;
+    }
+
+    public createElement(parent: HTMLElement): void {
+        this.body = createDiv({ classes: ["crop"], parent: parent });
+        if (this.name !== "") this.body.innerHTML = `<img class="icon" src="${this.getImage()}" alt="${this.name}">`;
     }
 }

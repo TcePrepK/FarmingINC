@@ -7,12 +7,15 @@ import { MoneyUpgrade } from "./MoneyUpgrade";
 export class UpgradeWindow extends BaseWindow {
     private moneyBody!: HTMLDivElement;
     private upgradeBody!: HTMLDivElement;
+    private descWrapper!: HTMLDivElement;
     private descDrawer!: HTMLDivElement;
 
     private readonly upgrades: Array<MoneyUpgrade> = [];
 
     public constructor(root: Root) {
         super(root, "Upgrades");
+
+        this.stageY = -200;
     }
 
     /**
@@ -49,8 +52,18 @@ export class UpgradeWindow extends BaseWindow {
      * @param upgrade
      * @private
      */
-    private renderUpgrade(upgrade: MoneyUpgrade): void {
-        this.descDrawer.innerHTML = `
+    private renderUpgrade(upgrade: MoneyUpgrade | null): void {
+        if (upgrade === null) {
+            this.descWrapper.style.height = "0.5rem";
+            return;
+        }
+
+        const fakeWrapper = this.descWrapper.cloneNode(true) as HTMLDivElement;
+        const fakeDesc = fakeWrapper.firstChild as HTMLDivElement;
+        fakeWrapper.style.height = "auto";
+        this.body.appendChild(fakeWrapper);
+
+        fakeDesc.innerHTML = `
             <div class="header">
                 <span class="name">${upgrade.name}</span>
                 <span class="price">[${upgrade.price} ${upgrade.currency.name}]</span>
@@ -60,13 +73,17 @@ export class UpgradeWindow extends BaseWindow {
         `;
 
         if (upgrade.name.length === 0) {
-            this.descDrawer.innerHTML = `
+            fakeDesc.innerHTML = `
                 <div class="header">
                     <div class="desc">${upgrade.desc}</div>
                 </div>
                 <span class="price">${upgrade.price} ${upgrade.currency.name}</span>
             `;
         }
+
+        this.descDrawer.innerHTML = fakeDesc.innerHTML;
+        this.descWrapper.style.height = fakeWrapper.clientHeight + "px";
+        fakeWrapper.remove();
     }
 
     /**
@@ -93,14 +110,15 @@ export class UpgradeWindow extends BaseWindow {
         }
 
         { // Upgrades and description drawer
-            const wrapper = createDiv({ classes: ["desc-wrapper"], parent: this.body });
-            this.descDrawer = createDiv({ classes: ["desc-drawer"], parent: wrapper });
+            this.descWrapper = createDiv({ classes: ["desc-wrapper"], parent: this.body });
+            this.descDrawer = createDiv({ classes: ["desc-drawer"], parent: this.descWrapper });
 
             for (const upgrade of this.upgrades) {
                 upgrade.createElement(this.upgradeBody);
 
                 const attachment = MouseAttachment.attach(upgrade.body);
                 attachment.onEnter = this.renderUpgrade.bind(this, upgrade);
+                attachment.onLeave = this.renderUpgrade.bind(this, null);
             }
         }
 

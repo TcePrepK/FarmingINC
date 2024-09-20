@@ -1,0 +1,45 @@
+#Farming-window {
+    --window-color: #374;
+
+    width: 19rem;
+}
+
+#Farming-window .inner-body {
+    --inner-body-border-radius: 1.75rem;
+
+    .farm-body {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+
+        padding: 0.75rem;
+
+        border-radius: 1.5rem;
+        border: 0.25rem solid #632;
+        background: mix(#632, #000, 80%);
+
+        .land-wrapper {
+            display: flex;
+
+            width: 5rem;
+            aspect-ratio: 1;
+
+            border-radius: 1.5rem;
+            background: mix(#632, #000, 70%);
+
+            &:hover {
+                box-shadow: 0 0 5px #6a04;
+            }
+
+            .land {
+                width: 4.5rem;
+                aspect-ratio: 1;
+
+                margin: auto;
+
+                border-radius: 100%;
+                background: mix(#632, #000, 60%);
+            }
+        }
+    }
+}

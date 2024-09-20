@@ -6,33 +6,32 @@
     .desc-wrapper {
         position: absolute;
 
-        top: -6px;
+        top: 0;
         left: 1rem;
-        z-index: -1;
 
         display: flex;
         justify-content: center;
-        align-items: center;
 
         width: calc(100% - 2rem);
-        height: auto;
 
         background: var(--window-color);
         border-radius: 0.5rem 0.5rem 0 0;
-        box-shadow: 0 0 10px #333;
+        box-shadow: 2px -5px 5px -1px #1112;
 
-        transition: all 0.15s linear;
-        //translate: 0 calc(6px - 100%); // TODO: Remove this
+        translate: 0 -100%;
+        transition: height 0.2s ease-in-out;
+
+        overflow-y: hidden;
 
         .desc-drawer {
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
             gap: 0.5rem;
 
             width: calc(100% - 2rem);
 
+            position: relative;
             margin-top: 0.5rem;
             padding: 0.5rem;
 
@@ -40,6 +39,10 @@
             border-radius: 0.25rem 0.25rem 0 0;
 
             font-family: Arial, Helvetica, sans-serif;
+
+            &:empty {
+                padding: 0;
+            }
 
             .header {
                 display: flex;
@@ -74,10 +77,6 @@
             width: calc(100% + 0.5rem);
             margin-left: -0.25rem;
         }
-    }
-
-    &:has(.inner-body .upgrade-body .upgrade:hover) .desc-wrapper {
-        translate: 0 calc(6px - 100%);
     }
 }
 
