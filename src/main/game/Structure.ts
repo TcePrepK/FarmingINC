@@ -1,7 +1,7 @@
 import { getElementById } from "../core/HtmlUtils";
+import { Inventory } from "./Inventory";
 import { BaseWindow } from "./types/BaseWindow";
 import { InitializableObject } from "./types/InitializableObject";
-import { SeedStage } from "./windows/seed/SeedStage";
 import { UpgradeWindow } from "./windows/upgrades/UpgradeWindow";
 
 export class Structure extends InitializableObject {
@@ -10,12 +10,15 @@ export class Structure extends InitializableObject {
 
     private readonly stages: Array<BaseWindow> = [];
 
+    public inventory = new Inventory(this.root);
+
     public upgrades = new UpgradeWindow(this.root);
-    public seed = new SeedStage(this.root);
 
     public initialize(): void {
         this.body = getElementById("structure");
         this.stagesBody = getElementById("stages");
+
+        this.inventory.initialize();
 
         this.setupStage(this.upgrades);
         // this.setupStage(this.seed);

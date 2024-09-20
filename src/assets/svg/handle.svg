@@ -15,13 +15,13 @@
             id="layer1"
             transform="translate(-168.27501,-155.83958)">
         <path
-                style="color:#000000;fill:#224488;fill-opacity:1;stroke-linejoin:round;-inkscape-stroke:none;paint-order:markers fill stroke"
+                style="color:#000000;fill:#774422;fill-opacity:1;stroke-linejoin:round;-inkscape-stroke:none;paint-order:markers fill stroke"
                 d="m 168.27501,155.83958 v 5.29102 h 3.08398 c 2.71222,0 4.85352,2.14325 4.85352,4.85547 v 47.4414 c 0,2.71222 -2.1413,4.85352 -4.85352,4.85352 h -3.08398 v 5.29102 h 3.08398 c 5.57205,0 10.14453,-4.57249 10.14453,-10.14454 v -47.4414 c 0,-5.57205 -4.57248,-10.14649 -10.14453,-10.14649 z"
                 id="rect8"/>
         <g
                 id="g8"
                 transform="translate(824.96123,223.57246)"
-                style="fill:#222">
+                style="fill:#534">
             <circle
                     style="fill-opacity:1;stroke:none;stroke-width:5.29167;stroke-linecap:butt;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
                     id="path8"

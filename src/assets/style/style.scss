@@ -1,18 +1,19 @@
 @import "bufferInterface.scss";
-@import "nodeInterface";
+@import "inventory";
 @import "playground";
 @import "selectionOptions.scss";
 
-@import "windows/stage.scss";
-@import "windows/upgrade/style.scss";
+@import "baseWindow";
+@import "windows/upgradeWindow";
+@import "windows/inventoryWindow";
 
 html, body {
     background: $background;
     user-select: none;
 }
 
-#main-screen {
-    position: absolute;
+#structure {
+    position: relative;
     width: 100%;
     height: 100%;
     top: 0;
@@ -22,14 +23,6 @@ html, body {
     flex-direction: column;
 
     background: $foreground;
-}
-
-#structure {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
 }
 
 .preload {

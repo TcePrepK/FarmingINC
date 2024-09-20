@@ -8,10 +8,11 @@ import { ScreenElement } from "./ScreenElement";
 export type WindowHeader = {
     body: HTMLDivElement;
     title: HTMLDivElement;
-    buttons: Array<HTMLDivElement>;
+    button: HTMLDivElement;
 }
 
 export type WindowStructure = {
+    parent: HTMLElement;
     body: HTMLDivElement;
     header: WindowHeader;
     innerBody: HTMLDivElement;
@@ -38,12 +39,12 @@ export abstract class BaseWindow extends ScreenElement {
      * @param parent
      */
     public createElement(parent: HTMLElement): void {
-        const body = createDiv({ id: this.id, classes: ["stage"], parent: parent });
+        const body = createDiv({ id: `${this.id}-window`, classes: ["stage"], parent: parent });
         const header = this.createHeader(body);
         const innerBody = createDiv({ classes: ["inner-body"], parent: body });
 
         this.body = body;
-        this.structure = { body, header, innerBody };
+        this.structure = { parent, body, header, innerBody };
     }
 
     /**
@@ -53,26 +54,9 @@ export abstract class BaseWindow extends ScreenElement {
      */
     protected createHeader(parent: HTMLDivElement): WindowHeader {
         const body = createDiv({ classes: ["header"], parent: parent });
-        const title = createDiv({ classes: ["title"], parent: body });
-        const buttons = this.createHeaderButtons(body);
-        return { body, title, buttons };
-    }
-
-    /**
-     * Creates each stylish buttons, called from createHeader.
-     * @param parent
-     * @protected
-     */
-    protected createHeaderButtons(parent: HTMLDivElement): Array<HTMLDivElement> {
-        const buttonHolder = createDiv({ classes: ["button-holder"], parent: parent });
-        const colors = ["#fd3", "#1f2", "#f21"];
-        const buttons = [];
-        for (let i = 0; i < 3; i++) {
-            const button = createDiv({ classes: ["button"], parent: buttonHolder });
-            button.style.setProperty("--button-color", colors[i]);
-            buttons.push(button);
-        }
-        return buttons;
+        const title = createDiv({ classes: ["title"], innerText: this.id, parent: body });
+        const button = createDiv({ classes: ["button"], parent: body });
+        return { body, title, button };
     }
 
     /**
@@ -87,6 +71,10 @@ export abstract class BaseWindow extends ScreenElement {
             if (event.button !== ButtonType.LEFT) return;
             if (dragging) return;
             dragging = true;
+
+            const body = this.structure.body;
+            this.structure.parent.removeChild(body);
+            this.structure.parent.appendChild(body);
         }
 
         this.root.windowMouse.onMove = (dx, dy) => {

@@ -12,7 +12,7 @@ export class UpgradeWindow extends BaseWindow {
     private readonly upgrades: Array<MoneyUpgrade> = [];
 
     public constructor(root: Root) {
-        super(root, "upgrade-window");
+        super(root, "Upgrades");
     }
 
     /**
@@ -102,8 +102,6 @@ export class UpgradeWindow extends BaseWindow {
                 const attachment = MouseAttachment.attach(upgrade.body);
                 attachment.onEnter = this.renderUpgrade.bind(this, upgrade);
             }
-
-            this.renderUpgrade(this.upgrades[0]); // TODO: Remove this
         }
 
     }

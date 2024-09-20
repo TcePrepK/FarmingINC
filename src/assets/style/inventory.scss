@@ -1,0 +1,202 @@
+@import "variables.scss";
+
+@keyframes Shake {
+    0% {
+        transform: rotate(0deg);
+    }
+    20% {
+        transform: rotate(5deg);
+    }
+    40% {
+        transform: rotate(-5deg);
+    }
+    60% {
+        transform: rotate(3deg);
+    }
+    80% {
+        transform: rotate(-3deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+#inventory {
+    display: flex;
+
+    width: min-content;
+    height: 36rem; // 28 x 6
+
+    position: relative;
+    z-index: 1;
+
+    padding: 1rem;
+    margin: auto 0 auto -0.5rem;
+
+    border-radius: 0 1rem 1rem 0;
+    background: #742;
+
+    transition: translate 0.5s ease-in-out;
+    translate: calc(1.5rem - 100%);
+
+    &.open {
+        translate: 0;
+    }
+
+    &::before {
+        content: "";
+        position: absolute;
+
+        top: 0;
+        left: 0;
+
+        width: 100%;
+        height: 100%;
+
+        border-radius: 1rem;
+        box-shadow: 0 0 10px #222;
+
+        pointer-events: none;
+    }
+
+    #inform-wrapper {
+        position: absolute;
+
+        top: 0;
+        z-index: -2;
+
+        width: calc(100% - 2rem);
+        min-height: 1rem;
+
+        translate: 0 -100%;
+
+        border-radius: 0.5rem 0.5rem 0 0;
+        background: #742;
+        box-shadow: 2px -2px 5px #1115;
+    }
+
+    #inv-container {
+        display: flex;
+        flex-direction: column;
+
+        background: #7d4d2d;
+        border-radius: 0.75rem;
+
+        overflow-y: auto;
+        overflow-x: hidden;
+
+        &.firefox-scrollbar {
+            scrollbar-color: #854 mix(#742, #000, 85%);
+        }
+
+        &::-webkit-scrollbar {
+            width: 1.25rem;
+            background: #742;
+            border-radius: 0 1rem 1rem 0;
+
+            box-shadow: 0 0 10px #222 inset;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #854;
+            border-radius: 1rem;
+
+            box-shadow: 0 0 5px #222 inset;
+
+            &:hover {
+                background: mix(#854, #fff, 95%);
+                cursor: pointer;
+            }
+        }
+
+        &::before {
+            content: "";
+            position: absolute;
+
+            top: 1rem;
+            left: 1rem;
+
+            width: calc(100% - 2rem);
+            height: calc(100% - 2rem);
+
+            border-radius: 0.75rem;
+            box-shadow: 0 0 15px #000 inset;
+
+            pointer-events: none;
+        }
+
+        .stage-crops {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+
+            width: calc(3.5rem * 5 + 0.5rem * 4 + 0.75rem * 2); // 25rem
+
+            padding: 0.75rem 0;
+            margin: 0.5rem;
+
+            border-radius: 0.5rem;
+            background: var(--stage-color);
+            box-shadow: 0 0 10px #222 inset;
+
+            .crop {
+                display: flex;
+
+                width: 3rem;
+                aspect-ratio: 1;
+
+                padding: 0.25rem;
+
+                background: color-mix(in oklab, var(--stage-color) 95%, #000);
+                border-radius: 0.75rem;
+                box-shadow: 0 0 10px #2225 inset;
+
+                pointer-events: auto;
+                cursor: pointer;
+
+                &:hover {
+                    background: color-mix(in oklab, var(--stage-color) 90%, #000);
+
+                    .icon {
+                        animation: Shake 0.4s linear;
+                    }
+                }
+
+                &:active {
+                    background: color-mix(in oklab, var(--stage-color) 85%, #000);
+                }
+
+                .icon {
+                    width: 100%;
+                    aspect-ratio: 1;
+
+                    padding: 0.25rem;
+
+                    border-radius: 0.5rem;
+                    
+                    image-rendering: pixelated;
+                }
+            }
+        }
+    }
+
+    #drawer-handle {
+        position: absolute;
+        top: 50%;
+        left: 100%;
+
+        translate: -0.5rem -50%;
+        margin-left: -1px;
+
+        width: 3rem;
+
+        padding: 0.5rem;
+        cursor: pointer;
+        user-select: none;
+
+        filter: drop-shadow(7px 2px 4px rgba(0, 0, 0, .2));
+    }
+}
