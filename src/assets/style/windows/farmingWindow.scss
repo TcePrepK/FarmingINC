@@ -1,11 +1,15 @@
 #Farming-window {
-    --window-color: #374;
+    --window-color: #6d3a22;
 
     width: 19rem;
 }
 
 #Farming-window .inner-body {
     --inner-body-border-radius: 1.75rem;
+
+    //width: 19rem;
+    //margin-left: 1.5rem;
+    //margin-bottom: 1.5rem;
 
     .farm-body {
         display: flex;
