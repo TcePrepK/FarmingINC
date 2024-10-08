@@ -1,4 +1,4 @@
-import { createDiv } from "../../core/HtmlUtils";
+import { createDiv } from "../../core/HTMLUtils";
 import { ButtonType, MouseAttachment } from "../../core/MouseAttachment";
 import { Root } from "../Root";
 import { MoneyCurrency } from "../windows/upgrades/MoneyCurrency";
@@ -75,6 +75,7 @@ export abstract class BaseWindow extends ScreenElement {
             const body = this.structure.body;
             this.structure.parent.removeChild(body);
             this.structure.parent.appendChild(body);
+            event.stopPropagation();
         }
 
         this.root.windowMouse.onMove = (dx, dy) => {

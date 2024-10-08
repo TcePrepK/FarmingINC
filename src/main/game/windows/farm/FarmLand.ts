@@ -1,4 +1,4 @@
-import { createDiv } from "../../../core/HtmlUtils";
+import { createDiv } from "../../../core/HTMLUtils";
 import { Crop } from "../../Crop";
 import { Root } from "../../Root";
 import { ScreenElement } from "../../types/ScreenElement";

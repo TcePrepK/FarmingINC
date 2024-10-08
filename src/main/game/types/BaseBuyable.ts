@@ -1,4 +1,4 @@
-import { createDiv } from "../../core/HtmlUtils";
+import { createDiv } from "../../core/HTMLUtils";
 import { ButtonType, MouseAttachment } from "../../core/MouseAttachment";
 import { CustomNumber } from "../CustomNumber";
 import { Root } from "../Root";

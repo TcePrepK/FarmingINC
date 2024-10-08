@@ -1,4 +1,4 @@
-import { checkFor } from "../core/HtmlUtils";
+import { checkFor } from "../core/HTMLUtils";
 import { BaseCurrency } from "./types/BaseCurrency";
 
 export class CurrencyManager {

@@ -1,5 +1,5 @@
-import {getElementById, getElementByQuery} from "../core/HtmlUtils";
-import {Logger} from "../core/Logger";
+import { getElementById, getElementByQuery } from "../core/HTMLUtils";
+import { Logger } from "../core/Logger";
 
 const logger = new Logger("Error Screen", "❌");
 

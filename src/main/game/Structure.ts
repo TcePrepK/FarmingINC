@@ -1,4 +1,4 @@
-import { getElementById } from "../core/HtmlUtils";
+import { getElementById } from "../core/HTMLUtils";
 import { Inventory } from "./Inventory";
 import { BaseWindow } from "./types/BaseWindow";
 import { InitializableObject } from "./types/InitializableObject";

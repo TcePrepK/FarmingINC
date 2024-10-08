@@ -16,15 +16,17 @@
 <div id="structure">
     <div id="inventory" class="preload">
         <div id="inform-wrapper">
-            <div id="inform-drawer"></div>
+            <div id="inform-outer" class="preload">
+                <div id="inform-drawer"></div>
+                <div>
+                    <audio id="drawer-opening" src="assets/audio/drawer_opening.mp3" preload="auto"></audio>
+                    <img id="drawer-handle" width="0" draggable="false" src="assets/svg/handle.svg"
+                         alt="Handle not loaded"/>
+                    <audio id="drawer-closing" src="assets/audio/drawer_closing.mp3" preload="auto"></audio>
+                </div>
+            </div>
         </div>
         <div id="inv-container" class="scrollable"></div>
-        <div>
-            <audio id="drawer-opening" src="assets/audio/drawer_opening.mp3" preload="auto"></audio>
-            <img id="drawer-handle" width="0" draggable="false" src="assets/svg/handle.svg"
-                 alt="Handle not loaded"/>
-            <audio id="drawer-closing" src="assets/audio/drawer_closing.mp3" preload="auto"></audio>
-        </div>
     </div>
     <div id="interface-hit-box">
         <div id="template-interface" class="preload">

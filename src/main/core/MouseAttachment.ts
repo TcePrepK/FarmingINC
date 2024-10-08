@@ -1,4 +1,4 @@
-import { checkFor } from "./HtmlUtils";
+import { checkFor } from "./HTMLUtils";
 
 export enum ButtonType {
     LEFT,

@@ -1,4 +1,4 @@
-import { getElementById } from "../core/HtmlUtils";
+import { getElementById } from "../core/HTMLUtils";
 import { ButtonType, MouseAttachment } from "../core/MouseAttachment";
 import { InitializableObject } from "./types/InitializableObject";
 
@@ -27,7 +27,7 @@ export class Background extends InitializableObject {
         };
 
         { // Canvas movement
-            const playground = getElementById("playground");
+            const playground = getElementById("stages");
             const attachment = MouseAttachment.attach(playground);
 
             let grabbing = false;

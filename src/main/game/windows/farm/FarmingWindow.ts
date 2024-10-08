@@ -1,4 +1,4 @@
-import { createDiv } from "../../../core/HtmlUtils";
+import { createDiv } from "../../../core/HTMLUtils";
 import { Root } from "../../Root";
 import { BaseWindow } from "../../types/BaseWindow";
 import { FarmLand } from "./FarmLand";

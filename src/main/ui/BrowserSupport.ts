@@ -1,5 +1,5 @@
-import {getElementsByClass} from "../core/HtmlUtils";
-import {Logger} from "../core/Logger";
+import { getElementsByClass } from "../core/HTMLUtils";
+import { Logger } from "../core/Logger";
 
 export enum Browser {
     Chrome,

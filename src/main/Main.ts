@@ -1,7 +1,6 @@
 import "../assets/style/style.scss";
 import { FpsCounter } from "./core/FpsCounter";
-import { GlobalVariables } from "./core/GlobalVariables";
-import { fixEveryPreload } from "./core/HtmlUtils";
+import { fixEveryPreload } from "./core/HTMLUtils";
 
 import { Root } from "./game/Root";
 import { BrowserSupport } from "./ui/BrowserSupport";
@@ -27,7 +26,6 @@ export class Main {
 
     public startRunning(): void {
         const dt = this.fpsCounter.update();
-        GlobalVariables.time += dt / 1000;
 
         this.root.update(dt / 1000);
         this.root.updateFrame();

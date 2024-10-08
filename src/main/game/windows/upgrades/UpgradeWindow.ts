@@ -1,4 +1,4 @@
-import { createDiv } from "../../../core/HtmlUtils";
+import { createDiv } from "../../../core/HTMLUtils";
 import { MouseAttachment } from "../../../core/MouseAttachment";
 import { Root } from "../../Root";
 import { BaseWindow } from "../../types/BaseWindow";
@@ -82,6 +82,7 @@ export class UpgradeWindow extends BaseWindow {
         }
 
         this.descDrawer.innerHTML = fakeDesc.innerHTML;
+        this.descWrapper.style.height = "0px";
         this.descWrapper.style.height = fakeWrapper.clientHeight + "px";
         fakeWrapper.remove();
     }
