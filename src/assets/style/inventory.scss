@@ -75,6 +75,8 @@
 
         overflow: hidden;
 
+        pointer-events: none;
+
         #inform-outer {
             position: relative;
 
@@ -242,6 +244,7 @@
 
                 padding: 0.5rem;
                 cursor: pointer;
+                pointer-events: auto;
                 user-select: none;
 
                 filter: drop-shadow(7px 2px 4px rgba(0, 0, 0, .2));
@@ -352,6 +355,8 @@
                     padding: 0.25rem;
 
                     border-radius: 0.5rem;
+
+                    pointer-events: none;
 
                     image-rendering: pixelated;
                 }

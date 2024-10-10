@@ -12,6 +12,7 @@ export class Inventory extends InitializableObject {
     public readonly inventory: Array<Array<Crop>> = [];
 
     private renderingCrop: Crop | null = null;
+    public dragging: HTMLDivElement | null = null;
 
     private expanded = false;
     private informExpanded = false;
@@ -48,13 +49,26 @@ export class Inventory extends InitializableObject {
                 crop.createElement(wrapper);
 
                 const attachment = MouseAttachment.attach(crop.body);
-                attachment.onDown = button => {
+                attachment.onUp = button => {
                     if (button !== ButtonType.LEFT) return;
                     this.toggleCropRender(crop);
+                }
+
+                attachment.onDown = button => {
+                    if (button !== ButtonType.LEFT) return;
+                    this.startDraggingCrop(crop);
                 }
             }
 
             this.inventory.push(crops);
+        }
+
+        { // Plant Dragging
+            this.root.windowMouse.onUp = button => {
+                if (button !== ButtonType.LEFT) return;
+                this.dragging?.remove();
+                this.dragging = null;
+            }
         }
 
         { // Handle
@@ -63,7 +77,51 @@ export class Inventory extends InitializableObject {
         }
     }
 
-    public toggleSelection(): void {
+    private prevX = -1;
+    private prevY = -1;
+    private prevVelX = 0;
+    private angle = 0;
+    private angleVel = 0;
+
+    public update(dt: number): void {
+        if (!this.dragging) return;
+
+        const mouseX = this.root.windowMouse.x;
+        const mouseY = this.root.windowMouse.y;
+        const gravity = 50;
+
+        if (this.prevX < 0) this.prevX = mouseX;
+        if (this.prevY < 0) this.prevY = mouseY;
+
+        const velX = (mouseX - this.prevX) / dt * 0.1;
+        const velY = (mouseY - this.prevY) / dt * 0.1;
+
+        const degAcc = velX * Math.cos(this.angle - Math.PI / 4) - (gravity - velY) * Math.sin(this.angle - Math.PI / 4);
+        this.angleVel += degAcc * dt;
+        this.angle += this.angleVel * dt;
+        // this.angle = (this.angle % (2 * Math.PI) + (2 * Math.PI)) % (2 * Math.PI);
+        // const fixAngle = this.angle * 180 / Math.PI;
+        // if (fixAngle > 180 + 45 && fixAngle < 360 - 45) {
+        //     this.angle = (360 - 45) * Math.PI / 180;
+        //     this.angleVel = 0;
+        // } else if (fixAngle > 135 && fixAngle < 180 + 45) {
+        //     this.angle = (135) * Math.PI / 180;
+        //     this.angleVel = 0;
+        // }
+
+        this.angleVel *= 0.995;
+
+        this.prevX = mouseX;
+        this.prevY = mouseY;
+        this.prevVelX = velX;
+
+        this.dragging.style.left = mouseX + "px";
+        this.dragging.style.top = mouseY + "px";
+        const image = this.dragging.firstChild as HTMLImageElement;
+        image.style.transform = `rotate(${this.angle - Math.PI / 4}rad) translateY(35%) rotate(45deg)`;
+    }
+
+    private toggleSelection(): void {
         if (!this.toggleable) return;
         this.toggleable = false;
         setTimeout(() => this.toggleable = true, 500);
@@ -84,8 +142,19 @@ export class Inventory extends InitializableObject {
         this.informOuter.classList.toggle("open", this.informExpanded);
     }
 
-    private getAudio(state: string): HTMLAudioElement {
-        return getElementById(`drawer-${state}`);
+    public completelyClose(): void {
+        if (!this.toggleable) {
+            setTimeout(() => this.completelyClose(), 500);
+            return;
+        }
+
+        if (!this.informExpanded && !this.expanded) return;
+
+        this.expanded = false;
+        this.informExpanded = false;
+        this.body.classList.toggle("open", false);
+        this.informOuter.classList.toggle("open", false);
+        this.getAudio("closing").play();
     }
 
     private toggleCropRender(crop: Crop): void {
@@ -126,5 +195,20 @@ export class Inventory extends InitializableObject {
                 </div>
             `;
         }
+    }
+
+    private startDraggingCrop(crop: Crop): void {
+        if (this.dragging) return;
+
+        const dragArea = getElementById("plantDrag");
+        this.dragging = crop.body.cloneNode(true) as HTMLDivElement;
+
+        dragArea.appendChild(this.dragging);
+    }
+
+    /* -------------------- Helper Methods -------------------- */
+
+    private getAudio(state: string): HTMLAudioElement {
+        return getElementById(`drawer-${state}`);
     }
 }

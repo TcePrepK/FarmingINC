@@ -33,17 +33,18 @@ export class Background extends InitializableObject {
             let grabbing = false;
             attachment.onDown = (button: ButtonType) => {
                 if (button !== ButtonType.LEFT) return;
+                this.root.structure.inventory.completelyClose();
                 grabbing = true;
             };
 
-            attachment.onUp = (button: ButtonType) => {
+            this.root.windowMouse.onUp = (button: ButtonType) => {
                 if (button !== ButtonType.LEFT) return;
                 grabbing = false;
             };
 
-            attachment.onLeave = () => grabbing = false;
+            this.root.windowMouse.onLeave = () => grabbing = false;
 
-            attachment.onMove = (dx: number, dy: number) => {
+            this.root.windowMouse.onMove = (dx: number, dy: number) => {
                 if (!grabbing) return;
                 this.worldX += dx;
                 this.worldY += dy;

@@ -1,7 +1,7 @@
-@import "bufferInterface.scss";
+@import "bufferInterface";
 @import "inventory";
 @import "playground";
-@import "selectionOptions.scss";
+@import "plantDrag";
 
 @import "baseWindow";
 @import "windows/upgradeWindow";
@@ -16,13 +16,15 @@ html, body {
     position: relative;
     width: 100%;
     height: 100%;
-    top: 0;
-    left: 0;
 
     display: flex;
     flex-direction: column;
 
     background: $foreground;
+}
+
+#plantDrag {
+    position: absolute;
 }
 
 .preload {
