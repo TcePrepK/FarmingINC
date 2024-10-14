@@ -16,21 +16,11 @@
 
     .crop {
         position: absolute;
-        display: flex;
 
         width: 3rem;
-        aspect-ratio: 1;
 
         translate: -50% -50%;
+
         pointer-events: none;
-
-        .icon {
-            width: 100%;
-            aspect-ratio: 1;
-
-            transform-origin: center center;
-
-            image-rendering: pixelated;
-        }
     }
 }

@@ -322,10 +322,7 @@
             box-shadow: 0 0 10px #222 inset;
 
             .crop {
-                display: flex;
-
                 width: 3rem;
-                aspect-ratio: 1;
 
                 padding: 0.25rem;
 
@@ -349,16 +346,7 @@
                 }
 
                 .icon {
-                    width: 100%;
-                    aspect-ratio: 1;
-
                     padding: 0.25rem;
-
-                    border-radius: 0.5rem;
-
-                    pointer-events: none;
-
-                    image-rendering: pixelated;
                 }
             }
         }

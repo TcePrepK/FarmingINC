@@ -28,8 +28,14 @@ export class Crop extends ScreenElement {
         return `assets/images/crops/${this.name}.png`;
     }
 
+    public createHTML(): HTMLDivElement {
+        const body = createDiv({ classes: ["crop"] });
+        if (this.name !== "") body.innerHTML = `<img class="icon" src="${this.getImage()}" alt="${this.name}">`;
+        return body;
+    }
+
     public createElement(parent: HTMLElement): void {
-        this.body = createDiv({ classes: ["crop"], parent: parent });
-        if (this.name !== "") this.body.innerHTML = `<img class="icon" src="${this.getImage()}" alt="${this.name}">`;
+        this.body = this.createHTML();
+        parent.appendChild(this.body);
     }
 }

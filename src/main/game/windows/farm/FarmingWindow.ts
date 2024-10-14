@@ -1,4 +1,5 @@
 import { createDiv } from "../../../core/HTMLUtils";
+import { MouseAttachment } from "../../../core/MouseAttachment";
 import { Root } from "../../Root";
 import { BaseWindow } from "../../types/BaseWindow";
 import { FarmLand } from "./FarmLand";
@@ -20,9 +21,17 @@ export class FarmingWindow extends BaseWindow {
         }
     }
 
-    // public update(dt: number): void {}
-    //
-    // public updateFrame(): void {}
+    public update(dt: number): void {
+        for (const land of this.farmLands) {
+            land.update(dt);
+        }
+    }
+
+    public updateFrame(): void {
+        for (const land of this.farmLands) {
+            land.updateFrame();
+        }
+    }
 
     /**
      * Creates the main structure of the farming window
@@ -37,6 +46,14 @@ export class FarmingWindow extends BaseWindow {
 
         for (const farmLand of this.farmLands) {
             farmLand.createElement(this.farmBody);
+
+            const attachment = MouseAttachment.attach(farmLand.body);
+            attachment.onMove = () => {
+                if (!farmLand.isEmpty()) return;
+                const inventory = this.root.structure.inventory;
+                if (!inventory.draggingCrop) return;
+                farmLand.plantCrop(inventory.draggingCrop);
+            }
         }
     }
 }

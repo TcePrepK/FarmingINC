@@ -12,12 +12,21 @@ export class Inventory extends InitializableObject {
     public readonly inventory: Array<Array<Crop>> = [];
 
     private renderingCrop: Crop | null = null;
+    public draggingCrop: Crop | null = null;
     public dragging: HTMLDivElement | null = null;
 
     private expanded = false;
     private informExpanded = false;
 
     private toggleable = true;
+
+    // Dragging physics
+    private prevX = -1;
+    private prevY = -1;
+    private angle = 0;
+    private angleVel = 0;
+
+    // Dragging physics
 
     public constructor(root: Root) {
         super(root);
@@ -68,6 +77,15 @@ export class Inventory extends InitializableObject {
                 if (button !== ButtonType.LEFT) return;
                 this.dragging?.remove();
                 this.dragging = null;
+                this.draggingCrop = null;
+            }
+
+            const attachment = MouseAttachment.attach(this.body);
+            attachment.onLeave = () => {
+                if (!this.draggingCrop) return;
+
+                if (!this.toggleable) setTimeout(() => this.completelyClose(), 500);
+                this.completelyClose();
             }
         }
 
@@ -76,12 +94,6 @@ export class Inventory extends InitializableObject {
             handle.addEventListener("click", () => this.toggleSelection());
         }
     }
-
-    private prevX = -1;
-    private prevY = -1;
-    private prevVelX = 0;
-    private angle = 0;
-    private angleVel = 0;
 
     public update(dt: number): void {
         if (!this.dragging) return;
@@ -113,7 +125,6 @@ export class Inventory extends InitializableObject {
 
         this.prevX = mouseX;
         this.prevY = mouseY;
-        this.prevVelX = velX;
 
         this.dragging.style.left = mouseX + "px";
         this.dragging.style.top = mouseY + "px";
@@ -200,10 +211,15 @@ export class Inventory extends InitializableObject {
     private startDraggingCrop(crop: Crop): void {
         if (this.dragging) return;
 
-        const dragArea = getElementById("plantDrag");
-        this.dragging = crop.body.cloneNode(true) as HTMLDivElement;
+        this.draggingCrop = crop;
+        this.dragging = crop.createHTML();
 
-        dragArea.appendChild(this.dragging);
+        this.prevX = -1;
+        this.prevY = -1;
+        this.angle = 0;
+        this.angleVel = 0;
+
+        getElementById("plantDrag").appendChild(this.dragging);
     }
 
     /* -------------------- Helper Methods -------------------- */

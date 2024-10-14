@@ -27,6 +27,24 @@ html, body {
     position: absolute;
 }
 
+.crop {
+    display: flex;
+
+    aspect-ratio: 1;
+
+    .icon {
+        width: 100%;
+        aspect-ratio: 1;
+
+        transform-origin: center center;
+
+        pointer-events: none;
+        user-select: none;
+
+        image-rendering: pixelated;
+    }
+}
+
 .preload {
     animation-duration: 0s !important;
     transition: background-color 0s, opacity 0s, color 0s, width 0s, height 0s, padding 0s, margin 0s !important;
