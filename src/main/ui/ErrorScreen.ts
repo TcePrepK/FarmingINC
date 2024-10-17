@@ -18,7 +18,7 @@ export class ErrorScreen {
             getElementByQuery("#error-screen .error").innerHTML = `<span>Error: </span> ${msg}`;
         }
 
-        getElementById("main-screen").remove();
+        getElementById("structure").remove();
 
         logger.toggleName();
         logger.toggleSymbol();
