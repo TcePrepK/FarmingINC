@@ -119,8 +119,9 @@
                 }
 
                 .header {
-                    display: flex;
-                    flex-direction: column;
+                    display: grid;
+                    grid-template: "name amount" "desc desc";
+                    align-items: center;
                     gap: 0.5rem;
 
                     width: 90%;
@@ -129,17 +130,33 @@
                     padding: 0.5rem;
 
                     .name {
-                        font-size: 1rem;
+                        grid-area: name;
+
+                        margin-left: auto;
+
+                        font-size: 1.25rem;
                         color: #6e5;
 
                         text-shadow: 0 0 10px mix(#6e5, #fff, 90%);
                         font-weight: 750;
                         white-space: nowrap;
+                    }
 
-                        margin: auto;
+                    .amount {
+                        grid-area: amount;
+
+                        font-family: monospace;
+                        font-size: 1rem;
+                        color: #a76;
+
+                        margin-bottom: 0.15rem;
+
+                        text-shadow: 0 0 5px #1115;
                     }
 
                     .desc {
+                        grid-area: desc;
+
                         height: 8rem;
 
                         padding: 0.25rem;

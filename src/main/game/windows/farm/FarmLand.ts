@@ -6,7 +6,6 @@ export class FarmLand extends ScreenElement {
     private currentCrop: Crop | null = null;
     private cropBody: HTMLDivElement | null = null;
 
-    public cropDone = false;
     private growthState = 0;
     public progress = 0;
 
@@ -17,12 +16,15 @@ export class FarmLand extends ScreenElement {
 
         // Max progress is 100, if it is lower than that, crop is still growing
         if (this.progress < 100) {
-            this.progress += 10 * dt;
+            this.progress += 100 * dt;
 
             // Crop completely grew!
             if (this.progress >= 100) {
-                this.progress = 100;
+                // this.progress = 100;
+                // this.cropBody!.classList.add("done");
+
                 this.cropBody!.classList.add("done");
+                setTimeout(this.cleanCrop.bind(this), 500);
             }
         }
     }
@@ -39,6 +41,15 @@ export class FarmLand extends ScreenElement {
         this.growthWobble = setTimeout(() => this.cropBody!.classList.remove("wobble"), 500);
 
         this.cropBody.style.setProperty("--progress", `${this.growthState / 5 + 0.2}`);
+    }
+
+    private cleanCrop(): void {
+        this.cropBody!.remove();
+        this.currentCrop!.amount++;
+        if (this.growthWobble) clearTimeout(this.growthWobble);
+
+        this.currentCrop = null;
+        this.cropBody = null;
     }
 
     public plantCrop(crop: Crop): void {

@@ -14,6 +14,7 @@ export class Inventory extends InitializableObject {
     private renderingCrop: Crop | null = null;
     public draggingCrop: Crop | null = null;
     public dragging: HTMLDivElement | null = null;
+    public draggingTimeout: NodeJS.Timeout | null = null;
 
     private expanded = false;
     private informExpanded = false;
@@ -25,8 +26,6 @@ export class Inventory extends InitializableObject {
     private prevY = -1;
     private angle = 0;
     private angleVel = 0;
-
-    // Dragging physics
 
     public constructor(root: Root) {
         super(root);
@@ -58,14 +57,21 @@ export class Inventory extends InitializableObject {
                 crop.createElement(wrapper);
 
                 const attachment = MouseAttachment.attach(crop.body);
-                attachment.onUp = button => {
+                attachment.onClick = button => {
                     if (button !== ButtonType.LEFT) return;
                     this.toggleCropRender(crop);
                 }
 
                 attachment.onDown = button => {
                     if (button !== ButtonType.LEFT) return;
-                    this.startDraggingCrop(crop);
+                    this.draggingTimeout = setTimeout(this.startDraggingCrop.bind(this, crop), 200);
+                }
+
+                attachment.onUp = button => {
+                    if (button !== ButtonType.LEFT) return;
+                    if (!this.draggingTimeout) return;
+                    clearTimeout(this.draggingTimeout);
+                    this.draggingTimeout = null;
                 }
             }
 
@@ -82,7 +88,7 @@ export class Inventory extends InitializableObject {
 
             const attachment = MouseAttachment.attach(this.body);
             attachment.onLeave = () => {
-                if (!this.draggingCrop) return;
+                if (!this.draggingCrop && !this.draggingTimeout) return;
 
                 if (!this.toggleable) setTimeout(() => this.completelyClose(), 500);
                 this.completelyClose();
@@ -193,7 +199,7 @@ export class Inventory extends InitializableObject {
         if (this.renderingCrop) {
             drawer.innerHTML = `
                 <div class="header">
-                    <span class="name">${formattedName}</span>
+                    <span class="name">${formattedName}</span><span class="amount">[${crop.amount}]</span>
                     <span class="desc">${crop.desc}</span>
                 </div>
                 <div class="divider"></div>

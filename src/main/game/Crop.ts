@@ -5,6 +5,7 @@ import { ScreenElement } from "./types/ScreenElement";
 export class Crop extends ScreenElement {
     public name: string;
     public desc: string;
+    public amount = 0;
 
     public unlocked = false;
     public seenBefore = false;
@@ -28,6 +29,9 @@ export class Crop extends ScreenElement {
         return `assets/images/crops/${this.name}.png`;
     }
 
+    /**
+     * Creates the html of the crop to be used in other parts.
+     */
     public createHTML(): HTMLDivElement {
         const body = createDiv({ classes: ["crop"] });
         if (this.name !== "") body.innerHTML = `<img class="icon" src="${this.getImage()}" alt="${this.name}">`;
