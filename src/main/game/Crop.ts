@@ -7,8 +7,8 @@ export class Crop extends ScreenElement {
     public desc: string;
     public amount = 0;
 
-    public unlocked = false;
-    public seenBefore = false;
+    private unlocked = false;
+    private seenBefore = false;
 
     public constructor(root: Root, name: string, desc: string) {
         super(root);
@@ -17,8 +17,19 @@ export class Crop extends ScreenElement {
         this.desc = desc;
     }
 
-    public updateFrame(): void {
+    /**
+     * Used to set the new state of unlocked variable.
+     * @param state
+     */
+    public setUnlocked(state: boolean): void {
+        this.unlocked = state;
         this.body.classList.toggle("unlocked", this.unlocked);
+
+        if (this.unlocked) this.setSeenBefore(true);
+    }
+
+    public setSeenBefore(state: boolean): void {
+        this.seenBefore = state;
         this.body.classList.toggle("seen-before", this.seenBefore);
     }
 

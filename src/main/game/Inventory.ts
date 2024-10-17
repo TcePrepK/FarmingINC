@@ -4,12 +4,19 @@ import { Crop } from "./Crop";
 import { Root } from "./Root";
 import { InitializableObject } from "./types/InitializableObject";
 
+type InventoryStage = {
+    name: string;
+    color: string;
+    crops: Array<Crop>;
+    body: HTMLDivElement;
+}
+
 export class Inventory extends InitializableObject {
     private readonly body: HTMLDivElement;
     private readonly innerBody: HTMLDivElement;
     private readonly informOuter!: HTMLDivElement;
 
-    public readonly inventory: Array<Array<Crop>> = [];
+    public readonly inventory: Array<InventoryStage> = [];
 
     private renderingCrop: Crop | null = null;
     public draggingCrop: Crop | null = null;
@@ -36,46 +43,36 @@ export class Inventory extends InitializableObject {
     }
 
     public initialize(): void {
-        const plantNames = ["Cabbage", "Carrot", "Corn", "Cucumber", "Eggplant", "Green_bell_pepper", "Onion", "Pineapple", "Potato", "Pumpkin", "Spinach", "Strawberry", "Sweet_potato", "Tomato", "Turnip"];
-        const stageColors = ["#742", "#346", "#734"];
-        const stageAmount = 3;
-        for (let i = 0; i < stageAmount; i++) {
-            const crops = [];
+        /* TODO: Plant Names:
+            [
+             "Cabbage", "Carrot", "Corn", "Cucumber", "Eggplant",
+             "Green_bell_pepper", "Onion", "Pineapple", "Potato", "Pumpkin",
+             "Spinach", "Strawberry", "Sweet_potato", "Tomato", "Turnip"
+            ];
+        */
 
-            const wrapper = createDiv({ classes: ["stage-crops"], parent: this.innerBody });
-            wrapper.style.setProperty("--stage-color", stageColors[i]);
+        const firstStage = this.registerStage("first", "#742");
+        const secondStage = this.registerStage("second", "#346");
+        const thirdStage = this.registerStage("third", "#734");
+        { // Registering all the plants
+            // Stage 1
+            this.registerCrop(firstStage, {
+                name: "Cabbage",
+                desc: "A cabbage is a vegetable that is a member of the Brassicaceae family. It is a cruciferous plant, with a tough, fibrous stem, and large, dark green leaves.",
+                unlocked: true
+            });
 
-            const stageCrops = Math.random() * 15 + 5;
-            for (let j = 0; j < stageCrops; j++) {
-                const crop = new Crop(this.root, plantNames[(Math.random() * plantNames.length) | 0],
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum dolor nibh, consequat in accumsan vehicula, sollicitudin a nunc. Integer sollicitudin justo in ligula pharetra efficitur. Duis at elit ut orci luctus tincidunt. Aliquam pellentesque, enim sit amet tincidunt aliquam, eros felis feugiat sem, ut placerat erat dolor sit amet ex. Duis aliquam tellus id aliquet pulvinar. Quisque neque ante, blandit a laoreet quis, aliquam sed nisl. Aliquam ipsum orci, volutpat eu feugiat sit amet, hendrerit ac tortor. Nunc scelerisque risus vitae augue bibendum fermentum. Sed accumsan justo eu risus tristique mollis. Etiam iaculis facilisis mi, sit amet tempor sem feugiat eget. Phasellus imperdiet ornare mauris, sed varius neque ornare vitae. Proin vitae iaculis metus. Maecenas cursus ante vel ipsum tempus, a fringilla lacus fermentum. Aliquam urna sem, tristique vitae eros in, feugiat lacinia augue. In non libero et ex tempor pellentesque sollicitudin a nunc. Aenean urna purus, rutrum eget vestibulum eget, fringilla et diam Vivamus sed dui quis elit varius semper. Sed elementum mauris diam, vel aliquet eros tincidunt ut. Aliquam placerat tempor neque ac imperdiet. Praesent sollicitudin ex arcu, vitae dignissim orci commodo vitae. Phasellus in interdum arcu. Donec dignissim porta orci, eu scelerisque libero molestie ornare. Suspendisse nec erat semper, tincidunt nisi eu, maximus tellus. In a egestas lacus. Vivamus tristique ultricies ultrices. Nullam at dui gravida, porttitor odio id, dignissim felis. Mauris nec laoreet dui, ac mattis magna. Aliquam erat volutpat. Morbi porttitor ut nunc nec fermentum. In aliquam et tortor eu pharetra. Fusce ornare pretium purus."
-                    // ""
-                );
-                crops.push(crop);
+            // Stage 2
+            this.registerCrop(secondStage, {
+                name: "Carrot",
+                desc: "A carrot is a root vegetable that is a member of the Apiaceae family. It is a cruciferous plant, with a tough, fibrous stem, and large, dark green leaves."
+            });
 
-                // HTML Part
-                crop.createElement(wrapper);
-
-                const attachment = MouseAttachment.attach(crop.body);
-                attachment.onClick = button => {
-                    if (button !== ButtonType.LEFT) return;
-                    this.toggleCropRender(crop);
-                }
-
-                attachment.onDown = button => {
-                    if (button !== ButtonType.LEFT) return;
-                    this.draggingTimeout = setTimeout(this.startDraggingCrop.bind(this, crop), 200);
-                }
-
-                attachment.onUp = button => {
-                    if (button !== ButtonType.LEFT) return;
-                    if (!this.draggingTimeout) return;
-                    clearTimeout(this.draggingTimeout);
-                    this.draggingTimeout = null;
-                }
-            }
-
-            this.inventory.push(crops);
+            // Stage 3
+            this.registerCrop(thirdStage, {
+                name: "Corn",
+                desc: "A corn is a vegetable that is a member of the Fabaceae family. It is a cruciferous plant, with a tough, fibrous stem, and large, dark green leaves."
+            });
         }
 
         { // Plant Dragging
@@ -98,6 +95,45 @@ export class Inventory extends InitializableObject {
         { // Handle
             const handle = getElementById("drawer-handle");
             handle.addEventListener("click", () => this.toggleSelection());
+        }
+    }
+
+    private registerStage(name: string, color: string): InventoryStage {
+        const body = createDiv({ id: `stage-${name}`, classes: ["stage-crops"], parent: this.innerBody });
+        body.style.setProperty("--stage-color", color);
+        return {
+            name: name,
+            color: color,
+            crops: [],
+            body: body
+        } as InventoryStage;
+    }
+
+    private registerCrop(stage: InventoryStage, data: { name: string, desc: string, unlocked?: boolean }): void {
+        const crop = new Crop(this.root, data.name, data.desc);
+        stage.crops.push(crop);
+
+        // HTML Part
+        crop.createElement(stage.body);
+        if (data.unlocked) crop.setUnlocked(true);
+        if (data.name === "Carrot") crop.setSeenBefore(true);
+
+        const attachment = MouseAttachment.attach(crop.body);
+        attachment.onClick = button => {
+            if (button !== ButtonType.LEFT) return;
+            this.toggleCropRender(crop);
+        }
+
+        attachment.onDown = button => {
+            if (button !== ButtonType.LEFT) return;
+            this.draggingTimeout = setTimeout(this.startDraggingCrop.bind(this, crop), 200);
+        }
+
+        attachment.onUp = button => {
+            if (button !== ButtonType.LEFT) return;
+            if (!this.draggingTimeout) return;
+            clearTimeout(this.draggingTimeout);
+            this.draggingTimeout = null;
         }
     }
 
@@ -175,7 +211,11 @@ export class Inventory extends InitializableObject {
     }
 
     private toggleCropRender(crop: Crop): void {
-        if (!this.toggleable) return;
+        if (!this.toggleable) {
+            setTimeout(this.toggleCropRender.bind(this), 100);
+            return;
+        }
+
         if (this.renderingCrop === null || this.renderingCrop === crop) {
             this.toggleable = false;
             setTimeout(() => this.toggleable = true, 500);

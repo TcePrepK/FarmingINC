@@ -362,6 +362,14 @@
                     background: color-mix(in oklab, var(--stage-color) 85%, #000);
                 }
 
+                &:not(.unlocked) .icon {
+                    filter: brightness(0) blur(10px);
+                }
+
+                &:not(.unlocked).seen-before .icon {
+                    filter: brightness(0.5) blur(5px);
+                }
+
                 .icon {
                     padding: 0.25rem;
                 }
