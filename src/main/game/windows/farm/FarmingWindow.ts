@@ -11,8 +11,6 @@ export class FarmingWindow extends BaseWindow {
 
     public constructor(root: Root) {
         super(root, "Farming");
-
-        this.stageY = 200;
     }
 
     public initialize(): void {

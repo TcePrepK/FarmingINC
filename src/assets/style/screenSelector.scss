@@ -1,0 +1,115 @@
+@import "variables.scss";
+
+#screen-selector-wrapper {
+    position: relative;
+
+    max-width: calc(100vw - 10rem);
+
+    margin: 0 auto;
+    padding: 0 2rem 2rem 2rem;
+
+    &:hover > #screen-selector {
+        transform: translateY(0);
+    }
+}
+
+#screen-selector {
+    display: flex;
+
+    padding: 0 0.75rem 1rem 0.75rem;
+
+    border-radius: 0 0 1rem 1rem;
+    background: #248;
+    box-shadow: 0 0 7px 0 #000;
+
+    transition: transform 0.2s;
+    transform: translateY(calc(0.75rem - 100%));
+
+    //&::after {
+    //    content: " ";
+    //    position: absolute;
+    //
+    //    top: 0;
+    //    left: 1rem;
+    //
+    //    width: calc(100% - 2rem);
+    //    height: calc(100% - 1rem);
+    //
+    //    background: transparent;
+    //    border-radius: 0 0 $inner-interface-radius $inner-interface-radius;
+    //
+    //    box-shadow: 0 0 15px 0 #222 inset;
+    //
+    //    pointer-events: none;
+    //}
+
+    #screen-options {
+        position: relative;
+        top: 0.25rem;
+
+        flex-grow: 1;
+        min-height: 3rem;
+
+        padding: 0 0.125rem;
+
+        background: #359;
+        border-radius: 0.75rem;
+        box-shadow: 0 0 1rem 0 #000 inset;
+
+        display: flex;
+
+        overflow-x: auto;
+        overflow-y: hidden;
+
+        &.firefox-scrollbar {
+            scrollbar-color: #359 mix(#248, #000, 85%);
+        }
+
+        &::-webkit-scrollbar {
+            height: 1rem;
+            background: #248;
+            border-radius: 0 0 0.75rem 0.75rem;
+
+            box-shadow: 0 0 10px #222 inset;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #359;
+            border-radius: 1rem;
+
+            box-shadow: 0 0 5px #222 inset;
+
+            &:hover {
+                background: mix(#359, #248, 85%);
+                cursor: pointer;
+            }
+        }
+
+        .option {
+            width: 2.5rem;
+            min-width: 2.5rem;
+            aspect-ratio: 1;
+
+            padding: 0.25rem;
+            margin: 0.25rem;
+
+            background: #359;
+            border-radius: 0.5rem;
+            box-shadow: 0 0 1rem 0 #000;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            cursor: pointer;
+
+            .option-svg {
+                width: 100%;
+                height: 100%;
+
+                filter: invert(5%);
+            }
+        }
+    }
+}
+
