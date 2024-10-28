@@ -6,15 +6,19 @@ export class Crop extends ScreenElement {
     public name: string;
     public desc: string;
     public amount = 0;
+    public growTime = 1; // In seconds
+
+    public replantAble = true;
 
     private unlocked = false;
     private seenBefore = false;
 
-    public constructor(root: Root, name: string, desc: string) {
+    public constructor(root: Root, name: string, desc: string, growTime: number) {
         super(root);
 
         this.name = name;
         this.desc = desc;
+        this.growTime = growTime;
     }
 
     /**
@@ -26,6 +30,13 @@ export class Crop extends ScreenElement {
         this.body.classList.toggle("unlocked", this.unlocked);
 
         if (this.unlocked) this.setSeenBefore(true);
+    }
+
+    /**
+     * Returns if this crop is unlocked (grab-able) or not.
+     */
+    public getUnlocked(): boolean {
+        return this.unlocked;
     }
 
     public setSeenBefore(state: boolean): void {

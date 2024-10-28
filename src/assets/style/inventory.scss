@@ -157,7 +157,7 @@
                     .desc {
                         grid-area: desc;
 
-                        height: 8rem;
+                        max-height: 8rem;
 
                         padding: 0.25rem;
 
@@ -329,7 +329,7 @@
             flex-wrap: wrap;
             gap: 0.5rem;
 
-            width: calc(3.5rem * 5 + 0.5rem * 4 + 0.75rem * 2); // 25rem
+            width: calc(6 * 4rem + 1rem); // (5 crops) 25rem
 
             padding: 0.75rem 0;
             margin: 0.5rem;
@@ -363,11 +363,11 @@
                 }
 
                 &:not(.unlocked) .icon {
-                    filter: brightness(0) blur(10px);
+                    filter: brightness(0) blur(5px);
                 }
 
                 &:not(.unlocked).seen-before .icon {
-                    filter: brightness(0.5) blur(5px);
+                    filter: brightness(0.5) blur(2.5px);
                 }
 
                 .icon {

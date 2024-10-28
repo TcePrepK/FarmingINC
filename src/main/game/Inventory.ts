@@ -1,6 +1,8 @@
 import { createDiv, getElementById } from "../core/HTMLUtils";
 import { ButtonType, MouseAttachment } from "../core/MouseAttachment";
 import { Crop } from "./Crop";
+// @ts-ignore
+import CropData from "./CropData.json";
 import { Root } from "./Root";
 import { InitializableObject } from "./types/InitializableObject";
 
@@ -43,36 +45,24 @@ export class Inventory extends InitializableObject {
     }
 
     public initialize(): void {
-        /* TODO: Plant Names:
-            [
-             "Cabbage", "Carrot", "Corn", "Cucumber", "Eggplant",
-             "Green_bell_pepper", "Onion", "Pineapple", "Potato", "Pumpkin",
-             "Spinach", "Strawberry", "Sweet_potato", "Tomato", "Turnip"
-            ];
-        */
+        {
+            /* TODO: Plant Names:
+                [
+                 "Cabbage", "Carrot", "Corn", "Cucumber", "Eggplant",
+                 "Green_bell_pepper", "Onion", "Pineapple", "Potato", "Pumpkin",
+                 "Spinach", "Strawberry", "Sweet_potato", "Tomato", "Turnip"
+                ];
+            */
 
-        const firstStage = this.registerStage("first", "#742");
-        const secondStage = this.registerStage("second", "#346");
-        const thirdStage = this.registerStage("third", "#734");
-        { // Registering all the plants
-            // Stage 1
-            this.registerCrop(firstStage, {
-                name: "Cabbage",
-                desc: "A cabbage is a vegetable that is a member of the Brassicaceae family. It is a cruciferous plant, with a tough, fibrous stem, and large, dark green leaves.",
-                unlocked: true
-            });
-
-            // Stage 2
-            this.registerCrop(secondStage, {
-                name: "Carrot",
-                desc: "A carrot is a root vegetable that is a member of the Apiaceae family. It is a cruciferous plant, with a tough, fibrous stem, and large, dark green leaves."
-            });
-
-            // Stage 3
-            this.registerCrop(thirdStage, {
-                name: "Corn",
-                desc: "A corn is a vegetable that is a member of the Fabaceae family. It is a cruciferous plant, with a tough, fibrous stem, and large, dark green leaves."
-            });
+            const stages = CropData.stages;
+            for (const stage of stages) {
+                const color = stage.color;
+                const name = stage.name;
+                const stageObj = this.registerStage(name, color);
+                for (const crop of stage.crops) {
+                    this.registerCrop(stageObj, crop);
+                }
+            }
         }
 
         { // Plant Dragging
@@ -98,45 +88,10 @@ export class Inventory extends InitializableObject {
         }
     }
 
-    private registerStage(name: string, color: string): InventoryStage {
-        const body = createDiv({ id: `stage-${name}`, classes: ["stage-crops"], parent: this.innerBody });
-        body.style.setProperty("--stage-color", color);
-        return {
-            name: name,
-            color: color,
-            crops: [],
-            body: body
-        } as InventoryStage;
-    }
-
-    private registerCrop(stage: InventoryStage, data: { name: string, desc: string, unlocked?: boolean }): void {
-        const crop = new Crop(this.root, data.name, data.desc);
-        stage.crops.push(crop);
-
-        // HTML Part
-        crop.createElement(stage.body);
-        if (data.unlocked) crop.setUnlocked(true);
-        if (data.name === "Carrot") crop.setSeenBefore(true);
-
-        const attachment = MouseAttachment.attach(crop.body);
-        attachment.onClick = button => {
-            if (button !== ButtonType.LEFT) return;
-            this.toggleCropRender(crop);
-        }
-
-        attachment.onDown = button => {
-            if (button !== ButtonType.LEFT) return;
-            this.draggingTimeout = setTimeout(this.startDraggingCrop.bind(this, crop), 200);
-        }
-
-        attachment.onUp = button => {
-            if (button !== ButtonType.LEFT) return;
-            if (!this.draggingTimeout) return;
-            clearTimeout(this.draggingTimeout);
-            this.draggingTimeout = null;
-        }
-    }
-
+    /**
+     * If dragging, handles the dragging physics
+     * @param dt
+     */
     public update(dt: number): void {
         if (!this.dragging) return;
 
@@ -172,6 +127,76 @@ export class Inventory extends InitializableObject {
         this.dragging.style.top = mouseY + "px";
         const image = this.dragging.firstChild as HTMLImageElement;
         image.style.transform = `rotate(${this.angle - Math.PI / 4}rad) translateY(35%) rotate(45deg)`;
+    }
+
+    public updateFrame(): void {
+        if (!this.renderingCrop) return;
+
+        getElementById("information-crop-amount").innerText = `[${this.renderingCrop.amount}]`;
+    }
+
+    /**
+     * Registers a new inventory stage
+     * @param name
+     * @param color
+     * @private
+     */
+    private registerStage(name: string, color: string): InventoryStage {
+        const body = createDiv({ id: `stage-${name}`, classes: ["stage-crops"], parent: this.innerBody });
+        body.style.setProperty("--stage-color", color);
+        return {
+            name: name,
+            color: color,
+            crops: [],
+            body: body
+        } as InventoryStage;
+    }
+
+    /**
+     * Registers a new crop in the inventory
+     * @param stage Which stage to register the crop in
+     * @param data Crop data
+     * @param data.name Name of the crop
+     * @param data.desc Description of the crop
+     * @param data.growthTime How long it takes to grow the crop in seconds
+     * @param data.unlocked Whether the crop is unlocked from start or not
+     * @private
+     */
+    private registerCrop(stage: InventoryStage, data: {
+        name: string,
+        desc: string,
+        growthTime: number,
+        unlocked?: boolean
+    }): void {
+        const crop = new Crop(this.root, data.name, data.desc, data.growthTime);
+        stage.crops.push(crop);
+
+        // HTML Part
+        crop.createElement(stage.body);
+        if (data.unlocked) crop.setUnlocked(true);
+
+        const attachment = MouseAttachment.attach(crop.body);
+        attachment.onClick = button => {
+            if (button !== ButtonType.LEFT) return;
+            if (!crop.getUnlocked()) return;
+            this.toggleCropRender(crop);
+        }
+
+        attachment.onDown = button => {
+            if (button !== ButtonType.LEFT) return;
+            if (!crop.getUnlocked()) return;
+            this.draggingTimeout = setTimeout(() => {
+                this.startDraggingCrop(crop);
+                this.draggingTimeout = null;
+            }, 200);
+        }
+
+        attachment.onUp = button => {
+            if (button !== ButtonType.LEFT) return;
+            if (!this.draggingTimeout) return;
+            clearTimeout(this.draggingTimeout);
+            this.draggingTimeout = null;
+        }
     }
 
     private toggleSelection(): void {
@@ -236,22 +261,22 @@ export class Inventory extends InitializableObject {
         }
 
         this.informOuter.classList.toggle("open", this.informExpanded);
-        if (this.renderingCrop) {
-            drawer.innerHTML = `
-                <div class="header">
-                    <span class="name">${formattedName}</span><span class="amount">[${crop.amount}]</span>
-                    <span class="desc">${crop.desc}</span>
+        if (!this.renderingCrop) return;
+
+        drawer.innerHTML = `
+            <div class="header">
+                <span class="name">${formattedName}</span><span id="information-crop-amount" class="amount">[${crop.amount}]</span>
+                <span class="desc">${crop.desc}</span>
+            </div>
+            <div class="divider"></div>
+            <div class="body">
+                <div class="buttons">
+                    <button class="sell">Sell 1</button>
+                    <button class="sell">Sell 10</button>
+                    <button class="sell-all">Sell All</button>
                 </div>
-                <div class="divider"></div>
-                <div class="body">
-                    <div class="buttons">
-                        <button class="sell">Sell 1</button>
-                        <button class="sell">Sell 10</button>
-                        <button class="sell-all">Sell All</button>
-                    </div>
-                </div>
-            `;
-        }
+            </div>
+        `;
     }
 
     private startDraggingCrop(crop: Crop): void {

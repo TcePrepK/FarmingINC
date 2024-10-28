@@ -13,6 +13,7 @@ export class Main {
 
     public initialize(): void {
         BrowserSupport.initialize();
+
         this.root.initialize();
 
         this.preload();

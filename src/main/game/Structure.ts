@@ -28,13 +28,15 @@ export class Structure extends InitializableObject {
 
     public update(dt: number): void {
         this.inventory.update(dt);
-        
+
         for (const stage of this.stages) {
             stage.update(dt);
         }
     }
 
     public updateFrame(): void {
+        this.inventory.updateFrame();
+
         for (const stage of this.stages) {
             stage.updateFrame();
         }

@@ -1,0 +1,71 @@
+{
+    "stages": [
+        {
+            "name": "Over-world",
+            "color": "#742",
+            "crops": [
+                {
+                    "name": "Carrot",
+                    "desc": "A classic orange root vegetable that can be munched straight from the soil. Packed with vitamin A and a hint of crunch!",
+                    "growthTime": 15,
+                    "unlocked": true
+                },
+                {
+                    "name": "Corn",
+                    "desc": "Tall and golden, corn stalks are a staple on any farm. Perfect for popcorn nights or corn on the cob.",
+                    "growthTime": 30
+                },
+                {
+                    "name": "Tomato",
+                    "desc": "Juicy and red, tomatoes are perfect for salads, sauces, or just munching straight from the vine!",
+                    "growthTime": 18
+                },
+                {
+                    "name": "Potato",
+                    "desc": "A humble underground treasure that’s as versatile as it gets. Boil, mash, fry—potatoes do it all!",
+                    "growthTime": 22
+                },
+                {
+                    "name": "Strawberry",
+                    "desc": "Sweet and slightly tart, strawberries are a treat for both the farmer and anyone craving a fruity snack.",
+                    "growthTime": 12
+                },
+                {
+                    "name": "Lettuce",
+                    "desc": "Crispy and green, lettuce is great for salads or adding a bit of crunch to your sandwich.",
+                    "growthTime": 10
+                },
+                {
+                    "name": "Pumpkin",
+                    "desc": "A big orange vegetable that’s great for Halloween decorations and pies alike. Beware of spooky carvings!",
+                    "growthTime": 40
+                },
+                {
+                    "name": "Wheat",
+                    "desc": "A staple crop that forms the base for bread and tons of baked goodies. Watch the golden waves grow!",
+                    "growthTime": 25
+                },
+                {
+                    "name": "Cabbage",
+                    "desc": "A round, leafy vegetable that’s perfect for hearty soups, stews, and even a little sauerkraut.",
+                    "growthTime": 28
+                },
+                {
+                    "name": "Blueberry",
+                    "desc": "Small but mighty! These tiny blue gems are packed with flavor and antioxidants.",
+                    "growthTime": 14
+                },
+                {
+                    "name": "Radish",
+                    "desc": "A spicy little root with a kick. Great for salads or just nibbling on fresh from the ground.",
+                    "growthTime": 8
+                },
+                {
+                    "name": "Sunflower",
+                    "desc": "Not just a flower! These bright blooms also produce seeds, perfect for snacking or replanting.",
+                    "growthTime": 35
+                }
+            ]
+        }
+    ]
+}
