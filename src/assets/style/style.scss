@@ -4,6 +4,7 @@
 @import "mainScreen/plantDrag";
 
 @import "mainScreen/mainScreen";
+@import "technologyScreen/technologyScreen";
 @import "settingsScreen/settingsScreen";
 
 @import "mainScreen/baseWindow";
@@ -16,6 +17,11 @@ html, body {
 
 .screen {
     transition: opacity 0.5s;
+    opacity: 0;
+
+    &.active {
+        opacity: 1;
+    }
 }
 
 .preload {

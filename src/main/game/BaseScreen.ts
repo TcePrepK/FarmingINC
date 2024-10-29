@@ -20,11 +20,11 @@ export class BaseScreen {
         root.disableAllScreens();
 
         this.selector.classList.add("selected");
-        this.body.style.opacity = "1";
+        this.body.classList.add("active");
     }
 
     public disable(): void {
         this.selector.classList.remove("selected");
-        this.body.style.opacity = "0";
+        this.body.classList.remove("active");
     }
 }
