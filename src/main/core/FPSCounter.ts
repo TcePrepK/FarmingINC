@@ -1,4 +1,4 @@
-export class FpsCounter {
+export class FPSCounter {
     private lastTime: number = performance.now();
     public FPS = 0;
 

@@ -1,5 +1,5 @@
 import "../assets/style/style.scss";
-import { FpsCounter } from "./core/FpsCounter";
+import { FPSCounter } from "./core/FPSCounter";
 import { fixEveryPreload } from "./core/HTMLUtils";
 
 import { Root } from "./game/Root";
@@ -9,7 +9,7 @@ import { ErrorScreen } from "./ui/ErrorScreen";
 export class Main {
     public readonly root = new Root();
 
-    private readonly fpsCounter = new FpsCounter();
+    private readonly fpsCounter = new FPSCounter();
 
     public initialize(): void {
         BrowserSupport.initialize();
