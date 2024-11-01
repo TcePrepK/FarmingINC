@@ -1,7 +1,7 @@
-import { createDiv } from "../../../core/HTMLUtils";
-import { MouseAttachment } from "../../../core/MouseAttachment";
-import { Root } from "../../Root";
-import { BaseWindow } from "../../types/BaseWindow";
+import { createDiv } from "../../../../../core/HTMLUtils";
+import { MouseAttachment } from "../../../../../core/MouseAttachment";
+import { Root } from "../../../../Root";
+import { BaseWindow } from "../../../../types/BaseWindow";
 import { FarmLand } from "./FarmLand";
 
 export class FarmingWindow extends BaseWindow {

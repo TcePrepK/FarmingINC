@@ -1,10 +1,10 @@
-import { createDiv, getElementById } from "../core/HTMLUtils";
-import { ButtonType, MouseAttachment } from "../core/MouseAttachment";
+import { createDiv, getElementById } from "../../../core/HTMLUtils";
+import { ButtonType, MouseAttachment } from "../../../core/MouseAttachment";
+import { Root } from "../../Root";
+import { InitializableObject } from "../../types/InitializableObject";
 import { Crop } from "./Crop";
 // @ts-ignore
 import CropData from "./CropData.json";
-import { Root } from "./Root";
-import { InitializableObject } from "./types/InitializableObject";
 
 type InventoryStage = {
     name: string;

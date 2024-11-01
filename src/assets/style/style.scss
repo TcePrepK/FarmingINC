@@ -1,14 +1,10 @@
 @import "screenSelector";
-@import "mainScreen/inventory";
-@import "mainScreen/playground";
-@import "mainScreen/plantDrag";
 
 @import "mainScreen/mainScreen";
 @import "technologyScreen/technologyScreen";
 @import "settingsScreen/settingsScreen";
 
-@import "mainScreen/baseWindow";
-@import "mainScreen/windows/farmingWindow";
+@import "baseWindow";
 
 html, body {
     background: red;
@@ -18,6 +14,10 @@ html, body {
 .screen {
     transition: opacity 0.5s;
     opacity: 0;
+
+    &:not(.active) {
+        pointer-events: none;
+    }
 
     &.active {
         opacity: 1;

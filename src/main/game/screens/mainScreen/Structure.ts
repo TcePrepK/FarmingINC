@@ -1,7 +1,7 @@
-import { getElementById } from "../core/HTMLUtils";
+import { getElementById } from "../../../core/HTMLUtils";
+import { BaseWindow } from "../../types/BaseWindow";
+import { InitializableObject } from "../../types/InitializableObject";
 import { Inventory } from "./Inventory";
-import { BaseWindow } from "./types/BaseWindow";
-import { InitializableObject } from "./types/InitializableObject";
 import { FarmingWindow } from "./windows/farm/FarmingWindow";
 
 export class Structure extends InitializableObject {

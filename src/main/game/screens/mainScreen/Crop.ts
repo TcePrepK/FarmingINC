@@ -1,6 +1,6 @@
-import { createDiv } from "../core/HTMLUtils";
-import { Root } from "./Root";
-import { ScreenElement } from "./types/ScreenElement";
+import { createDiv } from "../../../core/HTMLUtils";
+import { Root } from "../../Root";
+import { ScreenElement } from "../../types/ScreenElement";
 
 export class Crop extends ScreenElement {
     public name: string;

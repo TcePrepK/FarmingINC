@@ -1,3 +1,9 @@
+@import "inventory";
+@import "playground";
+@import "plantDrag";
+
+@import "windows/farmingWindow";
+
 #main-screen {
     display: flex;
 

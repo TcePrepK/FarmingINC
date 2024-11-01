@@ -1,6 +1,6 @@
-import { createDiv } from "../../../core/HTMLUtils";
+import { createDiv } from "../../../../../core/HTMLUtils";
+import { ScreenElement } from "../../../../types/ScreenElement";
 import { Crop } from "../../Crop";
-import { ScreenElement } from "../../types/ScreenElement";
 
 export class FarmLand extends ScreenElement {
     private currentCrop: Crop | null = null;

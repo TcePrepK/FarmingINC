@@ -1,5 +1,5 @@
-import { CustomNumber } from "../CustomNumber";
 import { Root } from "../Root";
+import { CustomNumber } from "../screens/mainScreen/CustomNumber";
 import { InitializableObject } from "./InitializableObject";
 
 export abstract class BaseCurrency extends InitializableObject {

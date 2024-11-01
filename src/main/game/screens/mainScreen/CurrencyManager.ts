@@ -1,5 +1,5 @@
-import { checkFor } from "../core/HTMLUtils";
-import { BaseCurrency } from "./types/BaseCurrency";
+import { checkFor } from "../../../core/HTMLUtils";
+import { BaseCurrency } from "../../types/BaseCurrency";
 
 export class CurrencyManager {
     private static currencies: Map<string, BaseCurrency> = new Map();

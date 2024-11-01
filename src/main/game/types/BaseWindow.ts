@@ -1,7 +1,7 @@
 import { createDiv } from "../../core/HTMLUtils";
 import { ButtonType, MouseAttachment } from "../../core/MouseAttachment";
-import { MoneyCurrency } from "../MoneyCurrency";
 import { Root } from "../Root";
+import { MoneyCurrency } from "../screens/mainScreen/MoneyCurrency";
 import { BaseCurrency } from "./BaseCurrency";
 import { ScreenElement } from "./ScreenElement";
 
@@ -39,7 +39,7 @@ export abstract class BaseWindow extends ScreenElement {
      * @param parent
      */
     public createElement(parent: HTMLElement): void {
-        const body = createDiv({ id: `${this.id}-window`, classes: ["stage"], parent: parent });
+        const body = createDiv({ id: `${this.id}-window`, classes: ["window"], parent: parent });
         const header = this.createHeader(body);
         const innerBody = createDiv({ classes: ["inner-body"], parent: body });
 

@@ -1,7 +1,7 @@
 import { createDiv } from "../../core/HTMLUtils";
 import { ButtonType, MouseAttachment } from "../../core/MouseAttachment";
-import { CustomNumber } from "../CustomNumber";
 import { Root } from "../Root";
+import { CustomNumber } from "../screens/mainScreen/CustomNumber";
 import { BaseCurrency } from "./BaseCurrency";
 import { ScreenElement } from "./ScreenElement";
 

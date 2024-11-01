@@ -1,3 +1,7 @@
+@import "settingsWindow";
+
+@import "settings/saveSettings";
+
 #settings-screen {
     display: flex;
 
@@ -8,5 +12,168 @@
     width: 100%;
     height: 100%;
 
-    background: #aaa;
+    background: #345;
+
+    * {
+        color: #78c0e0;
+        font-weight: 1000;
+        font-family: monospace;
+        text-shadow: 0 0 10px #78c0e0;
+    }
+}
+
+.settings-container {
+    position: relative;
+
+    margin: 2rem;
+
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.bracket {
+    position: absolute;
+
+    width: 2rem;
+    height: calc(100% + 1rem);
+
+    border-radius: 0.5rem;
+    border-top: 1rem solid #78c0e0;
+    border-bottom: 1rem solid #78c0e0;
+
+    filter: drop-shadow(0 0 10px #78c0e0);
+
+    &.left-bracket {
+        left: 1.5rem;
+
+        transform: translateX(-100%);
+
+        border-left: 1rem solid #78c0e0;
+    }
+
+    &.right-bracket {
+        right: 1.5rem;
+
+        transform: translateX(100%);
+
+        border-right: 1rem solid #78c0e0;
+    }
+}
+
+.settings-title {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+    width: 100%;
+    margin: 0.5rem;
+
+    font-size: 2.5rem;
+}
+
+.setting {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 3rem;
+
+    padding: 0.5rem;
+    margin: 0.25rem;
+
+    background: #459;
+    border-radius: 0.75rem;
+    box-shadow: 0 0 5px #222;
+
+    .button {
+        height: 100%;
+
+        padding: 0.75rem 0.5rem;
+
+        background: #458;
+        border: none;
+        border-radius: 0.5rem;
+        box-shadow: 0 0 5px #1117;
+
+        transition: box-shadow 0.2s, scale 0.2s;
+
+        white-space: nowrap;
+        font-size: 1rem;
+
+        &:hover {
+            //box-shadow: 0 0 5px #000;
+            background: mix(#458, #fff5, 95%);
+            scale: 1.02;
+            cursor: pointer;
+        }
+
+        &:active {
+            //box-shadow: 0 0 5px #000a inset;
+            background: mix(#458, #fff5, 90%);
+            scale: 0.98;
+            cursor: pointer;
+        }
+    }
+
+    .checkbox-wrapper {
+        display: flex;
+        align-items: center;
+
+        height: 100%;
+
+        background: #458;
+        border-radius: 0.5rem;
+        box-shadow: 0 0 5px #1117;
+
+        .checkbox-text {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            margin: 0.5rem;
+
+            font-size: 1rem;
+        }
+
+        .checkbox-thumb-wrapper {
+            height: 2rem;
+            aspect-ratio: 2;
+
+            margin: 0.25rem;
+
+            background: #346;
+            border-radius: 0.5rem;
+            box-shadow: 0 0 5px #1117 inset;
+
+            cursor: pointer;
+
+            transition: background 0.2s;
+
+            &:has(.enabled) {
+                background: #58b;
+            }
+
+            .checkbox-thumb {
+                height: calc(100% - 0.4rem);
+                aspect-ratio: 1;
+
+                margin: 0.2rem;
+
+                background: #f88;
+                border-radius: 0.5rem;
+                box-shadow: 0 0 5px #f88;
+
+                transition: margin-left 0.2s, background 0.2s;
+
+                &.enabled {
+                    margin-left: 2.2rem;
+
+                    background: #8f8;
+                    box-shadow: 0 0 15px #8f8;
+                }
+            }
+        }
+    }
 }

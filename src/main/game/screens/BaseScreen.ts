@@ -1,5 +1,5 @@
-import { MouseAttachment } from "../core/MouseAttachment";
-import { Root } from "./Root";
+import { MouseAttachment } from "../../core/MouseAttachment";
+import { Root } from "../Root";
 
 export class BaseScreen {
     protected body!: HTMLDivElement;
