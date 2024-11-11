@@ -41,7 +41,13 @@ export class Settings extends InitializableObject {
             const exportSave = getElementByQuery("#export-save");
             MouseAttachment.attach(exportSave).onClick = (button) => {
                 if (button !== ButtonType.LEFT) return;
-                // Export save here, depending on
+                // Export save here
+            };
+
+            const exportToClipboard = getElementByQuery("#export-clipboard");
+            MouseAttachment.attach(exportToClipboard).onClick = (button) => {
+                if (button !== ButtonType.LEFT) return;
+                // Export save to clipboard
             };
         }
     }
