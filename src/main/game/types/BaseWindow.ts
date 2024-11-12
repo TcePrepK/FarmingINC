@@ -101,8 +101,8 @@ export abstract class BaseWindow extends ScreenElement {
 
     public updateTransform(): void {
         const rect = this.body.getBoundingClientRect();
-        const worldX = this.root.background.worldX;
-        const worldY = this.root.background.worldY;
+        const worldX = this.root.structure.background.worldX;
+        const worldY = this.root.structure.background.worldY;
         const cornerX = this.stageX + worldX - (rect.width - this.root.windowWidth) / 2;
         const cornerY = this.stageY + worldY - (rect.height - this.root.windowHeight) / 2;
 

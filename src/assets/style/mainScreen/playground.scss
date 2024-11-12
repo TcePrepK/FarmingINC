@@ -70,5 +70,7 @@
         height: 100%;
 
         background: radial-gradient(circle, rgba(0, 100, 150, 0.2) 20%, rgba(0, 255, 255, 0.1) 100%);
+
+        pointer-events: none;
     }
 }

@@ -1,15 +1,14 @@
 import { MouseAttachment } from "../../core/MouseAttachment";
 import { Root } from "../Root";
+import { InitializableObject } from "./InitializableObject";
 
-export class BaseScreen {
+export class BaseScreen extends InitializableObject {
     protected body!: HTMLDivElement;
     protected selector!: HTMLButtonElement;
 
-    public static create(root: Root, id: string): BaseScreen {
-        return new BaseScreen(root, id);
-    }
+    public constructor(root: Root, id: string) {
+        super(root);
 
-    private constructor(root: Root, id: string) {
         this.body = document.getElementById(`${id}-screen`) as HTMLDivElement;
         this.selector = document.getElementById(`${id}-screen-option`) as HTMLButtonElement;
 

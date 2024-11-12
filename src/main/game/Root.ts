@@ -1,8 +1,8 @@
 import { MouseAttachment } from "../core/MouseAttachment";
-import { BaseScreen } from "./screens/BaseScreen";
-import { Background } from "./screens/mainScreen/Background";
 import { Structure } from "./screens/mainScreen/Structure";
 import { Settings } from "./screens/settingsScreen/Settings";
+import { TechnologyScreen } from "./screens/technologyScreen/TechnologyScreen";
+import { BaseScreen } from "./types/BaseScreen";
 
 export class Root {
     public windowMouse!: MouseAttachment<HTMLBodyElement>;
@@ -12,19 +12,17 @@ export class Root {
     public readonly allScreens: BaseScreen[] = [];
 
     public readonly settings: Settings;
-    public readonly background: Background;
     public readonly structure: Structure;
 
     public constructor() {
-        this.allScreens.push(BaseScreen.create(this, "main"));
-        this.allScreens.push(BaseScreen.create(this, "technology"));
-        this.allScreens.push(BaseScreen.create(this, "settings"));
+        this.allScreens.push(new BaseScreen(this, "main"));
+        this.allScreens.push(new TechnologyScreen(this));
+        this.allScreens.push(new BaseScreen(this, "settings"));
 
         this.disableAllScreens();
-        this.allScreens[2].enable(this);
+        this.allScreens[1].enable(this);
 
         this.settings = new Settings(this);
-        this.background = new Background(this);
         this.structure = new Structure(this);
     }
 
@@ -40,9 +38,15 @@ export class Root {
             document.body.dispatchEvent(new Event("resize"));
         });
 
+        /** DEBUG: Prints target lol **/
+        // this.windowMouse.onClickRaw = event => {
+        //     console.log(event.target);
+        // }
+
         this.settings.initialize();
-        this.background.initialize();
         this.structure.initialize();
+
+        this.allScreens.forEach(screen => screen.initialize())
     }
 
     public disableAllScreens(): void {
@@ -51,10 +55,13 @@ export class Root {
 
     public update(dt: number): void {
         this.structure.update(dt);
+
+        this.allScreens.forEach(screen => screen.update(dt));
     }
 
     public updateFrame(): void {
-        this.background.updateFrame();
         this.structure.updateFrame();
+
+        this.allScreens.forEach(screen => screen.updateFrame());
     }
 }

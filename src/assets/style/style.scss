@@ -12,7 +12,8 @@ html, body {
 }
 
 .screen {
-    transition: opacity 0.5s;
+    transition: visibility 0.5s, opacity 0.5s;
+    visibility: hidden;
     opacity: 0;
 
     &:not(.active) {
@@ -20,6 +21,7 @@ html, body {
     }
 
     &.active {
+        visibility: visible;
         opacity: 1;
     }
 }

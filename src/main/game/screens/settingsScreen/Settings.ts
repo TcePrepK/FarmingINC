@@ -21,16 +21,6 @@ export class Settings extends InitializableObject {
             };
         }
 
-        { // Export To Clipboard
-            const exportToClipboard = getElementByQuery("#export-clipboard");
-            MouseAttachment.attach(exportToClipboard).onClick = (button) => {
-                if (button !== ButtonType.LEFT) return;
-                const thumb = exportToClipboard.querySelector(".checkbox-thumb")!;
-                thumb.classList.toggle("enabled");
-                this.exportToClipboard = !this.exportToClipboard;
-            };
-        }
-
         { // Import/Export Save
             const importSave = getElementByQuery("#import-save");
             MouseAttachment.attach(importSave).onClick = (button) => {
