@@ -2,12 +2,15 @@ import { createCanvas } from "../../../core/HTMLUtils";
 import { Root } from "../../Root";
 import { BaseScreen } from "../../types/BaseScreen";
 import { Background } from "../Background";
+import { TechNode } from "./TechNode";
 
 export class TechnologyScreen extends BaseScreen {
     private background!: Background;
     private tileCanvas!: HTMLCanvasElement;
 
     private readonly tileSize = 100;
+
+    private readonly allNodes: Array<TechNode> = [];
 
     public constructor(root: Root) {
         super(root, "technology");
@@ -17,8 +20,11 @@ export class TechnologyScreen extends BaseScreen {
 
     public initialize(): void {
         this.background.initialize();
-
         this.setupTileCanvas();
+
+        { // Tech Nodes
+            this.allNodes.push(new TechNode(this.root, 0, 0, "coal", "Coal", ["coal"]));
+        }
     }
 
     public updateFrame(): void {

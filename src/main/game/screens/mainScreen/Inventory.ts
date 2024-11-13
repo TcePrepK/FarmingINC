@@ -1,10 +1,13 @@
 import { createDiv, getElementById } from "../../../core/HTMLUtils";
 import { ButtonType, MouseAttachment } from "../../../core/MouseAttachment";
 import { Root } from "../../Root";
+import { GeneralDataType } from "../../types/GeneralDataTypes";
 import { InitializableObject } from "../../types/InitializableObject";
 import { Crop } from "./Crop";
-// @ts-ignore
-import CropData from "./CropData.json";
+
+// eslint-disable-next-line
+const GeneralData: GeneralDataType = require("../GeneralData.json");
+const CropData = GeneralData.cropData;
 
 type InventoryStage = {
     name: string;
