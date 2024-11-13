@@ -29,7 +29,7 @@ export class MouseAttachment<T extends HTMLElement> {
         return new MouseAttachment(element);
     }
 
-    //-------------------------- Listener Methods --------------------------//
+    /* ------------------- Listener Methods ------------------- */
 
     set onDown(fun: (button: ButtonType | never) => unknown) {
         this.element.addEventListener("mousedown", e => fun(e.button));
@@ -65,6 +65,10 @@ export class MouseAttachment<T extends HTMLElement> {
 
     set onEnter(fun: () => unknown) {
         this.element.addEventListener("mouseenter", () => fun());
+    }
+
+    set onHover(fun: () => unknown) {
+        this.element.addEventListener("mouseover", () => fun());
     }
 
     set onLeave(fun: () => unknown) {
@@ -115,6 +119,10 @@ export class MouseAttachment<T extends HTMLElement> {
 
     set onEnterRaw(fun: (event: MouseEvent) => unknown) {
         this.element.addEventListener("mouseenter", fun);
+    }
+
+    set onHoverRaw(fun: (event: MouseEvent) => unknown) {
+        this.element.addEventListener("mouseover", fun);
     }
 
     set onLeaveRaw(fun: (event: MouseEvent) => unknown) {
