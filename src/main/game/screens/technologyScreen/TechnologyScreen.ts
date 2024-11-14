@@ -2,7 +2,7 @@ import { createCanvas } from "../../../core/HTMLUtils";
 import { Root } from "../../Root";
 import { BaseScreen } from "../../types/BaseScreen";
 import { Background } from "../Background";
-import { TechNode } from "./TechNode";
+import { TechTree } from "./TechTree";
 
 export class TechnologyScreen extends BaseScreen {
     private background!: Background;
@@ -10,25 +10,37 @@ export class TechnologyScreen extends BaseScreen {
 
     private readonly tileSize = 100;
 
-    private readonly allNodes: Array<TechNode> = [];
+    private readonly techTree: TechTree;
 
     public constructor(root: Root) {
         super(root, "technology");
 
         this.background = new Background(root, "technology-background");
+        this.techTree = new TechTree(root);
     }
 
     public initialize(): void {
         this.background.initialize();
-        this.setupTileCanvas();
+        this.background.onCenterChange.add(this.updateWorldTransform.bind(this));
 
-        { // Tech Nodes
-            this.allNodes.push(new TechNode(this.root, 0, 0, "coal", "Coal", ["coal"]));
-        }
+        this.techTree.initialize();
+
+        this.setupTileCanvas();
+        this.updateWorldTransform();
+    }
+
+    public update(dt: number): void {
+        this.techTree.update(dt);
     }
 
     public updateFrame(): void {
         this.drawBackground();
+        this.updateWorldTransform();
+    }
+
+    private updateWorldTransform(): void {
+        const center = this.background.getCenter();
+        this.techTree.updateWorldTransform(center.x, center.y);
     }
 
     /* ------------------- Drawing Background ------------------- */

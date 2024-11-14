@@ -7,7 +7,7 @@ import { FarmingWindow } from "./windows/farm/FarmingWindow";
 
 export class Structure extends InitializableObject {
     private body!: HTMLDivElement;
-    private stagesBody!: HTMLDivElement;
+    private windowBody!: HTMLDivElement;
 
     public background!: Background;
 
@@ -20,13 +20,18 @@ export class Structure extends InitializableObject {
     public initialize(): void {
         this.background = new Background(this.root, "playground-canvas");
         this.background.initialize();
+        this.background.onCenterChange.add(this.updateWorldTransform.bind(this));
 
         this.body = getElementById("structure");
-        this.stagesBody = getElementById("stages");
+        this.windowBody = getElementById("window-body");
 
         this.inventory.initialize();
 
-        this.setupStage(this.farm);
+        { // Windows
+            this.setupWindow(this.farm);
+        }
+
+        this.updateWorldTransform();
     }
 
     public update(dt: number): void {
@@ -47,17 +52,28 @@ export class Structure extends InitializableObject {
         }
     }
 
-    private setupStage(stage: BaseWindow): void {
-        stage.initialize();
-        stage.createElement(this.stagesBody);
-        stage.setupDragging();
-        this.stages.push(stage);
+    /**
+     * Creates and sets up each window. Main parent is windowBody
+     * @param window
+     * @private
+     */
+    private setupWindow(window: BaseWindow): void {
+        window.initialize();
+        window.createElement(this.windowBody);
+        window.setupDragging();
+        this.stages.push(window);
     }
 
     /**
-     * Updates the stages to make them fit the new worldX/Y coordinates.
+     * Updates the logo and windows to make them fit to the new worldX/Y coordinates.
      */
     public updateWorldTransform(): void {
+        const logo = getElementById("logo-wrapper");
+
+        const center = this.background.getCenter();
+        logo.style.left = `${center.x}px`;
+        logo.style.top = `${center.y}px`;
+
         for (const stage of this.stages) {
             stage.updateTransform();
         }
