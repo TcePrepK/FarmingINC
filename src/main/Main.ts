@@ -28,7 +28,7 @@ export class Main {
     public startRunning(): void {
         const dt = this.fpsCounter.update();
 
-        this.root.update(dt / 1000);
+        this.root.update(dt);
         this.root.updateFrame();
 
         requestAnimationFrame(() => this.startRunning());

@@ -70,7 +70,7 @@
             }
         ]
     },
-    "technologies": [
+    "technologyData": [
         {
             "x": 0,
             "y": 0,
@@ -80,7 +80,7 @@
         },
         {
             "x": 0,
-            "y": 10,
+            "y": 100,
             "name": "Iron",
             "desc": "Iron is a metal that’s been used for thousands of years. It’s a great source of strength, but it’s also a major polluter.",
             "requires": [

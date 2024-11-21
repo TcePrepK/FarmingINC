@@ -1,11 +1,15 @@
 import { getElementById } from "../../core/HTMLUtils";
 import { ButtonType, MouseAttachment } from "../../core/MouseAttachment";
+import { Signal } from "../../core/Signal";
+import { Vector2D } from "../../core/Vector2D";
 import { Root } from "../Root";
 import { InitializableObject } from "../types/InitializableObject";
 
 export class Background extends InitializableObject {
     private readonly background!: HTMLCanvasElement;
     public readonly context!: CanvasRenderingContext2D;
+
+    public readonly onCenterChange: Signal<[number, number]> = new Signal();
 
     public worldX = 0;
     public worldY = 0;
@@ -18,19 +22,17 @@ export class Background extends InitializableObject {
     }
 
     public initialize(): void {
-        const logo = getElementById("logo-wrapper");
-        logo.style.left = `${this.root.windowWidth / 2}px`;
-        logo.style.top = `${this.root.windowHeight / 2}px`;
+        { // Canvas resizing
+            this.background.width = this.root.windowWidth;
+            this.background.height = this.root.windowHeight;
+            this.root.windowMouse.onResize = (w, h) => {
+                this.background.width = w;
+                this.background.height = h;
 
-        this.background.width = this.root.windowWidth;
-        this.background.height = this.root.windowHeight;
-        this.root.windowMouse.onResize = (w, h) => {
-            this.background.width = w;
-            this.background.height = h;
-
-            logo.style.left = `${this.root.windowWidth / 2}px`;
-            logo.style.top = `${this.root.windowHeight / 2}px`;
-        };
+                const center = this.getCenter();
+                this.onCenterChange.dispatch(center.x, center.y);
+            };
+        }
 
         { // Canvas movement
             const attachment = MouseAttachment.attach(this.background);
@@ -53,12 +55,9 @@ export class Background extends InitializableObject {
                 if (!grabbing) return;
                 this.worldX += dx;
                 this.worldY += dy;
-                this.root.structure.updateWorldTransform();
 
-                const logoX = this.worldX + this.root.windowWidth / 2;
-                const logoY = this.worldY + this.root.windowHeight / 2;
-                logo.style.left = `${logoX}px`;
-                logo.style.top = `${logoY}px`;
+                const center = this.getCenter();
+                this.onCenterChange.dispatch(center.x, center.y);
             };
         }
     }
@@ -66,14 +65,18 @@ export class Background extends InitializableObject {
     public startDrawing(): void {
         this.context.clearRect(0, 0, this.root.windowWidth, this.root.windowHeight);
 
-        const dx = this.worldX + this.root.windowWidth / 2;
-        const dy = this.worldY + this.root.windowHeight / 2;
-
+        const center = this.getCenter();
         this.context.save();
-        this.context.translate(dx, dy);
+        this.context.translate(center.x, center.y);
     }
 
     public finalizeDrawing(): void {
         this.context.restore();
+    }
+
+    /* ------------------- Getters ------------------- */
+
+    public getCenter(): Vector2D {
+        return new Vector2D(this.worldX + this.root.windowWidth / 2, this.worldY + this.root.windowHeight / 2);
     }
 }

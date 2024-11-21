@@ -33,5 +33,5 @@ export type TechNodeData = {
 
 export type GeneralDataType = {
     cropData: CropDataType;
-    technologies: TechnologyData;
+    technologyData: TechnologyData;
 }
