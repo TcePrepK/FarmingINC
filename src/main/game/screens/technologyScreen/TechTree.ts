@@ -1,8 +1,10 @@
 import { createDiv, getElementById } from "../../../core/HTMLUtils";
 import { ButtonType } from "../../../core/MouseAttachment";
+import { Vector2D } from "../../../core/Vector2D";
 import { TechnologyData } from "../../types/GeneralDataTypes";
 import { InitializableObject } from "../../types/InitializableObject";
 import { TechNode } from "./TechNode";
+import { TechnologyCurrency } from "./TechnologyCurrency";
 
 // eslint-disable-next-line
 const TechData: TechnologyData = require("../GeneralData.json").technologyData;
@@ -11,8 +13,12 @@ export class TechTree extends InitializableObject {
     public static readonly allNodes: Array<TechNode> = [];
     public static readonly nodesByName: Map<string, TechNode> = new Map();
 
+    public static readonly curreny: TechnologyCurrency;
     // Possible node indexes with less than 2 uses
     private readonly nodeLeaves: Array<number> = [];
+
+    private readonly nodeAttractors: Array<Vector2D> = [];
+    private readonly activeNodes: Set<TechNode> = new Set();
 
     public initialize(): void {
         const screenElement = getElementById("technology-screen");
@@ -43,6 +49,13 @@ export class TechTree extends InitializableObject {
             const techNode = new TechNode(this.root, posX, posY, size === 0, name, name, [prevName]);
             const maxUses = Math.log2(-techNode.y / 100);
 
+            const boundingSize = 100;
+            for (let i = 0; i < 1000; i++) {
+                const randX = (Math.random() - 0.5) * boundingSize;
+                const randY = Math.random() * -boundingSize - 50;
+                this.nodeAttractors.push(new Vector2D(randX, randY));
+            }
+
             let i = 0;
             do {
                 this.nodeLeaves.push(size);
@@ -51,22 +64,27 @@ export class TechTree extends InitializableObject {
             TechTree.nodesByName.set(name, techNode);
             TechTree.allNodes.push(techNode);
 
-            // techNode.prevX += Math.random() * 20 - 10;
-            techNode.x += prevNode?.velX ?? 0;
-            techNode.y += prevNode?.velY ?? 0;
-
             techNode.createElement(techTree);
             techNode.initialize();
 
             if (!prevNode) return;
+            this.activeNodes.add(techNode);
 
             this.nodeLeaves.splice(this.nodeLeaves.findIndex(a => a === prevIndex), 1);
+            if (!this.nodeLeaves.includes(prevIndex)) {
+                this.activeNodes.delete(prevNode);
+                prevNode.staticPoint = true;
+            }
         }
     }
 
     public update(): void {
-        for (let i = 0; i < TechTree.allNodes.length; i++) {
-            TechTree.allNodes[i].update();
+        for (const node of this.activeNodes) {
+            node.attractTowards(this.nodeAttractors);
+        }
+
+        for (const node of this.activeNodes) {
+            node.killAttractors(this.nodeAttractors);
         }
 
         for (let i = 0; i < TechTree.allNodes.length; i++) {
@@ -81,10 +99,10 @@ export class TechTree extends InitializableObject {
         for (let i = 1; i < TechTree.allNodes.length; i++) {
             TechTree.allNodes[i].maintainChains();
         }
-
-        for (let i = TechTree.allNodes.length - 1; i >= 1; i--) {
-            TechTree.allNodes[i].maintainChains();
-        }
+        //
+        // for (let i = TechTree.allNodes.length - 1; i >= 1; i--) {
+        //     TechTree.allNodes[i].maintainChains();
+        // }
     }
 
     public drawLines(ctx: CanvasRenderingContext2D): void {
@@ -98,6 +116,13 @@ export class TechTree extends InitializableObject {
                 ctx.lineTo(otherNode.x, otherNode.y);
                 ctx.stroke();
             }
+        }
+
+        for (const attractor of this.nodeAttractors) {
+            ctx.beginPath();
+            ctx.arc(attractor.x, attractor.y, 5, 0, 2 * Math.PI);
+            ctx.fillStyle = "#f00";
+            ctx.fill();
         }
     }
 

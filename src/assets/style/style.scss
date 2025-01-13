@@ -1,14 +1,30 @@
 @import "screenSelector";
-
-@import "mainScreen/mainScreen";
+@import "currencyScreen";
+@import "farmingScreen/farmingScreen";
 @import "technologyScreen/technologyScreen";
 @import "settingsScreen/settingsScreen";
-
-@import "baseWindow";
 
 html, body {
     background: red;
     user-select: none;
+}
+
+#header-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+#structure {
+
+    display: flex;
+    position: relative;
+    flex-direction: column;
+
+    background: $foreground;
+    width: 100%;
+    height: 100%;
 }
 
 .screen {
@@ -27,6 +43,6 @@ html, body {
 }
 
 .preload {
-    animation-duration: 0s !important;
     transition: background-color 0s, opacity 0s, color 0s, width 0s, height 0s, padding 0s, margin 0s !important;
+    animation-duration: 0s !important;
 }

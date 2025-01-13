@@ -46,6 +46,10 @@ export class Vector2D {
         return new Vector2D(Math.abs(this.x), Math.abs(this.y));
     }
 
+    public floor(): Vector2D {
+        return new Vector2D(Math.floor(this.x), Math.floor(this.y));
+    }
+
     public mag(): number {
         return Math.sqrt(this.x * this.x + this.y * this.y);
     }

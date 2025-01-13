@@ -1,7 +1,7 @@
+import { CustomNumber } from "../../core/CustomNumber";
 import { createDiv } from "../../core/HTMLUtils";
 import { ButtonType, MouseAttachment } from "../../core/MouseAttachment";
 import { Root } from "../Root";
-import { CustomNumber } from "../screens/mainScreen/CustomNumber";
 import { BaseCurrency } from "./BaseCurrency";
 import { ScreenElement } from "./ScreenElement";
 
@@ -40,8 +40,8 @@ export class BaseBuyable extends ScreenElement {
         if (button !== ButtonType.LEFT) return;
         if (this.maxAmount > 0 && !this.boughtAmount.lessThanScalar(this.maxAmount)) return;
         if (this.currency.amount.lessThanScalar(this.price)) return;
-        this.boughtAmount = this.boughtAmount.addScalar(1);
-        this.effectiveAmount = this.effectiveAmount.addScalar(1);
+        this.boughtAmount.addScalar(1);
+        this.effectiveAmount.addScalar(1);
     }
 
     public createElement(parent: HTMLElement): void {

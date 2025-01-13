@@ -2,6 +2,8 @@ import { createCanvas } from "../../../core/HTMLUtils";
 import { Root } from "../../Root";
 import { BaseScreen } from "../../types/BaseScreen";
 import { Background } from "../Background";
+import { CurrencyManager } from "../CurrencyManager";
+import { TechnologyCurrency } from "./TechnologyCurrency";
 import { TechTree } from "./TechTree";
 
 export class TechnologyScreen extends BaseScreen {
@@ -11,12 +13,16 @@ export class TechnologyScreen extends BaseScreen {
     private readonly tileSize = 100;
 
     private readonly techTree: TechTree;
+    private readonly currency: TechnologyCurrency;
 
     public constructor(root: Root) {
         super(root, "technology");
 
         this.background = new Background(root, "technology-background");
         this.techTree = new TechTree(root);
+
+        this.currency = new TechnologyCurrency(root);
+        CurrencyManager.registerCurrency(this.currency);
     }
 
     public initialize(): void {
@@ -24,6 +30,7 @@ export class TechnologyScreen extends BaseScreen {
         this.background.onCenterChange.add(this.updateWorldTransform.bind(this));
 
         this.techTree.initialize();
+        this.currency.initialize();
 
         this.setupTileCanvas();
         this.updateWorldTransform();
@@ -101,6 +108,5 @@ export class TechnologyScreen extends BaseScreen {
 
         this.techTree.drawLines(ctx);
         this.background.finalizeDrawing();
-
     }
 }

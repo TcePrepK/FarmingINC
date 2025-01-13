@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Fuck This Shit </title>
+    <title>Farming Incremental</title>
 </head>
 <body>
 <div id="error-screen">
@@ -14,14 +14,14 @@
     </p>
 </div>
 <div id="structure">
-    <div id="main-screen" class="screen preload">
+    <div id="farming-screen" class="screen preload">
         <div id="inventory" class="preload">
             <div id="inform-wrapper">
                 <div id="inform-outer" class="preload">
                     <div id="inform-drawer"></div>
                     <div>
                         <audio id="drawer-opening" src="assets/audio/drawer_opening.mp3" preload="auto"></audio>
-                        <img id="drawer-handle" width="0" draggable="false" src="assets/svg/handle.svg"
+                        <img id="drawer-handle" width="0" draggable="false" src="assets/svg/handle-brown.svg"
                              alt="Handle not loaded"/>
                         <audio id="drawer-closing" src="assets/audio/drawer_closing.mp3" preload="auto"></audio>
                     </div>
@@ -29,15 +29,8 @@
             </div>
             <div id="inv-container" class="scrollable"></div>
         </div>
-        <div id="playground">
-            <canvas id="playground-canvas"></canvas>
-            <div id="logo-wrapper">
-                <img id="logo" width="0" src="assets/images/shrimp_grey.png" alt="Logo not loaded"/>
-            </div>
-            <div id="blue-screen"></div>
-        </div>
-        <div id="window-body"></div>
-        <div id="plantDrag"></div>
+        <canvas id="farming-background"></canvas>
+        <div id="plant-drag"></div>
     </div>
     <div id="technology-screen" class="screen preload">
         <canvas id="technology-background"></canvas>
@@ -78,19 +71,29 @@
             </div>
         </div>
     </div>
-    <div id="screen-selector-wrapper">
-        <div id="screen-selector" class="preload">
-            <div id="screen-options" class="scrollable">
-                <div title="Main Screen" id="main-screen-option" class="option">
-                    <img class="option-svg" src="assets/svg/main-screen.svg" alt="Main Screen"/>
-                </div>
-                <div title="Technology" id="technology-screen-option" class="option">
-                    <img class="option-svg" src="assets/svg/technology-screen.svg" alt="Main Screen"/>
-                </div>
-                <div title="Settings" id="settings-screen-option" class="option">
-                    <img class="option-svg" src="assets/svg/settings-screen.svg" alt="Main Screen"/>
+    <div id="header-elements">
+        <div id="screen-selector-wrapper">
+            <div id="screen-selector" class="preload">
+                <div id="screen-options" class="scrollable">
+                    <div title="Farm" id="farming-screen-option" class="option">
+                        <img class="option-svg" src="assets/svg/farming-screen.svg" alt="Main Screen"/>
+                    </div>
+                    <div title="Technology" id="technology-screen-option" class="option">
+                        <img class="option-svg" src="assets/svg/technology-screen.svg" alt="Main Screen"/>
+                    </div>
+                    <div title="Settings" id="settings-screen-option" class="option">
+                        <img class="option-svg" src="assets/svg/settings-screen.svg" alt="Main Screen"/>
+                    </div>
                 </div>
             </div>
+        </div>
+        <div id="currency-screen-wrapper" class="preload enabled">
+            <div id="currency-screen">
+            </div>
+            <img id="currency-handle" width="0" draggable="false" src="assets/svg/handle-green.svg"
+                 alt="Handle not loaded"/>
+            <img id="handle-wine" width="0" draggable="false" src="assets/svg/wine-handle.svg"
+                 alt="Handle not loaded"/>
         </div>
     </div>
 </div>

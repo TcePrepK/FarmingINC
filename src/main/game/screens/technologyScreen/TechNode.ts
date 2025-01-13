@@ -1,5 +1,6 @@
 import { createDiv } from "../../../core/HTMLUtils";
 import { MouseAttachment } from "../../../core/MouseAttachment";
+import { Vector2D } from "../../../core/Vector2D";
 import { Root } from "../../Root";
 import { ScreenElement } from "../../types/ScreenElement";
 import { TechTree } from "./TechTree";
@@ -10,10 +11,7 @@ export class TechNode extends ScreenElement {
     public prevX: number;
     public prevY: number;
 
-    public readonly velX: number;
-    public readonly velY: number;
-
-    protected readonly staticPoint: boolean;
+    public staticPoint: boolean;
     public readonly name: string;
     public readonly desc: string;
 
@@ -26,8 +24,6 @@ export class TechNode extends ScreenElement {
 
         this.prevX = this.x = x;
         this.prevY = this.y = y;
-        this.velX = (Math.random() - 0.5) * 3;
-        this.velY = -5;
 
         this.staticPoint = staticPoint;
 
@@ -52,6 +48,47 @@ export class TechNode extends ScreenElement {
 
     /* ------------------- TechTree Physics ------------------- */
 
+    /**
+     * Finds the average attraction of all nodes towards this node and moves towards it
+     * @param attractors
+     */
+    public attractTowards(attractors: Array<Vector2D>): void {
+        let forceX = 0;
+        let forceY = 0;
+        for (let i = 0; i < attractors.length; i++) {
+            const attractor = attractors[i];
+            const dx = attractor.x - this.x;
+            const dy = attractor.y - this.y;
+            const dist2 = dx * dx + dy * dy;
+
+            const force = 1 / dist2;
+            forceX += dx * force;
+            forceY += dy * force;
+        }
+
+        this.x += forceX;
+        this.y += forceY;
+    }
+
+    /**
+     * Kills all attractors that are too close to this node
+     * @param attractors
+     */
+    public killAttractors(attractors: Array<Vector2D>): void {
+        const killDistance = 50;
+        for (let i = 0; i < attractors.length; i++) {
+            const attractor = attractors[i];
+            const dx = attractor.x - this.x;
+            const dy = attractor.y - this.y;
+            const dist2 = dx * dx + dy * dy;
+
+            if (dist2 < killDistance * killDistance) {
+                attractors.splice(i, 1);
+                i--;
+            }
+        }
+    }
+
     public update(): void {
         if (this.staticPoint) return;
 
@@ -60,8 +97,8 @@ export class TechNode extends ScreenElement {
 
         this.prevX = this.x;
         this.prevY = this.y;
-        this.x += velX * 0.2 + this.velX;
-        this.y += velY * 0.2 + this.velY;
+        // this.x += velX * 0.2 + this.velX;
+        // this.y += velY * 0.2 + this.velY;
     }
 
     public maintainChains(): void {
@@ -83,6 +120,7 @@ export class TechNode extends ScreenElement {
         if (heightVal < 0) heightVal = 0;
 
         const expectedDist = 100 - heightVal / 100;
+        if (dist < expectedDist) return;
 
         const nx = expectedDist * dx / dist;
         const ny = expectedDist * dy / dist;
@@ -98,6 +136,7 @@ export class TechNode extends ScreenElement {
         // if (dist2 < 10) dist2 = 10;
 
         const dist = Math.sqrt(dist2);
+        if (dist < 0.01) return;
         if (dist > 100) return;
 
         let force = 1 / (dist / 200);

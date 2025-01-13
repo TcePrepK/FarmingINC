@@ -12,14 +12,16 @@ export class BaseScreen extends InitializableObject {
         this.body = document.getElementById(`${id}-screen`) as HTMLDivElement;
         this.selector = document.getElementById(`${id}-screen-option`) as HTMLButtonElement;
 
-        MouseAttachment.attach(this.selector).onClick = this.enable.bind(this, root);
+        MouseAttachment.attach(this.selector).onClickRaw = (event) => this.enable(root, event);
     }
 
-    public enable(root: Root): void {
+    public enable(root: Root, event: MouseEvent | null): void {
         root.disableAllScreens();
 
         this.selector.classList.add("selected");
         this.body.classList.add("active");
+
+        if (event) event.stopPropagation();
     }
 
     public disable(): void {

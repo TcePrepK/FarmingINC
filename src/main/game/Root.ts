@@ -1,5 +1,6 @@
 import { MouseAttachment } from "../core/MouseAttachment";
-import { Structure } from "./screens/mainScreen/Structure";
+import { CurrencyManager } from "./screens/CurrencyManager";
+import { FarmingScreen } from "./screens/farmingScreen/FarmingScreen";
 import { Settings } from "./screens/settingsScreen/Settings";
 import { TechnologyScreen } from "./screens/technologyScreen/TechnologyScreen";
 import { BaseScreen } from "./types/BaseScreen";
@@ -12,18 +13,18 @@ export class Root {
     public readonly allScreens: BaseScreen[] = [];
 
     public readonly settings: Settings;
-    public readonly structure: Structure;
+    public readonly currencyManager: CurrencyManager;
 
     public constructor() {
-        this.allScreens.push(new BaseScreen(this, "main"));
+        this.allScreens.push(new FarmingScreen(this));
         this.allScreens.push(new TechnologyScreen(this));
         this.allScreens.push(new BaseScreen(this, "settings"));
 
         this.disableAllScreens();
-        this.allScreens[1].enable(this);
+        this.allScreens[0].enable(this, null);
 
         this.settings = new Settings(this);
-        this.structure = new Structure(this);
+        this.currencyManager = new CurrencyManager(this);
     }
 
     public initialize(): void {
@@ -44,7 +45,7 @@ export class Root {
         // }
 
         this.settings.initialize();
-        this.structure.initialize();
+        this.currencyManager.initialize();
 
         this.allScreens.forEach(screen => screen.initialize())
     }
@@ -54,14 +55,10 @@ export class Root {
     }
 
     public update(dt: number): void {
-        this.structure.update(dt);
-
         this.allScreens.forEach(screen => screen.update(dt));
     }
 
     public updateFrame(): void {
-        this.structure.updateFrame();
-
         this.allScreens.forEach(screen => screen.updateFrame());
     }
 }

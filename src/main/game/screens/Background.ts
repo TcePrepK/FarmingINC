@@ -1,5 +1,6 @@
 import { getElementById } from "../../core/HTMLUtils";
 import { ButtonType, MouseAttachment } from "../../core/MouseAttachment";
+import { Rectangle } from "../../core/Rectangle";
 import { Signal } from "../../core/Signal";
 import { Vector2D } from "../../core/Vector2D";
 import { Root } from "../Root";
@@ -7,17 +8,26 @@ import { InitializableObject } from "../types/InitializableObject";
 
 export class Background extends InitializableObject {
     private readonly background!: HTMLCanvasElement;
+    public readonly attachment!: MouseAttachment<HTMLCanvasElement>;
     public readonly context!: CanvasRenderingContext2D;
 
     public readonly onCenterChange: Signal<[number, number]> = new Signal();
+    public readonly onUpdate: Signal<[]> = new Signal();
 
     public worldX = 0;
     public worldY = 0;
+
+    public renderRect = new Rectangle(0, 0, 0, 0);
+    public top = 0;
+    public right = 0;
+    public bottom = 0;
+    public left = 0;
 
     public constructor(root: Root, canvasID: string) {
         super(root);
 
         this.background = getElementById(canvasID) as HTMLCanvasElement;
+        this.attachment = MouseAttachment.attach(this.background);
         this.context = this.background.getContext("2d") as CanvasRenderingContext2D;
     }
 
@@ -28,19 +38,19 @@ export class Background extends InitializableObject {
             this.root.windowMouse.onResize = (w, h) => {
                 this.background.width = w;
                 this.background.height = h;
+                this.reinitializeSides();
 
                 const center = this.getCenter();
                 this.onCenterChange.dispatch(center.x, center.y);
+                this.onUpdate.dispatch();
             };
+            this.reinitializeSides();
         }
 
         { // Canvas movement
-            const attachment = MouseAttachment.attach(this.background);
-
             let grabbing = false;
-            attachment.onDown = (button: ButtonType) => {
+            this.attachment.onDown = (button: ButtonType) => {
                 if (button !== ButtonType.LEFT) return;
-                this.root.structure.inventory.completelyClose();
                 grabbing = true;
             };
 
@@ -55,11 +65,35 @@ export class Background extends InitializableObject {
                 if (!grabbing) return;
                 this.worldX += dx;
                 this.worldY += dy;
+                this.reinitializeSides();
 
                 const center = this.getCenter();
                 this.onCenterChange.dispatch(center.x, center.y);
+                this.onUpdate.dispatch();
             };
         }
+    }
+
+    public screenToWorld(x: number, y: number): Vector2D {
+        const center = this.getCenter();
+        return new Vector2D(x - center.x, y - center.y);
+    }
+
+    private reinitializeSides(): void {
+        const w = this.root.windowWidth;
+        const h = this.root.windowHeight;
+        const x = this.worldX;
+        const y = this.worldY;
+
+        this.right = w / 2 - x;
+        this.bottom = h / 2 - y;
+        this.left = -w / 2 - x;
+        this.top = -h / 2 - y;
+
+        this.renderRect.x = this.left;
+        this.renderRect.y = this.top;
+        this.renderRect.width = this.right - this.left;
+        this.renderRect.height = this.bottom - this.top;
     }
 
     public startDrawing(): void {
