@@ -1,7 +1,7 @@
 import { Signal } from "../../core/Signal";
 
 export abstract class BaseTileSet {
-    public abstract readonly sides: Array<string>;
+    public readonly sides: Array<string> = [];
     public readonly imagesByName: Map<string, HTMLImageElement> = new Map();
     public readonly texturesByHash: Array<HTMLCanvasElement> = [];
 

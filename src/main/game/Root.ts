@@ -10,6 +10,8 @@ export class Root {
     public windowWidth = 0;
     public windowHeight = 0;
 
+    public seed = "Shrimp";
+
     public readonly allScreens: BaseScreen[] = [];
 
     public readonly settings: Settings;

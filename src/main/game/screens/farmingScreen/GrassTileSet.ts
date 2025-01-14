@@ -2,7 +2,8 @@ import { createCanvas } from "../../../core/HTMLUtils";
 import { BaseTileSet } from "../../types/BaseTileSet";
 
 export class GrassTileSet extends BaseTileSet {
-    public readonly sides = ["grass-corner", "grass-side", "grass-middle", "grass-outer-corner"];
+    public readonly sides = ["grass-corner", "grass-side", "grass-outer-corner"];
+    public readonly differentFullTiles = [];
 
     public constructor() {
         super();
@@ -38,7 +39,6 @@ export class GrassTileSet extends BaseTileSet {
             const corner = this.imagesByName.get("grass-corner")!;
             const outerCorner = this.imagesByName.get("grass-outer-corner")!;
             const side = this.imagesByName.get("grass-side")!;
-            const middle = this.imagesByName.get("grass-middle")!;
 
             const sidesByCorner = [[3, 0, 1], [1, 2, 4], [6, 5, 3], [4, 7, 6]];
             const rotationsByCorner = [0, Math.PI / 2, -Math.PI / 2, Math.PI];
@@ -66,8 +66,6 @@ export class GrassTileSet extends BaseTileSet {
                         ctx.drawImage(outerCorner, -8, -8);
                     } else if (left && top && !top_left) {
                         ctx.drawImage(corner, -8, -8);
-                    } else {
-                        ctx.drawImage(middle, -8, -8);
                     }
                     ctx.restore();
                 }
