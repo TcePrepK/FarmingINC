@@ -17,6 +17,15 @@
     position: absolute;
 }
 
+#mouse-canvas {
+    position: absolute;
+    top: -100px;
+
+    left: -100px;
+
+    pointer-events: none;
+}
+
 .crop {
     display: flex;
 

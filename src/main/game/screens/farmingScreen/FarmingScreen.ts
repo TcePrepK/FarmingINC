@@ -4,11 +4,11 @@ import { mkSimplexNoise } from "../../../core/SimplexNoise";
 import { Root } from "../../Root";
 import { BaseScreen } from "../../types/BaseScreen";
 import { Background } from "../Background";
-import { FarmLand } from "./FarmLand";
 import { FarmTileSet } from "./FarmTileSet";
 import { FlowerSet } from "./FlowerSet";
 import { GrassTileSet } from "./GrassTileSet";
 import { Inventory } from "./Inventory";
+import { TileManager } from "./TileManager";
 
 export class FarmingScreen extends BaseScreen {
     public background!: Background;
@@ -18,23 +18,24 @@ export class FarmingScreen extends BaseScreen {
     private readonly grassTileSet = new GrassTileSet();
     private readonly flowerSet = new FlowerSet();
 
-    private farmTiles: Map<string, FarmLand> = new Map();
-
+    public tileManager;
     public inventory = new Inventory(this.root);
 
     public constructor(root: Root) {
         super(root, "farming");
 
         this.background = new Background(root, "farming-background");
+        this.tileManager = new TileManager(root, this.background, this.tileSize);
 
-        this.farmTileSet.loadedEvent.add(() => this.drawBackground());
-        this.grassTileSet.loadedEvent.add(() => this.drawBackground());
-        this.flowerSet.loadedEvent.add(() => this.drawBackground());
+        // this.farmTileSet.loadedEvent.add(() => this.drawBackground());
+        // this.grassTileSet.loadedEvent.add(() => this.drawBackground());
+        // this.flowerSet.loadedEvent.add(() => this.drawBackground());
     }
 
     public initialize(): void {
         this.background.initialize();
-        // this.farmingBackground.scss.onCenterChange.add(this.updateWorldTransform.bind(this));
+        this.inventory.initialize();
+        this.tileManager.initialize();
 
         { // Background events
             this.background.attachment.onClick = (button: ButtonType) => {
@@ -42,26 +43,10 @@ export class FarmingScreen extends BaseScreen {
                 this.inventory.completelyClose();
             };
             this.background.onUpdate.add(() => {
-                this.drawBackground();
+                // this.drawBackground();
             });
         }
 
-        this.inventory.initialize();
-
-        this.background.attachment.onClickRaw = (event: MouseEvent) => {
-            if (event.button !== ButtonType.LEFT) return;
-            const world = this.background.screenToWorld(event.offsetX, event.offsetY);
-            const tile = world.div(this.tileSize).floor();
-
-            const id = tile.toString();
-            if (this.farmTiles.has(id)) return;
-
-            const farmLand = new FarmLand(this.root, tile.x, tile.y);
-            this.farmTiles.set(id, farmLand);
-            this.drawBackground();
-
-            event.preventDefault();
-        }
     }
 
     public update(dt: number): void {
@@ -69,7 +54,9 @@ export class FarmingScreen extends BaseScreen {
     }
 
     public updateFrame(): void {
+        this.drawBackground();
         this.inventory.updateFrame();
+        this.tileManager.updateFrame();
     }
 
     /* ----------------- Helper Drawing Methods ----------------- */
@@ -83,10 +70,10 @@ export class FarmingScreen extends BaseScreen {
         if (!this.grassTileSet.loaded) return;
         if (!this.flowerSet.loaded) return;
 
-        this.background.startDrawing();
-
         const ctx = this.background.context;
         ctx.imageSmoothingEnabled = false;
+
+        this.background.startDrawing();
 
         const renderRect = this.background.renderRect;
         const scale = Math.ceil(this.tileSize / 32);
@@ -115,7 +102,7 @@ export class FarmingScreen extends BaseScreen {
                 // ctx.fillStyle = `rgb(${62 + dc} ${137 + dc} ${72 + dc})`;
                 // ctx.fillRect(1, 1, 32, 32);
 
-                const farmTile = this.farmTiles.has(`(${i}, ${j})`);
+                const farmTile = this.tileManager.getFarmTile(i, j);
                 const tileSet = farmTile ? this.farmTileSet : this.grassTileSet;
                 const neighbors = this.getNeighbors(i, j);
                 const state = tileSet.getTextureByRules(neighbors)!;
@@ -132,7 +119,7 @@ export class FarmingScreen extends BaseScreen {
                 ctx.translate(i * this.tileSize, j * this.tileSize);
                 ctx.scale(scale, scale);
 
-                const farmTile = this.farmTiles.has(`(${i}, ${j})`);
+                const farmTile = this.tileManager.getFarmTile(i, j);
                 const neighbors = this.getNeighbors(i, j);
                 if (!farmTile && neighbors.every(n => !n)) {
                     for (let dx = 0; dx < 2; dx++) {
@@ -168,14 +155,14 @@ export class FarmingScreen extends BaseScreen {
 
     private getNeighbors(x: number, y: number): Array<boolean> {
         return [
-            !!this.farmTiles.get(`(${x - 1}, ${y - 1})`),
-            !!this.farmTiles.get(`(${x}, ${y - 1})`),
-            !!this.farmTiles.get(`(${x + 1}, ${y - 1})`),
-            !!this.farmTiles.get(`(${x - 1}, ${y})`),
-            !!this.farmTiles.get(`(${x + 1}, ${y})`),
-            !!this.farmTiles.get(`(${x - 1}, ${y + 1})`),
-            !!this.farmTiles.get(`(${x}, ${y + 1})`),
-            !!this.farmTiles.get(`(${x + 1}, ${y + 1})`)
+            !!this.tileManager.getFarmTile(x - 1, y - 1),
+            !!this.tileManager.getFarmTile(x, y - 1),
+            !!this.tileManager.getFarmTile(x + 1, y - 1),
+            !!this.tileManager.getFarmTile(x - 1, y),
+            !!this.tileManager.getFarmTile(x + 1, y),
+            !!this.tileManager.getFarmTile(x - 1, y + 1),
+            !!this.tileManager.getFarmTile(x, y + 1),
+            !!this.tileManager.getFarmTile(x + 1, y + 1)
         ];
     }
 }

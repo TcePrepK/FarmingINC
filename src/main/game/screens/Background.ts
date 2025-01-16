@@ -79,6 +79,11 @@ export class Background extends InitializableObject {
         return new Vector2D(x - center.x, y - center.y);
     }
 
+    public worldToScreen(x: number, y: number): Vector2D {
+        const center = this.getCenter();
+        return new Vector2D(x + center.x, y + center.y);
+    }
+
     private reinitializeSides(): void {
         const w = this.root.windowWidth;
         const h = this.root.windowHeight;
