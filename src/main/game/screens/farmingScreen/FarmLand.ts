@@ -1,9 +1,12 @@
-import { createDiv } from "../../../core/HTMLUtils";
+import { createCanvas, createDiv } from "../../../core/HTMLUtils";
+import { Rectangle } from "../../../core/Rectangle";
 import { Root } from "../../Root";
 import { ScreenElement } from "../../types/ScreenElement";
 import { Crop } from "./Crop";
 
 export class FarmLand extends ScreenElement {
+    private tileImage!: HTMLCanvasElement;
+
     private currentCrop: Crop | null = null;
     private cropBody: HTMLDivElement | null = null;
 
@@ -22,6 +25,10 @@ export class FarmLand extends ScreenElement {
         this.y = y;
     }
 
+    /**
+     * Updates the crop progress and checks if the crop is done.
+     * @param dt The passed delta time
+     */
     public update(dt: number): void {
         if (!this.currentCrop) return;
 
@@ -40,6 +47,9 @@ export class FarmLand extends ScreenElement {
         }
     }
 
+    /**
+     * Updates the crop animation and checks if the crop is done.
+     */
     public updateFrame(): void {
         if (!this.cropBody) return;
 
@@ -52,6 +62,17 @@ export class FarmLand extends ScreenElement {
         this.growthWobble = setTimeout(() => this.cropBody!.classList.remove("wobble"), 500);
 
         this.cropBody.style.setProperty("--progress", `${this.growthState / 5 + 0.2}`);
+    }
+
+    public updatePosition(x: number, y: number, rect: Rectangle): void {
+        this.x = x;
+        this.y = y;
+
+        const left = this.x - rect.left;
+        const top = this.y - rect.top;
+
+        this.body.style.left = left * 63 + "px";
+        this.body.style.top = top * 63 + "px";
     }
 
     private harvestCrop(): void {
@@ -97,9 +118,29 @@ export class FarmLand extends ScreenElement {
     }
 
     public createElement(parent: HTMLElement): void {
-        const wrapper = createDiv({ classes: ["land-wrapper"], parent: parent });
-        this.body = createDiv({ classes: ["land"], parent: wrapper });
+        this.body = createDiv({ classes: ["land-wrapper"], parent: parent });
+        this.tileImage = createCanvas({ classes: ["land-tile"], parent: this.body });
+
+        this.tileImage.width = 32;
+        this.tileImage.height = 32;
 
         this.updateFrame();
+    }
+
+    public drawTileImage(tileImage: HTMLCanvasElement): void {
+        const ctx = this.tileImage.getContext("2d")!;
+        ctx.drawImage(tileImage, 0, 0);
+    }
+
+    public cloneBody(): HTMLElement {
+        const clone = this.body.cloneNode(true) as HTMLElement;
+        clone.style.left = "";
+        clone.style.top = "";
+
+        const canvas = clone.querySelector("canvas")!;
+        const ctx = canvas.getContext("2d")!;
+        ctx.drawImage(this.tileImage, 0, 0);
+
+        return clone;
     }
 }

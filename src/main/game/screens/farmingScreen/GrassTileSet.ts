@@ -3,7 +3,6 @@ import { BaseTileSet } from "../../types/BaseTileSet";
 
 export class GrassTileSet extends BaseTileSet {
     public readonly sides = ["grass-corner", "grass-side", "grass-outer-corner"];
-    public readonly differentFullTiles = [];
 
     public constructor() {
         super();

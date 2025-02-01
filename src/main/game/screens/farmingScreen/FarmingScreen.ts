@@ -1,10 +1,10 @@
 import { mkAlea } from "../../../core/AleaPRNG";
 import { ButtonType } from "../../../core/MouseAttachment";
+import { Rectangle } from "../../../core/Rectangle";
 import { mkSimplexNoise } from "../../../core/SimplexNoise";
 import { Root } from "../../Root";
 import { BaseScreen } from "../../types/BaseScreen";
 import { Background } from "../Background";
-import { FarmTileSet } from "./FarmTileSet";
 import { FlowerSet } from "./FlowerSet";
 import { GrassTileSet } from "./GrassTileSet";
 import { Inventory } from "./Inventory";
@@ -14,11 +14,10 @@ export class FarmingScreen extends BaseScreen {
     public background!: Background;
 
     private readonly tileSize = 63;
-    private readonly farmTileSet = new FarmTileSet();
     private readonly grassTileSet = new GrassTileSet();
     private readonly flowerSet = new FlowerSet();
 
-    public tileManager;
+    public tileManager: TileManager;
     public inventory = new Inventory(this.root);
 
     public constructor(root: Root) {
@@ -42,15 +41,13 @@ export class FarmingScreen extends BaseScreen {
                 if (button !== ButtonType.LEFT) return;
                 this.inventory.completelyClose();
             };
-            this.background.onUpdate.add(() => {
-                // this.drawBackground();
-            });
         }
 
     }
 
     public update(dt: number): void {
         this.inventory.update(dt);
+        this.tileManager.update(dt);
     }
 
     public updateFrame(): void {
@@ -62,11 +59,12 @@ export class FarmingScreen extends BaseScreen {
     /* ----------------- Helper Drawing Methods ----------------- */
 
     /**
-     * Draws the current grid design we are using to every tile position (canvas to canvas)
+     * For every tile position, we draw the necessary elements (canvas to canvas)
+     * For farm tiles, we draw the farm itself.
+     * For grass tiles, we draw the grass itself and add flowers.
      * @private
      */
     private drawBackground(): void {
-        if (!this.farmTileSet.loaded) return;
         if (!this.grassTileSet.loaded) return;
         if (!this.flowerSet.loaded) return;
 
@@ -76,8 +74,12 @@ export class FarmingScreen extends BaseScreen {
         this.background.startDrawing();
 
         const renderRect = this.background.renderRect;
+        const farmRect = this.tileManager.farmRect;
+        const expandedRect = farmRect.expandBy(1, 1);
+
         const scale = Math.ceil(this.tileSize / 32);
 
+        // Draw the grass
         const { random } = mkAlea(this.root.seed);
         const { noise2D } = mkSimplexNoise(random);
         const rect = renderRect.scaleBy(1 / this.tileSize).floor();
@@ -86,36 +88,24 @@ export class FarmingScreen extends BaseScreen {
                 ctx.translate(i * this.tileSize, j * this.tileSize);
                 ctx.scale(scale, scale);
 
-                for (let dx = 0; dx < 2; dx++) {
-                    for (let dy = 0; dy < 2; dy++) {
-                        const x = i * 2 + dx;
-                        const y = j * 2 + dy;
-
-                        const ds = 25;
-                        const dc = noise2D(x / ds, y / ds) * 15;
-                        ctx.fillStyle = `rgb(${62 + dc} ${137 + dc} ${72 + dc})`;
-                        ctx.fillRect(dx * 16 + 1, dy * 16 + 1, 17, 17);
-                    }
+                // If the <i, j> is inside the farm, draw the farm otherwise draw grass
+                if (farmRect.contains(i, j)) {
+                    ctx.fillStyle = "#e4a672";
+                    ctx.fillRect(0, 0, 32, 32);
+                } else {
+                    this.drawGrass(ctx, noise2D, i, j, expandedRect);
                 }
-                // const ds = 10;
-                // const dc = noise2D(i / ds, j / ds) * 10;
-                // ctx.fillStyle = `rgb(${62 + dc} ${137 + dc} ${72 + dc})`;
-                // ctx.fillRect(1, 1, 32, 32);
-
-                const farmTile = this.tileManager.getFarmTile(i, j);
-                const tileSet = farmTile ? this.farmTileSet : this.grassTileSet;
-                const neighbors = this.getNeighbors(i, j);
-                const state = tileSet.getTextureByRules(neighbors)!;
-
-                ctx.drawImage(state, 0, 0);
 
                 ctx.scale(1 / scale, 1 / scale);
                 ctx.translate(-i * this.tileSize, -j * this.tileSize);
             }
         }
 
+        // Draw the flowers
         for (let i = rect.left; i <= rect.right + 1; i++) {
             for (let j = rect.top; j <= rect.bottom + 1; j++) {
+                if (expandedRect.contains(i, j)) continue;
+
                 ctx.translate(i * this.tileSize, j * this.tileSize);
                 ctx.scale(scale, scale);
 
@@ -153,16 +143,53 @@ export class FarmingScreen extends BaseScreen {
         this.background.finalizeDrawing();
     }
 
+    /**
+     * Draws a grass tile.
+     * Each quadrant of the tile is drawn with a different color.
+     * The color is determined by the noise function.
+     * @param ctx The canvas context to draw on
+     * @param noise2D The noise function to use
+     * @param i The x coordinate of the tile
+     * @param j The y coordinate of the tile
+     * @param expandedRect The farm rectangle expanded by one tile
+     * @private
+     */
+    private drawGrass(ctx: CanvasRenderingContext2D, noise2D: (x: number, y: number) => number, i: number, j: number, expandedRect: Rectangle): void {
+        for (let dx = 0; dx < 2; dx++) {
+            for (let dy = 0; dy < 2; dy++) {
+                const x = i * 2 + dx;
+                const y = j * 2 + dy;
+
+                const ds = 25;
+                const dc = noise2D(x / ds, y / ds) * 15;
+                ctx.fillStyle = `rgb(${62 + dc} ${137 + dc} ${72 + dc})`;
+                ctx.fillRect(dx * 16 + 1, dy * 16 + 1, 17, 17);
+            }
+        }
+
+        if (!expandedRect.contains(i, j)) return;
+
+        const neighbors = this.getNeighbors(i, j);
+        const state = this.grassTileSet.getTextureByRules(neighbors)!;
+        ctx.drawImage(state, 0, 0);
+    }
+
+    /**
+     * Checks all eight neighbors of the given tile and returns an array of booleans
+     * @param x The x coordinate of the tile
+     * @param y The y coordinate of the tile
+     * @private
+     */
     private getNeighbors(x: number, y: number): Array<boolean> {
         return [
-            !!this.tileManager.getFarmTile(x - 1, y - 1),
-            !!this.tileManager.getFarmTile(x, y - 1),
-            !!this.tileManager.getFarmTile(x + 1, y - 1),
-            !!this.tileManager.getFarmTile(x - 1, y),
-            !!this.tileManager.getFarmTile(x + 1, y),
-            !!this.tileManager.getFarmTile(x - 1, y + 1),
-            !!this.tileManager.getFarmTile(x, y + 1),
-            !!this.tileManager.getFarmTile(x + 1, y + 1)
+            this.tileManager.isInsideFarm(x - 1, y - 1),
+            this.tileManager.isInsideFarm(x, y - 1),
+            this.tileManager.isInsideFarm(x + 1, y - 1),
+            this.tileManager.isInsideFarm(x - 1, y),
+            this.tileManager.isInsideFarm(x + 1, y),
+            this.tileManager.isInsideFarm(x - 1, y + 1),
+            this.tileManager.isInsideFarm(x, y + 1),
+            this.tileManager.isInsideFarm(x + 1, y + 1)
         ];
     }
 }

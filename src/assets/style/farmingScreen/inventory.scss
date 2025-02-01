@@ -265,7 +265,7 @@
                 width: 3rem;
                 pointer-events: auto;
 
-                //right: 0;
+                // right: 0;
 
                 translate: -0.5rem -50%;
                 user-select: none;
@@ -280,7 +280,7 @@
         flex-direction: column;
         border-radius: 0.75rem;
 
-        //margin: auto 0;
+        // margin: auto 0;
 
         background: #7d4d2d;
         overflow: hidden auto;
@@ -344,13 +344,11 @@
             .crop {
                 border-radius: 0.75rem;
                 box-shadow: 0 0 10px #2225 inset;
-
                 background: color-mix(in oklab, var(--stage-color) 95%, #000);
+
                 cursor: pointer;
 
                 padding: 0.25rem;
-                width: 3rem;
-
                 pointer-events: auto;
 
                 &:hover {
@@ -372,11 +370,16 @@
                 &:not(.unlocked).seen-before .icon {
                     filter: brightness(0.5) blur(2.5px);
                 }
-
-                .icon {
-                    padding: 0.25rem;
-                }
             }
         }
+    }
+}
+
+.crop {
+    width: 3rem;
+    height: 3rem;
+
+    .icon {
+        padding: 0.25rem;
     }
 }

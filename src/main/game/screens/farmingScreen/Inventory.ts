@@ -1,5 +1,7 @@
+import { DraggableElement } from "../../../core/DraggableElement";
 import { createDiv, getElementById } from "../../../core/HTMLUtils";
 import { ButtonType, MouseAttachment } from "../../../core/MouseAttachment";
+import { Vector2D } from "../../../core/Vector2D";
 import { Root } from "../../Root";
 import { CropDataType } from "../../types/GeneralDataTypes";
 import { InitializableObject } from "../../types/InitializableObject";
@@ -24,19 +26,13 @@ export class Inventory extends InitializableObject {
 
     private renderingCrop: Crop | null = null;
     public draggingCrop: Crop | null = null;
-    public dragging: HTMLDivElement | null = null;
+    public dragging: DraggableElement | null = null;
     public draggingTimeout: NodeJS.Timeout | null = null;
 
     private expanded = false;
     private informExpanded = false;
 
     private toggleable = true;
-
-    // Dragging physics
-    private prevX = -1;
-    private prevY = -1;
-    private angle = 0;
-    private angleVel = 0;
 
     public constructor(root: Root) {
         super(root);
@@ -70,7 +66,7 @@ export class Inventory extends InitializableObject {
         { // Plant Dragging
             this.root.windowMouse.onUp = button => {
                 if (button !== ButtonType.LEFT) return;
-                this.dragging?.remove();
+                if (this.dragging) this.dragging.destroy();
                 this.dragging = null;
                 this.draggingCrop = null;
             }
@@ -96,39 +92,7 @@ export class Inventory extends InitializableObject {
      */
     public update(dt: number): void {
         if (!this.dragging) return;
-
-        const mouseX = this.root.windowMouse.x;
-        const mouseY = this.root.windowMouse.y;
-        const gravity = 50;
-
-        if (this.prevX < 0) this.prevX = mouseX;
-        if (this.prevY < 0) this.prevY = mouseY;
-
-        const velX = (mouseX - this.prevX) / dt * 0.1;
-        const velY = (mouseY - this.prevY) / dt * 0.1;
-
-        const degAcc = velX * Math.cos(this.angle - Math.PI / 4) - (gravity - velY) * Math.sin(this.angle - Math.PI / 4);
-        this.angleVel += degAcc * dt;
-        this.angle += this.angleVel * dt;
-        // this.angle = (this.angle % (2 * Math.PI) + (2 * Math.PI)) % (2 * Math.PI);
-        // const fixAngle = this.angle * 180 / Math.PI;
-        // if (fixAngle > 180 + 45 && fixAngle < 360 - 45) {
-        //     this.angle = (360 - 45) * Math.PI / 180;
-        //     this.angleVel = 0;
-        // } else if (fixAngle > 135 && fixAngle < 180 + 45) {
-        //     this.angle = (135) * Math.PI / 180;
-        //     this.angleVel = 0;
-        // }
-
-        this.angleVel *= 0.995;
-
-        this.prevX = mouseX;
-        this.prevY = mouseY;
-
-        this.dragging.style.left = mouseX + "px";
-        this.dragging.style.top = mouseY + "px";
-        const image = this.dragging.firstChild as HTMLImageElement;
-        image.style.transform = `rotate(${this.angle - Math.PI / 4}rad) translateY(35%) rotate(45deg)`;
+        this.dragging.update(dt);
     }
 
     public updateFrame(): void {
@@ -187,8 +151,21 @@ export class Inventory extends InitializableObject {
         attachment.onDown = button => {
             if (button !== ButtonType.LEFT) return;
             if (!crop.getUnlocked()) return;
+
+            // Get the crop's current position and sizes
+            const body = crop.body;
+            const bodyRect = body.getBoundingClientRect();
+            const bodyPos = new Vector2D(bodyRect.left, bodyRect.top);
+            const bodySize = bodyRect.width;
+
+            // Calculate the holding position using the crop's position and mouse position
+            const mouseX = this.root.windowMouse.x;
+            const mouseY = this.root.windowMouse.y;
+            const offset = new Vector2D(mouseX, mouseY).sub(bodyPos);
+            const holdingPos = offset.div(bodySize);
+
             this.draggingTimeout = setTimeout(() => {
-                this.startDraggingCrop(crop);
+                this.startDraggingCrop(crop, holdingPos);
                 this.draggingTimeout = null;
             }, 200);
         }
@@ -281,18 +258,13 @@ export class Inventory extends InitializableObject {
         `;
     }
 
-    private startDraggingCrop(crop: Crop): void {
+    private startDraggingCrop(crop: Crop, holdingPos: Vector2D): void {
         if (this.dragging) return;
 
         this.draggingCrop = crop;
-        this.dragging = crop.createHTML();
-
-        this.prevX = -1;
-        this.prevY = -1;
-        this.angle = 0;
-        this.angleVel = 0;
-
-        getElementById("plant-drag").appendChild(this.dragging);
+        const fakeBody = crop.createHTML();
+        this.dragging = new DraggableElement(this.root, fakeBody);
+        this.dragging.setHolding(holdingPos.x, holdingPos.y);
     }
 
     /* -------------------- Helper Methods -------------------- */

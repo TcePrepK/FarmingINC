@@ -52,7 +52,7 @@ export class Crop extends ScreenElement {
     }
 
     /**
-     * Creates the html of the crop to be used in other parts.
+     * Creates the HTML of the crop to be used in other parts.
      */
     public createHTML(): HTMLDivElement {
         const body = createDiv({ classes: ["crop"] });

@@ -23,6 +23,8 @@ export class Background extends InitializableObject {
     public bottom = 0;
     public left = 0;
 
+    public grabbing = false;
+
     public constructor(root: Root, canvasID: string) {
         super(root);
 
@@ -48,21 +50,20 @@ export class Background extends InitializableObject {
         }
 
         { // Canvas movement
-            let grabbing = false;
             this.attachment.onDown = (button: ButtonType) => {
                 if (button !== ButtonType.LEFT) return;
-                grabbing = true;
+                this.grabbing = true;
             };
 
             this.root.windowMouse.onUp = (button: ButtonType) => {
                 if (button !== ButtonType.LEFT) return;
-                grabbing = false;
+                this.grabbing = false;
             };
 
-            this.root.windowMouse.onLeave = () => grabbing = false;
+            this.root.windowMouse.onLeave = () => this.grabbing = false;
 
             this.root.windowMouse.onMove = (dx: number, dy: number) => {
-                if (!grabbing) return;
+                if (!this.grabbing) return;
                 this.worldX += dx;
                 this.worldY += dy;
                 this.reinitializeSides();

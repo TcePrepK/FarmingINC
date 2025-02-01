@@ -9,9 +9,7 @@ export type ElementArgs = {
     classes?: string[]
 };
 
-type PossibleChildren = HTMLElement | string;
-
-export function createElement<T extends HTMLElement>(tagName: string, data?: Partial<T> & ElementArgs, ...children: PossibleChildren[]): T {
+export function createElement<T extends HTMLElement>(tagName: string, data?: Partial<T> & ElementArgs, ...children: Node[]): T {
     const element = document.createElement(tagName) as T;
 
     if (data !== undefined) {
@@ -33,23 +31,23 @@ export function createElement<T extends HTMLElement>(tagName: string, data?: Par
     return element;
 }
 
-export function createDiv(data?: Partial<HTMLDivElement> & ElementArgs, ...args: PossibleChildren[]): HTMLDivElement {
+export function createDiv(data?: Partial<HTMLDivElement> & ElementArgs, ...args: Node[]): HTMLDivElement {
     return createElement<HTMLDivElement>("div", data, ...args);
 }
 
-export function createSpan(data?: Partial<HTMLSpanElement> & ElementArgs, ...args: PossibleChildren[]): HTMLSpanElement {
+export function createSpan(data?: Partial<HTMLSpanElement> & ElementArgs, ...args: Node[]): HTMLSpanElement {
     return createElement<HTMLSpanElement>("span", data, ...args);
 }
 
-export function createButton(data?: Partial<HTMLButtonElement> & ElementArgs, ...args: PossibleChildren[]): HTMLButtonElement {
+export function createButton(data?: Partial<HTMLButtonElement> & ElementArgs, ...args: Node[]): HTMLButtonElement {
     return createElement<HTMLButtonElement>("button", data, ...args);
 }
 
-export function createInput(data?: Partial<HTMLInputElement> & ElementArgs, ...args: PossibleChildren[]): HTMLInputElement {
+export function createInput(data?: Partial<HTMLInputElement> & ElementArgs, ...args: Node[]): HTMLInputElement {
     return createElement<HTMLInputElement>("input", data, ...args);
 }
 
-export function createCanvas(data?: Partial<HTMLCanvasElement> & ElementArgs, ...args: PossibleChildren[]): HTMLCanvasElement {
+export function createCanvas(data?: Partial<HTMLCanvasElement> & ElementArgs, ...args: Node[]): HTMLCanvasElement {
     return createElement<HTMLCanvasElement>("canvas", data, ...args);
 }
 
