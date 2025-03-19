@@ -42,7 +42,7 @@ export class CurrencyManager extends InitializableObject {
             parent: currencyScreen
         }, createElement<HTMLImageElement>("img", {
             classes: ["currency-icon"],
-            src: `assets/images/currencies/${currency.name}.png`
+            src: `src/assets/images/currencies/${currency.name}.png`
         }));
         const amount = createDiv({ classes: ["currency-amount"], parent: currencyElement });
         currency.attachElement(amount);

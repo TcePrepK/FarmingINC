@@ -3,12 +3,10 @@ import { createDiv, getElementById } from "../../../core/HTMLUtils";
 import { ButtonType, MouseAttachment } from "../../../core/MouseAttachment";
 import { Vector2D } from "../../../core/Vector2D";
 import { Root } from "../../Root";
-import { CropDataType } from "../../types/GeneralDataTypes";
 import { InitializableObject } from "../../types/InitializableObject";
-import { Crop } from "./Crop";
 
-// eslint-disable-next-line
-const CropData: CropDataType = require("../GeneralData.json").cropData;
+import GeneralData from "../GeneralData.json";
+import { Crop } from "./Crop";
 
 type InventoryStage = {
     name: string;
@@ -27,7 +25,7 @@ export class Inventory extends InitializableObject {
     private renderingCrop: Crop | null = null;
     public draggingCrop: Crop | null = null;
     public dragging: DraggableElement | null = null;
-    public draggingTimeout: NodeJS.Timeout | null = null;
+    public draggingTimeout: number | null = null;
 
     private expanded = false;
     private informExpanded = false;
@@ -52,7 +50,7 @@ export class Inventory extends InitializableObject {
                 ];
             */
 
-            const stages = CropData.stages;
+            const stages = GeneralData.cropData.stages;
             for (const stage of stages) {
                 const color = stage.color;
                 const name = stage.name;

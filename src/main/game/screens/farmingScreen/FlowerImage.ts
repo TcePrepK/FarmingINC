@@ -1,7 +1,8 @@
 import { createCanvas } from "../../../core/HTMLUtils";
+import { ImageLoader } from "../../../core/ImageLoader.ts";
 import { Signal } from "../../../core/Signal";
 
-export class FlowerSet {
+export class FlowerImage {
     private readonly flowers = new Array(32).fill(0).map((_, i) => "grassandflowers" + (i + 1));
     private readonly flowerCanvases: Array<HTMLCanvasElement> = [];
 
@@ -11,7 +12,7 @@ export class FlowerSet {
     public constructor() {
         const promises = this.loadImages();
         promises.then(images => {
-            for (const { image } of images) {
+            for (const image of images) {
                 this.flowerCanvases.push(this.setupFlower(image));
             }
             this.loaded = true;
@@ -36,17 +37,7 @@ export class FlowerSet {
         return canvas;
     }
 
-    protected loadImages(): Promise<Array<{ name: string, image: HTMLImageElement }>> {
-        return Promise.all(
-            this.flowers.map((name) => {
-                return new Promise<{ name: string, image: HTMLImageElement }>((resolve, reject) => {
-                    const image = new Image();
-                    const src = `assets/images/flowers/${name}.png`;
-                    image.src = src;
-                    image.onload = () => resolve({ name, image });
-                    image.onerror = () => reject(new Error(`Failed to load image: ${src}`));
-                });
-            })
-        );
+    protected loadImages(): Promise<Array<HTMLImageElement>> {
+        return ImageLoader.loadImages(this.flowers.map(name => `src/assets/images/flowers/${name}.png`));
     }
 }

@@ -13,7 +13,7 @@ export class FarmLand extends ScreenElement {
     private growthState = 0;
     public progress = 0;
 
-    private growthWobble: NodeJS.Timeout | null = null;
+    private growthWobble: number | null = null;
 
     public x: number;
     public y: number;

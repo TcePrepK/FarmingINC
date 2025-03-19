@@ -1,13 +1,11 @@
 import { createDiv, getElementById } from "../../../core/HTMLUtils";
 import { ButtonType } from "../../../core/MouseAttachment";
 import { Vector2D } from "../../../core/Vector2D";
-import { TechnologyData } from "../../types/GeneralDataTypes";
 import { InitializableObject } from "../../types/InitializableObject";
 import { TechNode } from "./TechNode";
 import { TechnologyCurrency } from "./TechnologyCurrency";
 
-// eslint-disable-next-line
-const TechData: TechnologyData = require("../GeneralData.json").technologyData;
+// import GeneralData from "../GeneralData.json";
 
 export class TechTree extends InitializableObject {
     public static readonly allNodes: Array<TechNode> = [];

@@ -7,42 +7,46 @@ import { Root } from "../../Root";
 import { InitializableObject } from "../../types/InitializableObject";
 import { Background } from "../Background";
 import { FarmLand } from "./FarmLand";
-import { FarmTileSet } from "./FarmTileSet";
+import { FarmTileImage } from "./FarmTileImage.ts";
 
 export class TileManager extends InitializableObject {
     private background: Background;
     private mouseCanvas!: HTMLCanvasElement;
     private farmTiles: Map<string, FarmLand> = new Map();
 
-    private readonly farmTileSet = new FarmTileSet();
     private readonly farmTilesBody: HTMLDivElement;
     public farmRect: Rectangle;
-
-    private readonly tileSize: number;
 
     private grabbingTile: FarmLand | null = null;
     private dragging: DraggableElement | null = null;
 
-    public constructor(root: Root, background: Background, tileSize: number) {
+    /**
+     * Creates a new instance of the tile manager
+     * @param root The root of the game
+     * @param background The background of the game
+     */
+    public constructor(root: Root, background: Background) {
         super(root);
         this.background = background;
-        this.tileSize = tileSize;
 
         // Get the farm-tiles element
         this.farmTilesBody = getElementById("farm-tiles");
 
         // Initialize the first farming area, first 4x4 area
         this.farmRect = new Rectangle(-2, -2, 4, 4);
-
-        this.farmTileSet.loadedEvent.add(() => this.initialize());
     }
 
     public initialize(): void {
-        if (!this.farmTileSet.loaded) return;
+        if (!FarmTileImage.loaded) {
+            FarmTileImage.loadedImage.add(() => this.initialize());
+            return;
+        }
+
+        const tileSize = this.root.tileSize;
 
         { // Farm tile placement
-            this.farmTilesBody.style.width = this.tileSize * this.farmRect.width + "px";
-            this.farmTilesBody.style.height = this.tileSize * this.farmRect.height + "px";
+            this.farmTilesBody.style.width = tileSize * this.farmRect.width + "px";
+            this.farmTilesBody.style.height = tileSize * this.farmRect.height + "px";
 
             this.background.onUpdate.add(() => {
                 const center = this.background.getCenter();
@@ -59,7 +63,7 @@ export class TileManager extends InitializableObject {
             this.root.windowMouse.onMove = () => {
                 const mouse = this.root.windowMouse;
                 const world = this.background.screenToWorld(mouse.x, mouse.y);
-                const tile = world.div(this.tileSize).floor().mult(this.tileSize);
+                const tile = world.div(tileSize).floor().mult(tileSize);
                 const screen = this.background.worldToScreen(tile.x, tile.y);
 
                 this.mouseCanvas.style.left = screen.x + "px";
@@ -74,8 +78,8 @@ export class TileManager extends InitializableObject {
 
         { // Initialize the mouse canvas
             this.mouseCanvas = createCanvas({ id: "mouse-canvas" });
-            this.mouseCanvas.width = this.tileSize;
-            this.mouseCanvas.height = this.tileSize;
+            this.mouseCanvas.width = tileSize;
+            this.mouseCanvas.height = tileSize;
             this.mouseCanvas.style.visibility = "hidden";
 
             const farmingScreen = getElementById("farming-screen");
@@ -112,7 +116,7 @@ export class TileManager extends InitializableObject {
             const attachment = this.background.attachment;
 
             let grabbingPosition: Vector2D | null = null;
-            let grabbingTimeout: NodeJS.Timeout | null = null;
+            let grabbingTimeout: number | null = null;
             attachment.onDown = (button: ButtonType) => {
                 if (button !== ButtonType.LEFT) return;
 
@@ -137,7 +141,7 @@ export class TileManager extends InitializableObject {
                     // Generate the dragging
                     this.dragging = new DraggableElement(this.root, this.grabbingTile!.cloneBody());
 
-                    const world = this.background.screenToWorld(screenX, screenY).div(this.tileSize);
+                    const world = this.background.screenToWorld(screenX, screenY).div(tileSize);
                     const tileOffset = world.sub(tile);
                     this.dragging.setHolding(tileOffset.x, tileOffset.y);
 
@@ -210,24 +214,41 @@ export class TileManager extends InitializableObject {
 
     /**
      * Updates the dragging element
-     * @param dt
+     * @param dt The passed delta time
      */
     public update(dt: number): void {
         if (!this.dragging) return;
         this.dragging.update(dt);
     }
 
+    /**
+     * Gets the farm tile at the given coordinates
+     * @param x The x coordinate of the tile
+     * @param y The y coordinate of the tile
+     *
+     * @returns The farm tile at the given coordinates or null if it doesn't exist
+     */
     public getFarmTile(x: number, y: number): FarmLand | null {
         return this.farmTiles.get(this.getId(x, y)) || null;
     }
 
+    /**
+     * Checks if the given coordinates are inside the farm
+     * @param x The x coordinate of the tile
+     * @param y The y coordinate of the tile
+     *
+     * @returns True if the coordinates are inside the farm, false otherwise
+     */
     public isInsideFarm(x: number, y: number): boolean {
         return this.farmRect.contains(x, y);
     }
 
     /**
-     * Adda a new farm tile to the farm.
-     * Initializes it.
+     * Adda a new farm tile to the farm and initializes it.
+     * The Maximum number of tiles is 4x4.
+     *
+     * # Errors
+     * - If the farm is full
      */
     public addFarmTile(): void {
         const maxTiles = this.farmRect.width * this.farmRect.height;
@@ -241,7 +262,7 @@ export class TileManager extends InitializableObject {
                 if (this.farmTiles.has(id)) continue;
 
                 const farmLand = new FarmLand(this.root, i, j);
-                const tileImage = this.farmTileSet.getTextureByRules([false, false, false, false, false, false, false, false])!;
+                const tileImage = FarmTileImage.tileImage;
                 farmLand.createElement(this.farmTilesBody);
                 farmLand.drawTileImage(tileImage);
                 farmLand.updatePosition(i, j, this.farmRect);
@@ -252,6 +273,13 @@ export class TileManager extends InitializableObject {
         }
     }
 
+    /**
+     * If the user is dragging a tile, this method stops the dragging.
+     * Which involves:
+     * - Setting the mouse canvas invisible
+     * - Destroying the dragging element
+     * @private
+     */
     private stopDragging(): void {
         if (!this.grabbingTile) return;
 
@@ -271,6 +299,7 @@ export class TileManager extends InitializableObject {
      * Gets the id of a tile at the given coordinates
      * @param x The x coordinate of the tile
      * @param y The y coordinate of the tile
+     * @returns The id of the tile at the given coordinates
      * @private
      */
     private getId(x: number, y: number): string {
@@ -279,12 +308,13 @@ export class TileManager extends InitializableObject {
 
     /**
      * Converts a screen coordinate to a tile coordinate
-     * @param x
-     * @param y
+     * @param x The x coordinate of the screen
+     * @param y The y coordinate of the screen
+     * @returns The tile coordinate
      * @private
      */
     private screenToTile(x: number, y: number): Vector2D {
         const world = this.background.screenToWorld(x, y);
-        return world.div(this.tileSize).floor();
+        return world.div(this.root.tileSize).floor();
     }
 }

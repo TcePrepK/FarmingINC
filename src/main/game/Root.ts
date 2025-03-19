@@ -7,10 +7,11 @@ import { BaseScreen } from "./types/BaseScreen";
 
 export class Root {
     public windowMouse!: MouseAttachment<HTMLBodyElement>;
-    public windowWidth = 0;
-    public windowHeight = 0;
+    public windowWidth!: number;
+    public windowHeight!: number;
 
-    public seed = "Shrimp";
+    public readonly seed = "Shrimp";
+    public readonly tileSize = 64 - 1;
 
     public readonly allScreens: BaseScreen[] = [];
 

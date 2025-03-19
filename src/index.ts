@@ -1,6 +1,8 @@
 import { Logger } from "./main/core/Logger";
 import { Main } from "./main/Main";
 import { ErrorScreen } from "./main/ui/ErrorScreen";
+// @ts-ignore
+import "./assets/style/style.scss";
 
 const logger = new Logger("Index Initialization", "✅");
 

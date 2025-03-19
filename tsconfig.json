@@ -1,29 +1,38 @@
 {
-  "include": ["./src/**/*.ts"],
-  "exclude": ["node_modules", "dist"],
-  "compilerOptions": {
-    "target": "ES6",
-    "module": "ES6",
-    "outDir": "./dist",
-    "rootDir": "./src",
-
-    "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true,
-
-    "noImplicitAny": true,
-    "esModuleInterop": true,
-    "allowUnreachableCode": false,
-    "allowUnusedLabels": false,
-    "alwaysStrict": true,
-    "noFallthroughCasesInSwitch": false,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    // "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "strict": true,
-    "strictBindCallApply": true,
-    "strictFunctionTypes": true,
-    "strictNullChecks": true,
-    "strictPropertyInitialization": true
-  },
+    "compilerOptions": {
+        "target": "ES2020",
+        "useDefineForClassFields": true,
+        "module": "ESNext",
+        "lib": [
+            "ES2020",
+            "DOM",
+            "DOM.Iterable"
+        ],
+        "skipLibCheck": true,
+        /* Bundler mode */
+        "moduleResolution": "bundler",
+        "allowImportingTsExtensions": true,
+        "isolatedModules": true,
+        "moduleDetection": "force",
+        "noEmit": true,
+        /* Linting */
+        "noImplicitAny": true,
+        "esModuleInterop": true,
+        "allowUnreachableCode": false,
+        "allowUnusedLabels": false,
+        "alwaysStrict": true,
+        "noFallthroughCasesInSwitch": false,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        // "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "strict": true,
+        "strictBindCallApply": true,
+        "strictFunctionTypes": true,
+        "strictNullChecks": true,
+        "strictPropertyInitialization": true
+    },
+    "include": [
+        "src"
+    ]
 }

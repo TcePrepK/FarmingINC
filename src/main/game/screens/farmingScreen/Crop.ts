@@ -48,7 +48,7 @@ export class Crop extends ScreenElement {
      * Returns the image path of the crop.
      */
     public getImage(): string {
-        return `assets/images/crops/${this.name}.png`;
+        return `src/assets/images/crops/${this.name}.png`;
     }
 
     /**

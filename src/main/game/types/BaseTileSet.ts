@@ -1,3 +1,4 @@
+import { ImageLoader } from "../../core/ImageLoader.ts";
 import { Signal } from "../../core/Signal";
 
 export abstract class BaseTileSet {
@@ -11,17 +12,10 @@ export abstract class BaseTileSet {
     public abstract getTextureByRules(neighbors: Array<boolean>): HTMLCanvasElement | null;
 
     protected loadImages(): Promise<Array<{ name: string, image: HTMLImageElement }>> {
-        return Promise.all(
-            this.sides.map((name) => {
-                return new Promise<{ name: string, image: HTMLImageElement }>((resolve, reject) => {
-                    const image = new Image();
-                    const src = `assets/images/tiles/${name}.png`;
-                    image.src = src;
-                    image.onload = () => resolve({ name, image });
-                    image.onerror = () => reject(new Error(`Failed to load image: ${src}`));
-                });
-            })
-        );
+        return ImageLoader.loadImagesWithNames(this.sides.map(name => ({
+            path: `src/assets/images/tiles/${name}.png`,
+            name: name
+        })));
     }
 
     protected abstract createTexturesByRules(): void;

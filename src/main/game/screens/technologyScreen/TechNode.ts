@@ -92,8 +92,8 @@ export class TechNode extends ScreenElement {
     public update(): void {
         if (this.staticPoint) return;
 
-        const velX = this.x - this.prevX;
-        const velY = this.y - this.prevY;
+        // const velX = this.x - this.prevX;
+        // const velY = this.y - this.prevY;
 
         this.prevX = this.x;
         this.prevY = this.y;

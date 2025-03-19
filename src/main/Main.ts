@@ -1,4 +1,3 @@
-import "../assets/style/style.scss";
 import { FPSCounter } from "./core/FPSCounter";
 import { fixEveryPreload } from "./core/HTMLUtils";
 
