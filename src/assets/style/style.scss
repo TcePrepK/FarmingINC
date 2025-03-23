@@ -1,8 +1,9 @@
-@import "screenSelector";
-@import "currencyScreen";
-@import "farmingScreen/farmingScreen";
-@import "technologyScreen/technologyScreen";
-@import "settingsScreen/settingsScreen";
+@use "screenSelector" as *;
+@use "currencyScreen" as *;
+@use "farmingScreen/farmingScreen" as *;
+@use "technologyScreen/technologyScreen" as *;
+@use "settingsScreen/settingsScreen" as *;
+@use "variables" as *;
 
 html, body {
     background: red;

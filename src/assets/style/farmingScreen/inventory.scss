@@ -1,4 +1,5 @@
-@import "../variables";
+@use "sass:color" as *;
+@use "../variables" as *;
 
 @keyframes shake {
     0% {

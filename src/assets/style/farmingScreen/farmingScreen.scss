@@ -1,6 +1,6 @@
-@import "inventory";
-@import "farmingBackground";
-@import "farmTiles";
+@use "inventory" as *;
+@use "farmingBackground" as *;
+@use "farmTiles" as *;
 
 #farming-screen {
     display: flex;

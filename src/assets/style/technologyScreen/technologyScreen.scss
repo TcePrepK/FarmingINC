@@ -1,4 +1,4 @@
-@import "techTree";
+@use "techTree" as *;
 
 #technology-screen {
     display: flex;

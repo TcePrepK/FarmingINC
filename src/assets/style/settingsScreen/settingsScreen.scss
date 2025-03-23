@@ -1,6 +1,6 @@
-@import "settingsWindow";
-
-@import "settings/saveSettings";
+@use "sass:color" as *;
+@use "settingsWindow" as *;
+@use "settings/saveSettings" as *;
 
 #settings-screen {
     display: flex;
@@ -9,16 +9,16 @@
     top: 0;
     left: 0;
 
+    background: #345;
+
     width: 100%;
     height: 100%;
 
-    background: #345;
-
     * {
-        color: #78c0e0;
-        font-weight: 1000;
-        font-family: monospace;
         text-shadow: 0 0 10px #78c0e0;
+        color: #78c0e0;
+        font-family: monospace;
+        font-weight: 1000;
     }
 }
 
@@ -27,25 +27,24 @@
 }
 
 .settings-container {
-    position: relative;
-
-    margin: 2rem;
 
     display: inline-flex;
-    flex-direction: row;
+    position: relative;
+    flex-flow: row wrap;
     align-items: center;
-    flex-wrap: wrap;
+
+    margin: 2rem;
 }
 
 .bracket {
     position: absolute;
+    border-top: 1rem solid #78c0e0;
+    border-bottom: 1rem solid #78c0e0;
+
+    border-radius: 0.5rem;
 
     width: 2rem;
     height: calc(100% + 1rem);
-
-    border-radius: 0.5rem;
-    border-top: 1rem solid #78c0e0;
-    border-bottom: 1rem solid #78c0e0;
 
     filter: drop-shadow(0 0 10px #78c0e0);
 
@@ -68,40 +67,40 @@
 
 .settings-title {
     display: flex;
-    justify-content: center;
     flex-direction: column;
+    justify-content: center;
+    margin: 0.5rem;
 
     width: 100%;
-    margin: 0.5rem;
 
     font-size: 2.5rem;
 }
 
 .setting {
     display: flex;
-    justify-content: center;
     align-items: center;
-
-    height: 3rem;
-
-    padding: 0.5rem;
+    justify-content: center;
     margin: 0.25rem;
-
-    background: #459;
     border-radius: 0.75rem;
     box-shadow: 0 0 5px #222;
 
+    background: #459;
+
+    padding: 0.5rem;
+
+    height: 3rem;
+
     .button {
-        height: 100%;
 
-        padding: 0.75rem 0.5rem;
-
-        background: #458;
+        transition: box-shadow 0.2s, scale 0.2s;
         border: none;
         border-radius: 0.5rem;
         box-shadow: 0 0 5px #1117;
 
-        transition: box-shadow 0.2s, scale 0.2s;
+        background: #458;
+
+        padding: 0.75rem 0.5rem;
+        height: 100%;
 
         white-space: nowrap;
         font-size: 1rem;
@@ -124,17 +123,17 @@
     .checkbox-wrapper {
         display: flex;
         align-items: center;
-
-        height: 100%;
-
-        background: #458;
         border-radius: 0.5rem;
         box-shadow: 0 0 5px #1117;
 
+        background: #458;
+
+        height: 100%;
+
         .checkbox-text {
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
 
             margin: 0.5rem;
 
@@ -142,40 +141,40 @@
         }
 
         .checkbox-thumb-wrapper {
-            height: 2rem;
-            aspect-ratio: 2;
+
+            transition: background 0.2s;
 
             margin: 0.25rem;
-
-            background: #346;
             border-radius: 0.5rem;
             box-shadow: 0 0 5px #1117 inset;
 
-            cursor: pointer;
+            background: #346;
 
-            transition: background 0.2s;
+            cursor: pointer;
+            height: 2rem;
+            aspect-ratio: 2;
 
             &:has(.enabled) {
                 background: #58b;
             }
 
             .checkbox-thumb {
-                height: calc(100% - 0.4rem);
-                aspect-ratio: 1;
-
-                margin: 0.2rem;
-
-                background: #f88;
-                border-radius: 0.5rem;
-                box-shadow: 0 0 5px #f88;
 
                 transition: margin-left 0.2s, background 0.2s;
 
+                margin: 0.2rem;
+                border-radius: 0.5rem;
+                box-shadow: 0 0 5px #f88;
+
+                background: #f88;
+                height: calc(100% - 0.4rem);
+                aspect-ratio: 1;
+
                 &.enabled {
                     margin-left: 2.2rem;
+                    box-shadow: 0 0 15px #8f8;
 
                     background: #8f8;
-                    box-shadow: 0 0 15px #8f8;
                 }
             }
         }

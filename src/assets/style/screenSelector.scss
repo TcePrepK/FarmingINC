@@ -1,4 +1,4 @@
-@import "variables";
+@use "sass:color";
 
 #screen-selector-wrapper {
     position: relative;
@@ -74,13 +74,13 @@
             background: #359;
 
             &:hover {
-                background: mix(#359, #248, 85%);
+                background: color.mix(#359, #248, 85%);
                 cursor: pointer;
             }
         }
 
         &.firefox-scrollbar {
-            scrollbar-color: #359 mix(#248, #000, 85%);
+            scrollbar-color: #359 color.mix(#248, #000, 85%);
         }
 
         .option {
@@ -104,7 +104,7 @@
             aspect-ratio: 1;
 
             &:hover {
-                background: mix(#359, #000, 90%);
+                background: color.mix(#359, #000, 90%);
 
                 scale: 1.025;
             }
@@ -112,7 +112,7 @@
             &.selected {
 
                 box-shadow: 0 0 5px 0 #000;
-                background: mix(#359, #000, 80%);
+                background: color.mix(#359, #000, 80%);
 
                 scale: 0.98;
             }
