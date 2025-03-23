@@ -351,12 +351,28 @@
                 padding: 0.25rem;
                 pointer-events: auto;
 
+                &:not(.unlocked)::after {
+                    position: absolute;
+
+                    margin: calc((3rem - 1.75rem) / 2);
+
+                    background: url("src/assets/images/lock.png") no-repeat;
+                    background-size: contain;
+
+                    width: 1.75rem;
+                    height: 1.75rem;
+
+                    content: "";
+
+                    image-rendering: pixelated;
+                }
+
+                &:not(.unlocked):hover::after {
+                    animation: shake 0.4s linear;
+                }
+
                 &:hover {
                     background: color-mix(in oklab, var(--stage-color) 90%, #000);
-
-                    .icon {
-                        animation: shake 0.4s linear;
-                    }
                 }
 
                 &:active {
@@ -370,6 +386,10 @@
                 &:not(.unlocked).seen-before .icon {
                     filter: brightness(0.5) blur(2.5px);
                 }
+
+                &.unlocked:hover .icon {
+                    animation: shake 0.4s linear;
+                }
             }
         }
     }
@@ -381,5 +401,7 @@
 
     .icon {
         padding: 0.25rem;
+        width: calc(100% - 0.5rem);
+        height: calc(100% - 0.5rem);
     }
 }

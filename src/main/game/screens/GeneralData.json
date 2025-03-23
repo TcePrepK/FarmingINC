@@ -32,8 +32,8 @@
                         "growthTime": 12
                     },
                     {
-                        "name": "Lettuce",
-                        "desc": "Crispy and green, lettuce is great for salads or adding a bit of crunch to your sandwich.",
+                        "name": "Cucumber",
+                        "desc": "A cool-weather favorite that’s packed with vitamin C and a hint of crunch. Perfect for salads or just eating raw.",
                         "growthTime": 10
                     },
                     {
@@ -42,8 +42,8 @@
                         "growthTime": 40
                     },
                     {
-                        "name": "Wheat",
-                        "desc": "A staple crop that forms the base for bread and tons of baked goodies. Watch the golden waves grow!",
+                        "name": "Onion",
+                        "desc": "A pungent root vegetable that’s great for salads, sauces, or just eating raw. It’s also a great source of vitamin C.",
                         "growthTime": 25
                     },
                     {
@@ -52,18 +52,18 @@
                         "growthTime": 28
                     },
                     {
-                        "name": "Blueberry",
-                        "desc": "Small but mighty! These tiny blue gems are packed with flavor and antioxidants.",
+                        "name": "Green_bell_pepper",
+                        "desc": "A mild-tasting pepper that’s great for salads, sauces, or just eating raw. It’s also a great source of vitamin C.",
                         "growthTime": 14
                     },
                     {
-                        "name": "Radish",
-                        "desc": "A spicy little root with a kick. Great for salads or just nibbling on fresh from the ground.",
+                        "name": "Turnip",
+                        "desc": "A colorful vegetable that’s great for salads, sauces, or just eating raw. It’s also a great source of vitamin C.",
                         "growthTime": 8
                     },
                     {
-                        "name": "Sunflower",
-                        "desc": "Not just a flower! These bright blooms also produce seeds, perfect for snacking or replanting.",
+                        "name": "Pineapple",
+                        "desc": "A tropical fruit that’s perfect for snacking or adding to smoothies. It’s also a great source of vitamin C.",
                         "growthTime": 35
                     }
                 ]
