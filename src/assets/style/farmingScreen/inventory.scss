@@ -355,13 +355,13 @@
                 &:not(.unlocked)::after {
                     position: absolute;
 
-                    margin: calc((3rem - 1.75rem) / 2);
+                    margin: calc((3rem - 2rem) / 2);
 
                     background: url("src/assets/images/lock.png") no-repeat;
                     background-size: contain;
 
-                    width: 1.75rem;
-                    height: 1.75rem;
+                    width: 2rem;
+                    height: 2rem;
 
                     content: "";
 
