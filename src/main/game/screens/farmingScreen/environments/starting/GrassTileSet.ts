@@ -1,5 +1,5 @@
-import { createCanvas } from "../../../core/HTMLUtils";
-import { BaseTileSet } from "../../types/BaseTileSet";
+import { createCanvas } from "../../../../../core/HTMLUtils.ts";
+import { BaseTileSet } from "../../../../types/BaseTileSet.ts";
 
 export class GrassTileSet extends BaseTileSet {
     public readonly sides = ["grass-corner", "grass-side", "grass-outer-corner"];

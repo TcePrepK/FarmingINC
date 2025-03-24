@@ -3,13 +3,13 @@ import { Root } from "../../Root";
 import { BaseScreen } from "../../types/BaseScreen";
 import { Background } from "../Background";
 import { BaseEnvironment } from "./environments/BaseEnvironment";
-import { StartingEnvironment } from "./environments/StartingEnvironment";
+import { StartingEnvironment } from "./environments/starting/StartingEnvironment.ts";
 import { Inventory } from "./Inventory";
 import { TileManager } from "./TileManager";
 
 export class FarmingScreen extends BaseScreen {
     public background!: Background;
-    
+
     public tileManager: TileManager;
     public inventory = new Inventory(this.root);
 

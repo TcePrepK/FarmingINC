@@ -2,8 +2,6 @@ import { mkAlea } from "../../../../core/AleaPRNG";
 import { mkSimplexNoise } from "../../../../core/SimplexNoise";
 import { Root } from "../../../Root";
 import { Background } from "../../Background";
-import { FlowerImage } from "../FlowerImage";
-import { GrassTileSet } from "../GrassTileSet";
 import { TileManager } from "../TileManager";
 
 export abstract class BaseEnvironment {
@@ -11,9 +9,6 @@ export abstract class BaseEnvironment {
 
     protected readonly background: Background;
     protected readonly tileManager: TileManager;
-
-    protected readonly grassTileSet = new GrassTileSet();
-    protected readonly flowerSet = new FlowerImage();
 
     protected readonly random: () => number;
     protected readonly noise2D: (x: number, y: number) => number;
@@ -30,22 +25,21 @@ export abstract class BaseEnvironment {
     }
 
     public drawEnvironment(): void {
-        if (!this.grassTileSet.loaded) return;
-        if (!this.flowerSet.loaded) return;
-
         this.drawBackground();
+        this.drawForeground();
     }
 
     /**
-     * For every tile position, we draw the necessary elements (canvas to canvas)
-     * For farm tiles, we draw the farm itself.
-     * For grass tiles, we draw the grass itself and add flowers.
-     *
-     * # Does nothing
-     * - If the grass tile set or flower set is not loaded
+     * Draws background elements such as grass and farm tiles for starting environment.
      * @private
      */
     public abstract drawBackground(): void;
+
+    /**
+     * Draws foreground elements such as flowers for starting environment.
+     * @private
+     */
+    public abstract drawForeground(): void;
 
     /**
      * Checks all eight neighbors of the given tile and returns an array of booleans

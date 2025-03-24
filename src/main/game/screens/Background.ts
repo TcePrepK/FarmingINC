@@ -103,8 +103,6 @@ export class Background extends InitializableObject {
     }
 
     public startDrawing(): void {
-        this.context.clearRect(0, 0, this.root.windowWidth, this.root.windowHeight);
-
         const center = this.getCenter();
         this.context.save();
         this.context.translate(center.x, center.y);

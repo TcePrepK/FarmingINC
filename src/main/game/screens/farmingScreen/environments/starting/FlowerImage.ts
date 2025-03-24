@@ -1,6 +1,6 @@
-import { createCanvas } from "../../../core/HTMLUtils";
-import { ImageLoader } from "../../../core/ImageLoader.ts";
-import { Signal } from "../../../core/Signal";
+import { createCanvas } from "../../../../../core/HTMLUtils.ts";
+import { ImageLoader } from "../../../../../core/ImageLoader.ts";
+import { Signal } from "../../../../../core/Signal.ts";
 
 export class FlowerImage {
     private readonly flowers = new Array(32).fill(0).map((_, i) => "grassandflowers" + (i + 1));

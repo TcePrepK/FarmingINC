@@ -1,9 +1,16 @@
-import { mkAlea } from "../../../../core/AleaPRNG";
-import { Rectangle } from "../../../../core/Rectangle";
-import { BaseEnvironment } from "./BaseEnvironment";
+import { mkAlea } from "../../../../../core/AleaPRNG.ts";
+import { Rectangle } from "../../../../../core/Rectangle.ts";
+import { BaseEnvironment } from "../BaseEnvironment.ts";
+import { FlowerImage } from "./FlowerImage.ts";
+import { GrassTileSet } from "./GrassTileSet.ts";
 
 export class StartingEnvironment extends BaseEnvironment {
+    protected readonly grassTileSet = new GrassTileSet();
+    protected readonly flowerSet = new FlowerImage();
+
     public drawBackground(): void {
+        if (!this.grassTileSet.loaded) return;
+
         const ctx = this.background.context;
         ctx.imageSmoothingEnabled = false;
 
@@ -33,6 +40,22 @@ export class StartingEnvironment extends BaseEnvironment {
                 ctx.translate(-i * tileSize, -j * tileSize);
             }
         }
+
+        this.background.finalizeDrawing();
+    }
+
+    public drawForeground() {
+        if (!this.flowerSet.loaded) return;
+        
+        const ctx = this.background.context;
+
+        this.background.startDrawing();
+
+        const renderRect = this.background.renderRect;
+        const farmRect = this.tileManager.farmRect;
+        const tileSize = this.root.tileSize;
+        const scale = Math.ceil(tileSize / 32);
+        const rect = renderRect.scaleBy(1 / tileSize).floor();
 
         // Draw the flowers
         const expandedRect = farmRect.expandBy(1, 1);
